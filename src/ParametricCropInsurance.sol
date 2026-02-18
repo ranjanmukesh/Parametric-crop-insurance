@@ -61,6 +61,25 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
 		-sendRequest(req.encodeCBOR(), subscriptionId, gasLimit, donID);
 	}
 
+	function fulfillRequest(bytes32, bytes memory response, bytes memory) internal override {
+		measuredRainfall = abi.decode(response, (uint256));
+		emit RainfallChecked(measuredRainfall);
+
+		if(measurefRainfall < rainfallThreshold && !payoutTriggered){
+
+			payoutTriggered = true;
+			uint256 payout = coverageAmount;
+			require(address(this).balance >= payout, "Insufficient Funds");
+			payable(farmer).transfer(payout);
+			emit PayoutTriggered(farmer, payout);
+			
+		}
+	}
+
+	function withdrawProfits() external onlyOwner{
+		payable(owner()).transfer(address(this).balance);
+	}
+
 	}
 
 
