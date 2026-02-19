@@ -1,0 +1,49 @@
+name: Build, Test and Deploy
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: nightly
+
+      - name: Build contracts
+        run: forge build --sizes
+
+      - name: Run tests
+        run: forge test -vvv
+
+  deploy:
+    needs: build-and-test
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    env:
+      RPC_URL: https://rpc-amoy.polygon.technology
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Foundary
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: nightly
+
+      - name: Deploy to polygon amoy
+        run: |
+          forge script script/DeployInsurance.s.sol:DeployInsurance \
+      --rpc-url $RPC_URL
+      --private-key ${{ secrets.PRIVATE_KEY }} \
+      --broadcast \
+      --verify \
+      --etherscan-api-key ${{ secrets.POLYGONSCAN_API_KEY }} \
+      --vvv
