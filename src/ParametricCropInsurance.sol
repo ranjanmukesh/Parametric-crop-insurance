@@ -14,7 +14,7 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
 	address public farmer;
 	uint256 public premiumCollected;
 	uint256 public convergeAmount;
-	uint256 publc rainfallThreshold;
+	uint256 public rainfallThreshold;
 	uint256 public measuredRafifall;
 	bool public payoutTriggered;
 
