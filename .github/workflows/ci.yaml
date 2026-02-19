@@ -41,9 +41,9 @@ jobs:
       - name: Deploy to polygon amoy
         run: |
           forge script script/DeployInsurance.s.sol:DeployInsurance \
-      --rpc-url $RPC_URL \
-      --private-key ${{ secrets.PRIVATE_KEY }} \
-      --broadcast \
-      --verify \
-      --etherscan-api-key ${{ secrets.POLYGONSCAN_API_KEY }} \
-      --vvv
+            --rpc-url $RPC_URL \
+            --private-key ${{ secrets.PRIVATE_KEY }} \
+            --broadcast \
+            --verify \
+            --etherscan-api-key ${{ secrets.POLYGONSCAN_API_KEY }} \
+            --vvv
