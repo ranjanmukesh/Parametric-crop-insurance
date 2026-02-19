@@ -2,8 +2,8 @@
 
 pragma solidity ^0.8.19;
 
-import "@chainlink/contracts/src/v0.8/functions/v1.0.0/FunctionsClient.sol";
-import "@chainlink/contracts/src/v0.8/fumctions/v1.0.0/FunctionsClient.sol";
+import "@chainlink/contracts/src/v0.8/functions/v1_0_0/FunctionsClient.sol";
+import "@chainlink/contracts/src/v0.8/functions/v1_0_0/FunctionsRequest.sol";
 
 contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
 	
@@ -13,7 +13,7 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
 
 	address public farmer;
 	uint256 public premiumCollected;
-	uint256 public convergeAmount;
+	uint256 public covergeAmount;
 	uint256 public rainfallThreshold;
 	uint256 public measuredRafifall;
 	bool public payoutTriggered;
@@ -26,7 +26,7 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
 	FunctionsClient(router)
 	ConfirmedOwner(msg.sender)
 	{
-		donID = _dpnID;
+		donID = _donID;
 		subscriptionId = _subscriptionId;
 	}	
 
@@ -48,12 +48,20 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
 
 	function checkRainfallPeriod(
 		bytes memory javascriptSource,
-		string callData startDate,
-		string callData ebdDate
+		string calldata startDate,
+		string calldata endDate
 	) external onlyOwner {
 		require(farmer != address(0), "No active policy");
 
-		Functions.Request memory args = new string[](2);
+		FunctionsRequest.Request mempry req;
+		req.initializeRequest(
+			FunctionsRequest.Location.Inline,
+			FunctionsRequest.CodeLanguage.JavaScript,
+			"1.0.0",
+			javascriptSource,
+			""
+		);
+		string[] memory args = new string[](2);
 		args[0] = startDate;
 		args[1] = endDate;
 		req.addArgs(args);
@@ -65,7 +73,7 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
 		measuredRainfall = abi.decode(response, (uint256));
 		emit RainfallChecked(measuredRainfall);
 
-		if(measurefRainfall < rainfallThreshold && !payoutTriggered){
+		if(measuredRainfall < rainfallThreshold && !payoutTriggered){
 
 			payoutTriggered = true;
 			uint256 payout = coverageAmount;
