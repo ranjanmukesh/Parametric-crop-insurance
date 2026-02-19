@@ -20,7 +20,7 @@ jobs:
       - name: Install dependencies
         run: |
           forge install foundry-rs/forge-std 
-          forge install smartcontractkit/chainlink@contracts-v0.8 
+          forge install smartcontractkit/chainlink@contracts-v1.2.0
 
 
       - name: Build contracts
@@ -47,7 +47,7 @@ jobs:
       - name: Install dependencies
         run: |
           forge install foundry-rs/forge-std 
-          forge install smartcontractkit/chainlink@contracts-v0.8
+          forge install smartcontractkit/chainlink@contracts-v1.2.0
 
 
       - name: Deploy to polygon amoy
