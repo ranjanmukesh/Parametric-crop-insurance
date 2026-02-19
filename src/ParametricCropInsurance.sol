@@ -53,7 +53,7 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
 	) external onlyOwner {
 		require(farmer != address(0), "No active policy");
 
-		FunctionsRequest.Request mempry req;
+		FunctionsRequest.Request memory req;
 		req.initializeRequest(
 			FunctionsRequest.Location.Inline,
 			FunctionsRequest.CodeLanguage.JavaScript,
