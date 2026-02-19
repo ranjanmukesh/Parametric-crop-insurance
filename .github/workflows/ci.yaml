@@ -17,6 +17,12 @@ jobs:
         with:
           version: nightly
 
+      - name: Install dependencies
+        run: |
+          forge install foundry-rs/forge-std --no-commit
+          forge install smartcontractkit/chainlink@contracts-v0.8 --no-commit
+
+
       - name: Build contracts
         run: forge build --sizes
 
@@ -37,6 +43,12 @@ jobs:
         uses: foundry-rs/foundry-toolchain@v1
         with:
           version: nightly
+
+      - name: Install dependencies
+              run: |
+                forge install foundry-rs/forge-std --no-commit
+                forge install smartcontractkit/chainlink@contracts-v0.8 --no-commit
+
 
       - name: Deploy to polygon amoy
         run: |

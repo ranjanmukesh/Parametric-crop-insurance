@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
-//
+
 pragma solidity ^0.8.19;
 
-import "@chainlink/contracts/src/v0.8/fumctions/v1.0.0/FunctionsClient.sol"
+import "@chainlink/contracts/src/v0.8/functions/v1.0.0/FunctionsClient.sol"
 import "@chainlink/contracts/src/v0.8/fumctions/v1.0.0/FunctionsClient.sol"
 
 contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
