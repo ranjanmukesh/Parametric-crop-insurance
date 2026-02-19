@@ -15,7 +15,7 @@ jobs:
       - name: Install Foundary
         run: |
           curl -L https://foundry.paradigm.xyz | bash
-          source ~/.bashrc
+          export PATH="$HOME/,foundry/bin:$PATH"
           foundryup
 
       - name: Build contracts
@@ -37,7 +37,7 @@ jobs:
       - name: Install Foundary
         run: |
           curl -L https://foundry.paradigm.xyz | bash
-          source ~/.bashrc
+          export PATH="$HOME/,foundry/bin:$PATH"
           foundryup
         
       - name: Deploy to polygon amoy
