@@ -13,7 +13,10 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install Foundary
-        uses: foundry-rs/foundry-toolchain@v1 
+        run: |
+          curl -L https://foundry.paradigm.xyz | bash
+          source ~/.bashrc
+          foundryup
 
       - name: Build contracts
         run: forge build --sizes
@@ -32,7 +35,10 @@ jobs:
         uses: actions/checkoutv4
 
       - name: Install Foundary
-        uses: foundry-rs/foundry-toolchain@v1 
+        run: |
+          curl -L https://foundry.paradigm.xyz | bash
+          source ~/.bashrc
+          foundryup
         
       - name: Deploy to polygon amoy
         run: |
