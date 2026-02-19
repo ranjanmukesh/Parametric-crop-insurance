@@ -8,15 +8,10 @@ on:
 jobs:
   build-and-test:
     runs-on: codeberg-medium
+    container: ghcr.io/foundry-rs/foundry:nightly
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Install Foundary
-        run: |
-          curl -L https://foundry.paradigm.xyz | bash
-          export PATH="$HOME/,foundry/bin:$PATH"
-          foundryup
 
       - name: Build contracts
         run: forge build --sizes
@@ -28,18 +23,13 @@ jobs:
     needs: build-and-test
     if: github.ref == 'refs/heads/main'
     runs-on: codeberg-medium
+    container: ghcr.io/foundry-rs/foundry:nightly
     env:
       RPC_URL: https://rpc-amoy.polygon.technology
     steps:
       - name: Checkout code
         uses: actions/checkoutv4
 
-      - name: Install Foundary
-        run: |
-          curl -L https://foundry.paradigm.xyz | bash
-          export PATH="$HOME/,foundry/bin:$PATH"
-          foundryup
-        
       - name: Deploy to polygon amoy
         run: |
           forge script script/DeployInsurance.s.sol:DeployInsurance \
