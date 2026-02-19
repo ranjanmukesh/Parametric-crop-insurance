@@ -36,8 +36,8 @@ jobs:
 
       - name: Install Foundary
         run: |
-          curl -L https://foundary.paradigm.xyz | bash
-          echo "$HOME/ .foundary/bin" >> $GITHUB_PATH
+          curl -L https://foundry.paradigm.xyz | bash
+          echo "$HOME/ .foundry/bin" >> $GITHUB_PATH
           foundryup
 
       - name: Deploy to polygon amoy
