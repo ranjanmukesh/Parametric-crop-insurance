@@ -19,13 +19,13 @@ jobs:
 
       - name: Install dependencies
         run: |
-          forge install foundry-rs/forge-std 
-          forge install smartcontractkit/chainlink
+          forge install foundry-rs/forge-std --no-commit
+          forge install smartcontractkit/chainlink --no-commit
           git config --global user.email "mukesh.ranjan@tutamail.com"
           git config --global user.name "Github CI"
           git add .
           git commit -m "CI: one time commit of required libraries [skip ci]" || "Nothing to commit"
-          git push || "Push failed"
+            git push origin HEAD:${{ github.ref_name }}|| "Push failed"
 
 
       - name: Build contracts
