@@ -1,5 +1,0 @@
-[profile.default]
-remappings = [
-	"@chainlink/contracts/=lib/chainlink/contracts/",
-	"forge-std/=lib/forge-std/src/",
-	]
