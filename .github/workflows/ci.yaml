@@ -20,8 +20,7 @@ jobs:
       - name: Install dependencies
         run: |
           forge install foundry-rs/forge-std 
-          forge install smartcontractkit/chainlink@contracts-v0.8
-          forge install smartcontractkit/chainlink@contracts-v0.8/functions/v1.0.0
+          forge install smartcontractkit/chainlink
           git add .
           git commit -m "CI: one time commit of required libraries [skip ci]" || "Nothing to commit"
           git push || "Push failed"
