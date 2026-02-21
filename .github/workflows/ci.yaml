@@ -23,7 +23,7 @@ jobs:
           rm -rf lib/chainlink
           rm -rf lib/forge-std
           forge install foundry-rs/forge-std
-          forge install smartcontractkit/functions-framework
+          forge install smartcontractkit/foundry-chainlink-toolkit
           ls -R lib/chainlink/comtracts/src/v0.8
 
       - name: Clean
