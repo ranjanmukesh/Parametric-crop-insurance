@@ -7,7 +7,7 @@ import {FunctionsRequest} from "@chainlink/contracts/src/v0.8/functions/v1_0_0/l
 import {ConfirmedOwner} from "@chainlink/contracts/src/v0.8/shared/access/ConfirmedOwner.sol";
 
 contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
-	using FunctionRequest for FunctionsRequest.Request;	
+	using FunctionsRequest for FunctionsRequest.Request;	
 	bytes32 public donID;
 	uint64 public subscriptionId;
 	uint32 public gasLimit = 300_000;
