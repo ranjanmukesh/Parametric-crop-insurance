@@ -14,9 +14,9 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
 
 	address public farmer;
 	uint256 public premiumCollected;
-	uint256 public covergeAmount;
+	uint256 public coverageAmount;
 	uint256 public rainfallThreshold;
-	uint256 public measuredRafifall;
+	uint256 public measuredRainfall;
 	bool public payoutTriggered;
 
 	event PolicyPurchased(address indexed farmer, uint256 premium, uint256 coverage, uint256 threshold);
@@ -32,7 +32,7 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
 	}	
 
 
-	function buyPolicy(uint256 _coverageAmount, uint256 threshold) external payable {
+	function buyPolicy(uint256 _coverageAmount, uint256 _threshold) external payable {
 		require(farmer == address(0), "Policy already active");
 		require(msg.value >= _coverageAmount / 10, "Premium too low (min 10 %)");
 
@@ -67,7 +67,7 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
 		args[1] = endDate;
 		req.addArgs(args);
 
-		-sendRequest(req.encodeCBOR(), subscriptionId, gasLimit, donID);
+		_sendRequest(req.encodeCBOR(), subscriptionId, gasLimit, donID);
 	}
 
 	function fulfillRequest(bytes32, bytes memory response, bytes memory) internal override {
