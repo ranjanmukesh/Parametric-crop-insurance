@@ -11,7 +11,7 @@ contract DeployInsurance is Script {
 		uint256 deployerKey = vm.envUint("PRIVATE_KEY");
 
 		address router = 0xC22a79eBA640940ABB6dF0f7982cc119578E11De;
-		bytes32 donId = 0x66756e2d706f6c79676f6e2d616d6f792d31000000000000000000000000000000;
+		bytes32 donId = bytes32("fun-polygon-amoy-1");
 		uint64 subscriptionId = 123;
 
 		vm.startBroadcast(deployerKey);
