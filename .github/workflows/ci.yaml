@@ -23,7 +23,7 @@ jobs:
           rm -rf lib/chainlink
           rm -rf lib/forge-std
           forge install foundry-rs/forge-std
-          forge install smartcontractkit/foundry-chainlink-toolkit
+          forge install smartcontractkit/chainlink-brownie-contracts
 
       - name: Clean
         run: forge clean
