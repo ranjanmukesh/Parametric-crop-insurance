@@ -48,7 +48,7 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
 	function fundPayout() external payable onlyOwner {}
 
 	function checkRainfallPeriod(
-		bytes memory javascriptSource,
+		bytes calldata javascriptSource,
 		string calldata startDate,
 		string calldata endDate
 	) external onlyOwner {
