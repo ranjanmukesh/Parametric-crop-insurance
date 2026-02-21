@@ -26,6 +26,12 @@ jobs:
           forge install smartcontractkit/chainlink
           forge remappings
 
+      - name: Debug chainlink install
+        run: |
+          ls -la lib/chainlink/contracts/src/v0.8/functions/ || echo "Functions dir missing"
+          ls -la lib/chainlink/contracts/src/v0.8/functions/v1_0_0/ || echo "v1_0_0 missing"
+        cat lib/chainlink/contracts/src/v0.8/functions/v1_0_0/FunctionsClient.sol 2>/dev/null || echo "File not found"
+
       - name: Clean
         run: forge clean
 
