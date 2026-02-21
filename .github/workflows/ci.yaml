@@ -22,8 +22,8 @@ jobs:
         run: |
           rm -rf lib/chainlink
           rm -rf lib/forge-std
-          forge install foundry-rs/forge-std --no-commit
-          forge install smartcontractkit/functions-framework --no-commit
+          forge install foundry-rs/forge-std
+          forge install smartcontractkit/functions-framework
           ls -R lib/chainlink/comtracts/src/v0.8
 
       - name: Clean
