@@ -1,4 +1,4 @@
 [profile.default]
 remappings = [
-	'$chainlink/contracts/=lib/chainlink-brownie-contracts/contracts/',
+	'$chainlink/contracts/=lib/chainlink/contracts/',
 ]
