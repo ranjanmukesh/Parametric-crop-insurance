@@ -58,7 +58,7 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
 		req.initializeRequest(
 			FunctionsRequest.Location.Inline,
 			FunctionsRequest.CodeLanguage.JavaScript,
-			javascriptSource,
+			javascriptSource
 		);
 		string[] memory args = new string[](2);
 		args[0] = startDate;
