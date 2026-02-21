@@ -58,14 +58,12 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
 		req.initializeRequest(
 			FunctionsRequest.Location.Inline,
 			FunctionsRequest.CodeLanguage.JavaScript,
-			"1.0.0",
 			javascriptSource,
-			""
 		);
 		string[] memory args = new string[](2);
 		args[0] = startDate;
 		args[1] = endDate;
-		req.addArgs(args);
+		req.setArgs(args);
 
 		_sendRequest(req.encodeCBOR(), subscriptionId, gasLimit, donID);
 	}
