@@ -22,9 +22,22 @@ jobs:
         run: |
           rm -rf lib/chainlink
           rm -rf lib/forge-std
-          forge install foundry-rs/forge-std
-          forge install smartcontractkit/chainlink
-          forge remappings
+#          forge install foundry-rs/forge-std
+#          forge install smartcontractkit/chainlink
+#          forge remappings
+          
+      - name: Install node js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install chainlink contracts via npm
+        run: npm install @chainlink/contracts
+          
+      - name: Install tree and run command
+        run: |
+          sudo apt-get update && sudo apt-get install -y tree
+          tree -L 5 node_modules/@chainlink/contracts/src/
 
       - name: Debug chainlink install
         run: |
