@@ -88,4 +88,3 @@ jobs:
             --broadcast \
             --verify \
             --etherscan-api-key ${{ secrets.POLYGONSCAN_API_KEY }} \
-            --vvv
