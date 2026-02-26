@@ -78,6 +78,14 @@ jobs:
 
       - name: Install chainlink contracts via npm
         run: npm install @chainlink/contracts
+
+      - name: Clean
+        run: forge clean
+
+      - name: Build contracts
+        run: forge build --sizes
+
+
  
 
       - name: Deploy to polygon amoy
