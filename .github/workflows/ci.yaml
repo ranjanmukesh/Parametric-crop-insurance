@@ -66,10 +66,10 @@ jobs:
         with:
           version: nightly
 
-      - name: Install dependencies
-        run: |
-          rm -rf lib/chainlink
-          rm -rf lib/forge-std
+#      - name: Install dependencies
+#        run: |
+#          rm -rf lib/chainlink
+#          rm -rf lib/forge-std
           
       - name: Install node js
         uses: actions/setup-node@v4
