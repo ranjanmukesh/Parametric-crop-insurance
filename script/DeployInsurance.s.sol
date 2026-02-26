@@ -14,7 +14,7 @@ contract DeployInsurance is Script {
 		bytes32 donId = bytes32("fun-polygon-amoy-1");
 		uint64 subscriptionId = 123;
 
-		vm.startBroadcast(deployerKey);
+		vm.startBroadcast();
 
 		ParametricCropInsurance insurance = new ParametricCropInsurance(
 			router,
