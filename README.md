@@ -59,8 +59,9 @@ forge test -vvv
 source .env
 
 forge script script/DeployInsurance.s.sol --rpc-url $RPC_URL --broadcast --verify -vvvvNote the deployed address!
+```
 
-4. **Interact (via cast or Basescan)**
+5. **Interact (via cast or Basescan)**
 
  - Fund contract (send test ETH as owner).
  - Buy policy: buyPolicy(uint256 coverageAmount, uint256 rainfallThreshold) (send premium ETH).
