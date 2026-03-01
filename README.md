@@ -66,3 +66,6 @@ forge script script/DeployInsurance.s.sol --rpc-url $RPC_URL --broadcast --verif
  - Fund contract (send test ETH as owner).
  - Buy policy: buyPolicy(uint256 coverageAmount, uint256 rainfallThreshold) (send premium ETH).
  - Trigger check: checkRainfallPeriod(bytes javascriptSource, string startDate, string endDate) (encode JS source first).
+
+ ## License
+ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
