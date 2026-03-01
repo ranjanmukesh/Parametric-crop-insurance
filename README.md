@@ -26,12 +26,13 @@ This project solves real-world challenges for smallholder farmers in India by pr
 ### Demo / Live Contract
 - Deployed on Polygon Amoy: [Insert contract address after deployment]
 - Chainlink Functions Subscription: [Insert your sub ID]
-- Testnet Explorer: https://amoy.polygonscan.com/address/[your-contract]
+- Testnet Explorer: https://sepolia.basescan.org/address/0x120138859857Bd972B7AD56165e43D267C4521eb
+
 ### Quick Start (Local Development)
 1. **Prerequisites**
-   - Foundry installed (`curl -L https://foundry.paradigm.xyz | bash && foundryup`)
-   - MetaMask + Polygon Amoy testnet (MATIC from faucet.polygon.technology)
-   - Chainlink Functions subscription on Amoy (functions.chain.link) + test LINK from faucet.chain.link
+   - Foundry installed (`curl -L https://foundry.paradigm.xyz | bash && foundryup`) 
+   - MetaMask + Base Sepolia testnet (test ETH from https://faucet.base.org or others)
+   - Chainlink Functions subscription on Base Sepolia[](https://functions.chain.link/base-sepolia) + test LINK from https://faucet.chain.link (select Base Sepolia)
 
 2. **Clone & Setup**
 	    ```bash
