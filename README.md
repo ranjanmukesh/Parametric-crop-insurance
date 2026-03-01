@@ -1,6 +1,6 @@
 # Parametric Crop Insurance dApp
 
-A decentralized parametric crop insurance platform built with **Chainlink Functions** and **Chainlink Automation** (CRE workflow) on ** Base Sepolia testnet**. Farmers can purchase policies that automatically pay out if monsoon rainfall in Maharashtra falls below a critical threshold (e.g., drought conditions), using real-world weather data fetched via Chainlink oracles.
+A decentralized parametric crop insurance platform built with **Chainlink Functions** and **Chainlink Automation** (CRE workflow) on **Base Sepolia testnet**. Farmers can purchase policies that automatically pay out if monsoon rainfall in Maharashtra falls below a critical threshold (e.g., drought conditions), using real-world weather data fetched via Chainlink oracles.
 
 This project solves real-world challenges for smallholder farmers in India by providing transparent, tamper-proof, and instant payouts—no claims adjusters or paperwork required. Built as an entry for the **Chainlink Convergence Hackathon** (February–March 2026).
 
