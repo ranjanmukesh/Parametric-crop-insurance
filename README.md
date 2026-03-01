@@ -68,4 +68,4 @@ forge script script/DeployInsurance.s.sol --rpc-url $RPC_URL --broadcast --verif
  - Trigger check: checkRainfallPeriod(bytes javascriptSource, string startDate, string endDate) (encode JS source first).
 
  ## License
- This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+ This project is licensed under the MIT License - see the [LICENSE](https://github.com/ranjanmukesh/Parametric-crop-insurance/blob/main/LICENSE.md) file for details.
