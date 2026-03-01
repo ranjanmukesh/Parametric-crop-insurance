@@ -27,9 +27,7 @@ This project solves real-world challenges for smallholder farmers in India by pr
 - Deployed on Polygon Amoy: [Insert contract address after deployment]
 - Chainlink Functions Subscription: [Insert your sub ID]
 - Testnet Explorer: https://amoy.polygonscan.com/address/[your-contract]
-
 ### Quick Start (Local Development)
-
 1. **Prerequisites**
    - Foundry installed (`curl -L https://foundry.paradigm.xyz | bash && foundryup`)
    - MetaMask + Polygon Amoy testnet (MATIC from faucet.polygon.technology)
@@ -40,3 +38,30 @@ This project solves real-world challenges for smallholder farmers in India by pr
 	       git clone https://github.com/[your-username]/parametric-crop-insurance.git
 	          cd parametric-crop-insurance
 		     forge install
+
+3. **Environment**
+Create .env:
+```
+PRIVATE_KEY=0xYourTestnetPrivateKey
+RPC_URL=https://sepolia.base.org  # Or use Alchemy/Infura for faster RPC
+```
+3. **Build & Test**
+
+```
+forge build
+
+forge test -vvv
+```
+
+4. **Deploy**
+
+```
+source .env
+
+forge script script/DeployInsurance.s.sol --rpc-url $RPC_URL --broadcast --verify -vvvvNote the deployed address!
+
+4. **Interact (via cast or Basescan)**
+
+ - Fund contract (send test ETH as owner).
+ - Buy policy: buyPolicy(uint256 coverageAmount, uint256 rainfallThreshold) (send premium ETH).
+ - Trigger check: checkRainfallPeriod(bytes javascriptSource, string startDate, string endDate) (encode JS source first).
