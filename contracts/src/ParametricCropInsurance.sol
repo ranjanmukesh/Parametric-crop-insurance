@@ -112,7 +112,7 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner, AutomationC
 		upkeepNeeded = (farmer != address(0)) &&
 		(block.timestamp >= lastChecked + checkInterval) &&
 		(block.timestamp >= seasonStartTimestamp) &&
-		(block.timestamp <= seasonendTimestamp);
+		(block.timestamp <= seasonEndTimestamp);
 		return (upkeepNeeded, "");
 	}
 
