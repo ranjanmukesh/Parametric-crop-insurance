@@ -6,8 +6,8 @@ import {FunctionsClient} from "@chainlink/contracts/src/v0.8/functions/v1_0_0/Fu
 import {FunctionsRequest} from "@chainlink/contracts/src/v0.8/functions/v1_0_0/libraries/FunctionsRequest.sol";
 import {ConfirmedOwner} from "@chainlink/contracts/src/v0.8/shared/access/ConfirmedOwner.sol";
 
-import {AutomationCompatibleIterface} from "@chainlink/contracts/src/v0.8/automation/AutomationCompatible.sol";
-
+import {AutomationCompatibleInterface} from "@chainlink/contracts/src/v0.8/automation/AutomationCompatible.sol";
+y
 contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner, AutomationCompatibleInterface {
 	using FunctionsRequest for FunctionsRequest.Request;	
 	string public jsSource;
