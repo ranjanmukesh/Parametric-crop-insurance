@@ -109,7 +109,7 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner, AutomationC
 	}
 
 	function checkUpkeep(bytes calldata) external view override returns (bool upkeepNeeded, bytes memory){
-		upkeepNeeded = (farmer != address(०)) &&
+		upkeepNeeded = (farmer != address(0)) &&
 		(block.timestamp >= lastChecked + checkInterval) &&
 		(block.timestamp >= seasonStartTimestamp) &&
 		(block.timestamp <= seasonendTimestamp);
@@ -123,7 +123,7 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner, AutomationC
 		lastChecked = block.timestamp;
 	}
 
-	function isInSeason(० internal view returns (bool) {
+	function isInSeason() internal view returns (bool) {
 		return block.timestamp >= seasonStartTimestamp && 
 		block.timestamp <= seasonEndTimestamp;
 	}
