@@ -91,7 +91,7 @@ jobs:
 
       - name: Deploy 
         run: |
-          forge script script/DeployInsurance.s.sol:DeployInsurance \
+          forge script contracts/script/DeployInsurance.s.sol:DeployInsurance \
             --rpc-url $RPC_URL \
             --private-key ${{ secrets.PRIVATE_KEY }} \
             --broadcast \
