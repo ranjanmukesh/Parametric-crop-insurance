@@ -6,8 +6,11 @@ import {FunctionsClient} from "@chainlink/contracts/src/v0.8/functions/v1_0_0/Fu
 import {FunctionsRequest} from "@chainlink/contracts/src/v0.8/functions/v1_0_0/libraries/FunctionsRequest.sol";
 import {ConfirmedOwner} from "@chainlink/contracts/src/v0.8/shared/access/ConfirmedOwner.sol";
 
-contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
+import {AutomationCompatibleIterface} from "@chainlink/contracts/src/v0.8/automation/AutomationCompatible.sol";
+
+contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner, AutomationCompatibleInterface {
 	using FunctionsRequest for FunctionsRequest.Request;	
+	string public jsSource;
 	bytes32 public donID;
 	uint64 public subscriptionId;
 	uint32 public gasLimit = 300_000;
@@ -19,6 +22,13 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
 	uint256 public measuredRainfall;
 	bool public payoutTriggered;
 
+	uint256 public lastChecked;
+	uint256 public checkInterval = 1 days;
+	string public seasonStart;
+	string public seasonEnd;
+	uint256 public seasonStartTimestamp;
+	uint256 public seasonEndTimestamp;
+
 	event PolicyPurchased(address indexed farmer, uint256 premium, uint256 coverage, uint256 threshold);
 	event RainfallChecked(uint256 totalRainfallMm);
 	event PayoutTriggered(address indexed farmer, uint256 amount);
@@ -29,10 +39,16 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
 	{
 		donID = _donID;
 		subscriptionId = _subscriptionId;
+		jsSource = "const lat=args[0];const lon=args[1];const startDate=args[2];const endDate=args[3];const url=`https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lon}&start_date=${startDate}&end_date=${endDate}&daily=precipitation_sum&timezone=Asia%2FKolkata`;const requestConfig={url:url,method:'GET',headers:{'Content-Type':'application/json'}};const response=await Functions.makeHttpRequest(requestConfig);if(response.error){throw Error(`Request failed: ${response.error}`);}const data=response.data;if(!data||!data.daily||!data.daily.precipitation_sum){throw Error('No precipitation data returned');}const rainfallArray=data.daily.precipitation_sum;let totalRainfall=0;for(let i=0;i<rainfallArray.length;i++){totalRainfall+=rainfallArray[i];}return Functions.encodeUint256(Math.round(totalRainfall));";
+		
 	}	
 
 
-	function buyPolicy(uint256 _coverageAmount, uint256 _threshold) external payable {
+	function buyPolicy(uint256 _coverageAmount, uint256 _threshold,
+		   string calldata _seasonStart,
+		   string calldata _seasonEnd,
+		   uint256 _seasonStartTimestamp,
+		   uint256 _seasonEndTimestamp) external payable {
 		require(farmer == address(0), "Policy already active");
 		require(msg.value >= _coverageAmount / 10, "Premium too low (min 10 %)");
 
@@ -40,6 +56,11 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
 		premiumCollected += msg.value;
 		coverageAmount = _coverageAmount;
 		rainfallThreshold = _threshold;
+		seasonStart = _seasonStart;
+		seasonEnd = _seasonEnd;
+		seasonStartTimestamp = _seasonStartTimestamp;
+		seasonEndTimestamp = _seasonEndTimestamp;
+		lastChecked = block.timestamp;
 
 		emit PolicyPurchased(msg.sender, msg.value, _coverageAmount, _threshold);
 		
@@ -51,7 +72,7 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
 		string calldata javascriptSource,
 		string calldata startDate,
 		string calldata endDate
-	) external onlyOwner {
+	) public onlyOwner {
 		require(farmer != address(0), "No active policy");
 
 		FunctionsRequest.Request memory req;
@@ -87,6 +108,25 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
 		payable(owner()).transfer(address(this).balance);
 	}
 
+	function checkUpkeep(bytes calldata) external view override returns (bool upkeepNeeded, bytes memory){
+		upkeepNeeded = (farmer != address(०)) &&
+		(block.timestamp >= lastChecked + checkInterval) &&
+		(block.timestamp >= seasonStartTimestamp) &&
+		(block.timestamp <= seasonendTimestamp);
+		return (upkeepNeeded, "");
+	}
+
+	function performUpkeep(bytes calldata) external override{
+		(bool upkeepNeeded, ) = this.checkUpkeep("");
+		require(upkeepNeeded, "Upkeep not needed");
+		checkRainfallPeriod(jsSource,seasonStart, seasonEnd);
+		lastChecked = block.timestamp;
+	}
+
+	function isInSeason(० internal view returns (bool) {
+		return block.timestamp >= seasonStartTimestamp && 
+		block.timestamp <= seasonEndTimestamp;
+	}
 	}
 
 
