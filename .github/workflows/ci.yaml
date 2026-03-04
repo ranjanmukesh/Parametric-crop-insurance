@@ -29,6 +29,12 @@ jobs:
         with:
           node-version: '20'
 
+          
+      - name: Create basic package json if missing        run: |
+          if [ ! -f package.json ]; then
+            echo "package json not found -> running npm init -y"
+          
+
       - name: Install chainlink contracts via npm
         run: npm install @chainlink/contracts
           
