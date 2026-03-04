@@ -49,6 +49,13 @@ jobs:
       - name: Build contracts
         run: forge build --sizes
 
+      - name: Show out/ directory structure build
+        run: |
+          ls -la out/ || echo "out/ folder missing completely!"
+          tree out/ -L 3 || "tree failed - folder empty or missing"
+          find out/ -type f -name "*.json" || echo "No .json files found"
+
+
       - name: Run tests
         run: forge test -vvv
       - name: Generate ABI for frontend
