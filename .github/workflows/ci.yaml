@@ -53,7 +53,8 @@ jobs:
           git config user.name "Github Actions Bot"
           git config user.email "actions@github.com"
 
-          git add -f package.json package-lock.json
+          [ -f package.json ] git add -f package.json || true
+          [-f package-lock.json ] git add package-lock.json || true
           git add -f node_modules || true
 
           git diff --cached --quiet || git commit -m "chore(deps): bootstrap package.json + install node_modules [ci skip]"
