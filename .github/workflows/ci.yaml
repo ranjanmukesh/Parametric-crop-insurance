@@ -33,8 +33,31 @@ jobs:
       - name: Create basic package json if missing        run: |
           if [ ! -f package.json ]; then
             echo "package json not found -> running npm init -y"
-          
+            npm init -y
+            jq '. + {
+              "private": true,
+              "scripts": {
+                "start": "node index.js",
+                "test": "echo \"Error: no test specified\" && exit 1"
+              },
+              "dependencies": {
+              }
+            }' package.json > tmp.json && mv tmp.json package.json
+          else
+            echo "package.json already exists + skipping creation"
+          fi
 
+      - name: Commit package.json, package-lock.json & node_modules (if changed)
+        run: |
+          git config user.name "Github Actions Bot"
+          git config user.email "actions@github.com"
+
+          git add -f package.json package-lock.json
+          git add -f node_modules || true
+
+          git diff --cached --quiet || git commit -m "chore(deps): bootstrap package.json + install node_modules [ci skip]"
+          git push origin HEAD:${{ github.ref_name }} || echo "push skipped (no changes or already up to date)"
+              
       - name: Install chainlink contracts via npm
         run: npm install @chainlink/contracts
           
