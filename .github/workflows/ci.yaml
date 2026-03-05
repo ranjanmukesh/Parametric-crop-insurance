@@ -48,17 +48,7 @@ jobs:
             echo "package.json already exists + skipping creation"
           fi
 
-      - name: Commit package.json, package-lock.json & node_modules (if changed)
-        run: |
-          git config user.name "Github Actions Bot"
-          git config user.email "actions@github.com"
-
-          [ -f package.json ] && git add -f package.json || true
-          [ -f package-lock.json ] && git add package-lock.json || true
-
-          git diff --cached --quiet || git commit -m "chore(deps): bootstrap package.json + install node_modules [ci skip]"
-          git push origin HEAD:${{ github.ref_name }} || echo "push skipped (no changes or already up to date)"
-              
+             
       - name: Install chainlink contracts via npm
         run: npm install @chainlink/contracts
           
@@ -73,6 +63,17 @@ jobs:
           ls -la lib/chainlink/contracts/src/v0.8/functions/v1_0_0/ || echo "v1_0_0 missing"
           cat lib/chainlink/contracts/src/v0.8/functions/v1_0_0/FunctionsClient.sol 2>/dev/null || echo "File not found"
 
+      - name: Commit package.json, package-lock.json & node_modules (if changed)
+        run: |
+          git config user.name "Github Actions Bot"
+          git config user.email "actions@github.com"
+
+          [ -f package.json ] && git add -f package.json || true
+          [ -f package-lock.json ] && git add package-lock.json || true
+
+          git diff --cached --quiet || git commit -m "chore(deps): bootstrap package.json + install node_modules [ci skip]"
+          git push origin HEAD:${{ github.ref_name }} || echo "push skipped (no changes or already up to date)"
+ 
       - name: Clean
         run: forge clean
 
