@@ -31,6 +31,7 @@ jobs:
 
           
       - name: Create basic package json if missing
+        working-directory: ./frontend
         run: |
           if [ ! -f package.json ]; then
             echo "package json not found -> running npm init -y"
