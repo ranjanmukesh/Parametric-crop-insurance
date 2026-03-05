@@ -30,7 +30,8 @@ jobs:
           node-version: '20'
 
           
-      - name: Create basic package json if missing        run: |
+      - name: Create basic package json if missing
+        run: |
           if [ ! -f package.json ]; then
             echo "package json not found -> running npm init -y"
             npm init -y
