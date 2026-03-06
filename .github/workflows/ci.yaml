@@ -53,6 +53,11 @@ jobs:
       - name: Install chainlink contracts via npm
         working-directory: ./frontend
         run: npm install @chainlink/contracts
+
+      - name: Symlink for foundry
+        run: |
+          mkdir -p lib/chainlink/contracs
+          ln -s $(pwd)/node_modules/@chainlink/contracts/src lib/chainlink/contracts/src
           
       - name: Debug chainlink install
         run: |
