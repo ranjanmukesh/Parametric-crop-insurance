@@ -54,11 +54,6 @@ jobs:
         working-directory: ./frontend
         run: npm install @chainlink/contracts
           
-      - name: Install tree and run command
-        run: |
-          sudo apt-get update && sudo apt-get install -y tree
-          tree -L 5 node_modules/@chainlink/contracts/src/
-
       - name: Debug chainlink install
         run: |
           ls -la lib/chainlink/contracts/src/v0.8/functions/ || echo "Functions dir missing"
@@ -88,7 +83,6 @@ jobs:
       - name: Show out/ directory structure build
         run: |
           ls -la out/ || echo "out/ folder missing completely!"
-          tree out/ -L 3 || "tree failed - folder empty or missing"
           find out/ -type f -name "*.json" || echo "No .json files found"
 
 
