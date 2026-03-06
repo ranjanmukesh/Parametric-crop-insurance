@@ -56,7 +56,7 @@ jobs:
 
       - name: Symlink for foundry
         run: |
-          mkdir -p lib/chainlink/contracs
+          mkdir -p lib/chainlink/contracs/src
           ln -s $(pwd)/node_modules/@chainlink/contracts/src lib/chainlink/contracts/src
           
       - name: Debug chainlink install
