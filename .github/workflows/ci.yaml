@@ -116,7 +116,7 @@ jobs:
         run: npm run typecheck || echo "TRypecheckassed or no scripr defined"
     
       - name: Install dependencies for eas
-        run: npm ci
+        run: npm install
 
       - name: Setup EAS CLI
         uses: expo/expo-github-action@v8
