@@ -132,6 +132,7 @@ jobs:
         run: npm run lint || echo "lint passed or no script defined" 
 
       - name: Trigger EAS Build(preview APK)
+        working-directory: ./frontend
         if: github.event_name == 'workflow_dispatch'
         run: |
           eas build \
@@ -140,6 +141,7 @@ jobs:
             --non-interactive \
             --no-wait
       - name: Trigger EAS production Build(on main push)
+        working-directory: ./frontend
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: |
           eas build \
@@ -149,6 +151,7 @@ jobs:
             --no-wait
 
       - name: Trigger iOS build
+        working-directory: ./frontend
         run: eas build --platform ios --profile preview --non-intercative --no-wait
 
   deploy:
