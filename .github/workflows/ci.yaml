@@ -116,6 +116,7 @@ jobs:
         run: npm run typecheck || echo "TRypecheckassed or no scripr defined"
     
       - name: Install dependencies for eas
+        working-directory: ./frontend
         run: npm install
 
       - name: Setup EAS CLI
