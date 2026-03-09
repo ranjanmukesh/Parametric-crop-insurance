@@ -10,7 +10,7 @@
       "distribution":"internal",
       "channel":"preview"
     }, 
-    "productipn":{
+    "production":{
       "android":{
         "buildType":"app-bundle"
       },
