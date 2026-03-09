@@ -64,6 +64,7 @@ jobs:
           ls -la lib/chainlink/contracts/src/v0.8/functions/v1_0_0/ || echo "v1_0_0 missing"
           cat lib/chainlink/contracts/src/v0.8/functions/v1_0_0/FunctionsClient.sol 2>/dev/null || echo "File not found"
 
+
       - name: Commit package.json, package-lock.json & node_modules (if changed)
         run: |
           git config user.name "Github Actions Bot"
@@ -112,11 +113,41 @@ jobs:
       - name: Install frontend dependencies
         working-directory: ./frontend
         run: npm run typecheck || echo "TRypecheckassed or no scripr defined"
+    
+      - name: Install dependencies for eas
+        run: npm ci
+
+      - name: Setup EAS CLI
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
 
 
       - name: Lint (if configured)
         working-directory: ./frontend
-        run: npm run lint || echo "lint passed or no script defined"
+        run: npm run lint || echo "lint passed or no script defined" 
+
+      - name: Trigger EAS Build(preview APK)
+        if:github.event_name == 'workflow_dispatch'
+        run: |
+          eas build \
+            --platform android \
+            --profile preview \
+            --non-interactive \
+            --no-wait
+      - name: Trigger EAS production Build(on main push)
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: |
+          eas build \
+            --platform android \
+            --profile production \
+            --non-interactive
+            --no-wait
+
+      - name: Trigger iOS build
+        run: eas build --platform ios --profile preview --non-intercative --no-wait
 
   deploy:
     needs: build-and-test
