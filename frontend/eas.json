@@ -15,7 +15,7 @@
         "buildType":"app-bundle"
       },
       "distribution": "store",
-      "autoincrement": true,
+      "autoIncrement": true,
       "channel": "production"
     }
   }
