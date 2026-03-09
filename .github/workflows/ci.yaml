@@ -130,7 +130,7 @@ jobs:
         run: npm run lint || echo "lint passed or no script defined" 
 
       - name: Trigger EAS Build(preview APK)
-        if:github.event_name == 'workflow_dispatch'
+        if: github.event_name == 'workflow_dispatch'
         run: |
           eas build \
             --platform android \
