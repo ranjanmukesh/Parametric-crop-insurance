@@ -1,0 +1,37 @@
+{
+  "expo":{
+    "name": "Parametric Crop Insurance"
+    "slug": "parametric-crop-insurance"
+    "version": "1.0.0"
+    "orientation": "portrait"
+    'icon":"./asset/icon.png",
+    "userInterfaceStyle":"automatic",
+    "splash":{
+      "image":"/assets/splash.png",
+      "rsizeMode":"contain",
+      "backgroundColor"#ffffff"
+    },
+    "assetBundlePatterns": [***/**],
+    "ios": {
+      "suppportsTablet": true,
+      "bundleIdentifier": "com.mranjan7.parametriccropinsurance",
+      "buildNumber":"1"
+    },
+    "android":{
+      "adaptiveIcon":{
+        "foregoroundImage":"./assets/adaptive-icon.png",
+        "backgroundColor":"#ffffff"
+      },
+      "packaage":"com.mranjan7.parametriccropinsurance",
+      "versionCode":1
+    },
+    "web":{
+      "favicon":"./assets/favicon.png"
+    }, 
+    "extra":{
+      "eas":{
+        "projectId": "db3e4211-55d7-4c1e-9f37-e8a8fa4dc1c3"
+      }
+    }
+  }
+}
