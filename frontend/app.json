@@ -8,21 +8,21 @@
     "userInterfaceStyle":"automatic",
     "splash":{
       "image":"/assets/splash.png",
-      "rsizeMode":"contain",
+      "resizeMode":"contain",
       "backgroundColor":"#ffffff"
     },
     "assetBundlePatterns": ["***/**"],
     "ios": {
-      "suppportsTablet": true,
+      "supportsTablet": true,
       "bundleIdentifier": "com.mranjan7.parametriccropinsurance",
       "buildNumber":"1"
     },
     "android":{
       "adaptiveIcon":{
-        "foregoroundImage":"./assets/adaptive-icon.png",
+        "foregroundImage":"./assets/adaptive-icon.png",
         "backgroundColor":"#ffffff"
       },
-      "packaage":"com.mranjan7.parametriccropinsurance",
+      "package":"com.mranjan7.parametriccropinsurance",
       "versionCode":1
     },
     "web":{
