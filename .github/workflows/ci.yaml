@@ -150,20 +150,19 @@ jobs:
           MYAPP_UPLOAD_KEY_PASSWORD=$ANDROID_KEYSTORE_PASSWORD
           EOF
 
-
-
-
       - name: Lint (if configured)
         working-directory: ./frontend
         run: npm run lint || echo "lint passed or no script defined" 
 
 
       - name: EAS Build(Andoid production)
+        working-directory: ./frontend
         uses: expo/expo-github-action@v8
         with:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
       - run: eas build --platform android --profile production --non-interactive
+
       - name: Trigger iOS build
         working-directory: ./frontend
         run: eas build --platform ios --profile preview --non-intercative --no-wait
