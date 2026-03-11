@@ -151,7 +151,7 @@ jobs:
         with:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
-        run: eas build --platform android --profile production --non-interactive
+      - run: eas build --platform android --profile production --non-interactive
       - name: Trigger iOS build
         working-directory: ./frontend
         run: eas build --platform ios --profile preview --non-intercative --no-wait
