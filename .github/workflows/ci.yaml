@@ -165,8 +165,9 @@ jobs:
           npm install expo
           npm install inflight@latest rimraf@latest glob@latest
           npx expo install expo-updates
+          npx eas-cli@latest config --non-interactive
           eas credentials
-          eas build --platform android --profile production --non-interactive
+          npx eas-cli@latest build --platform android --profile production --non-interactive
 
       - name: Trigger iOS build
         working-directory: ./frontend
