@@ -156,11 +156,11 @@ jobs:
 
 
       - name: EAS Build(Andoid production)
-        working-directory: ./frontend
         uses: expo/expo-github-action@v8
         with:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
+        working-directory: ./frontend
       - run: eas build --platform android --profile production --non-interactive
 
       - name: Trigger iOS build
