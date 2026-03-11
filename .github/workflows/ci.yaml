@@ -126,7 +126,8 @@ jobs:
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Decode Android keystore from secret
-        env: ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        env: 
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
         run: |
           echo "$ANDROID_KRYSTORE_BASE64" ? base64 --decode > android/release.keystore
 
