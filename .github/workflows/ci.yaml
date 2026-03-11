@@ -131,7 +131,7 @@ jobs:
         run: |
           mkdir -p android
           echo "$ANDROID_KEYSTORE_BASE64" ? base64 --decode > android/release.keystore
-          ls -la andoid/
+          ls -la android/
       - name: Set up environment variables for signing
         env:
           ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
