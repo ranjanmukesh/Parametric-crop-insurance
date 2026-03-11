@@ -162,6 +162,8 @@ jobs:
 #          token: ${{ secrets.EXPO_TOKEN }}
         working-directory: ./frontend
         run: |
+          npm install expo
+          npm install inflight@latest rimraf@latest glob@latest
           npx expo install expo-updates
           eas credentials
           eas build --platform android --profile production --non-interactive
