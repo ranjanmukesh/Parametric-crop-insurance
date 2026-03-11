@@ -156,10 +156,10 @@ jobs:
 
 
       - name: EAS Build(Andoid production)
-        uses: expo/expo-github-action@v8
-        with:
-          eas-version: latest
-          token: ${{ secrets.EXPO_TOKEN }}
+#        uses: expo/expo-github-action@v8
+#        with:
+#          eas-version: latest
+#          token: ${{ secrets.EXPO_TOKEN }}
         working-directory: ./frontend
         run: eas build --platform android --profile production --non-interactive
 
