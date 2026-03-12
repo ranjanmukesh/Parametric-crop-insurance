@@ -130,8 +130,9 @@ jobs:
           ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
         run: |
           mkdir -p android
-          echo "$ANDROID_KEYSTORE_BASE64" ? base64 --decode > android/release.keystore
+          echo "$ANDROID_KEYSTORE_BASE64" ? base64 --decode > android/release.jks
           ls -la android/
+
       - name: Set up environment variables for signing
         env:
           ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
@@ -139,82 +140,35 @@ jobs:
           ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
         run: echo "Credentials ready (passwords set via env)"
 
-      - name: Write signing config to gradle.properties
-        run: |
-          cat >> android/gradle.properties << EOF
-          android.useAndroidX=true
-          android.enableJetifier=true
-          MYAPP_UPLOAD_STORE_FILE=release.keystore
-          MYAPP_UPLOAD_KEY_ALIAS=$ANDROID_KEY_ALIAS
-          MYAPP_UPLOAD_STORE_PASSWORD=$ANDROID_KEYSTORE_PASSWORD
-          MYAPP_UPLOAD_KEY_PASSWORD=$ANDROID_KEYSTORE_PASSWORD
-          EOF
 
       - name: Lint (if configured)
         working-directory: ./frontend
         run: npm run lint || echo "lint passed or no script defined" 
 
 
+      - name: Generate credentials json for local signing
+        working-directory: ./frontend
+        run: |
+          cat > credentials.json << 'EOF
+        {
+          "android": {
+            "keystore": {
+              "keystorePath": "android/release.jks",
+              "keystorePassword":"$ANDROID_KEYSTORE_PASSWORD",
+              "keyAlias":"$ANDROID_KEY_ALIAS",
+              "keyPassword":"$ANDROID_KEYSTORE_PASSWORD"
+              }
+            }
+          }
+          EOF'
+          ls -la credentials.json
+          echo "credentials.json generated (size: $(stat -C%s credentials.json) bytes)"
+
+
       - name: EAS Build(Andoid production)
-#        uses: expo/expo-github-action@v8
-#        with:
-#          eas-version: latest
-#          token: ${{ secrets.EXPO_TOKEN }}
         working-directory: ./frontend
         run: |
+          npm install
           npm install expo
-          npm install inflight@latest rimraf@latest glob@latest
           npx expo install expo-updates
-          npx eas-cli@latest config --non-interactive
-          eas credentials
-          npx eas-cli@latest build --platform android --profile production --non-interactive
-
-      - name: Trigger iOS build
-        working-directory: ./frontend
-        run: eas build --platform ios --profile preview --non-intercative --no-wait
-
-  deploy:
-    needs: build-and-test
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    env:
-      RPC_URL: https://sepolia.base.org  
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Install Foundary
-        uses: foundry-rs/foundry-toolchain@v1
-        with:
-          version: nightly
-
-#      - name: Install dependencies
-#        run: |
-#          rm -rf lib/chainlink
-#          rm -rf lib/forge-std
-          
-      - name: Install node js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Install chainlink contracts via npm
-        run: npm install @chainlink/contracts
-
-      - name: Clean
-        run: forge clean
-
-      - name: Build contracts
-        run: forge build --sizes
-
-
- 
-
-      - name: Deploy 
-        run: |
-          forge script contracts/script/DeployInsurance.s.sol:DeployInsurance \
-            --rpc-url $RPC_URL \
-            --private-key ${{ secrets.PRIVATE_KEY }} \
-            --broadcast \
-            --verify \
-            --etherscan-api-key ${{ secrets.POLYGONSCAN_API_KEY }} \
+          eas build --platform android --profile production --non-interactive --no-wait
