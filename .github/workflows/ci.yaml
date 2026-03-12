@@ -149,8 +149,7 @@ jobs:
       - name: Generate credentials json for local signing
         working-directory: ./frontend
         run: |
-          cat > credentials.json << 'EOF'
-          {
+          echo '{
           "android": {
             "keystore": {
               "keystorePath": "android/release.jks",
@@ -159,8 +158,7 @@ jobs:
               "keyPassword":"$ANDROID_KEYSTORE_PASSWORD"
               }
             }
-          }
-         EOF
+          }' > credentials.json
           ls -la credentials.json
           grep -A 5 "keystore" credentials.json || echo "JSOn snippet not found"
           echo "credentials.json generated (size: $(stat -c%s credentials.json) bytes)"
