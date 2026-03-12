@@ -1,4 +1,4 @@
-name: Build, Test and Deploy
+name: Build, Test and Depeoy
 
 on:
   push:
@@ -149,7 +149,7 @@ jobs:
       - name: Generate credentials json for local signing
         working-directory: ./frontend
         run: |
-          cat > credentials.json << EOF
+          cat > credentials.json << 'EOF'
           {
           "android": {
             "keystore": {
@@ -160,8 +160,9 @@ jobs:
               }
             }
           }
-          EOF
+          'EOF'
           ls -la credentials.json
+          grep -A 5 "keystore" credentials.json || echo "JSOn snippet not found"
           echo "credentials.json generated (size: $(stat -C%s credentials.json) bytes)"
 
 
