@@ -160,10 +160,10 @@ jobs:
               }
             }
           }
-          'EOF'
+         EOF
           ls -la credentials.json
           grep -A 5 "keystore" credentials.json || echo "JSOn snippet not found"
-          echo "credentials.json generated (size: $(stat -C%s credentials.json) bytes)"
+          echo "credentials.json generated (size: $(stat -c%s credentials.json) bytes)"
 
 
       - name: EAS Build(Andoid production)
