@@ -146,10 +146,21 @@ jobs:
           mkdir -p android
           echo "android folder ready: $(ls -la android || echo 'empty')"
 
+      - name: Generate random keystore password and alias
+        id: generate-secrets
+        working-directory: ./frontend
+        run: |
+          RANDOM_PASS=$(cat /dev/urandom | tr -dc 'A-Za-z0-9!@#$%^&' | head -c 40
+          RANDOM_ALIAS="ci-$(date + %s)-$(cat /dev/urandom | tr -dc 'a-z0-9' | head -c 8)"
+          echo "add-mask::$RANDOM_PASS"
+          echo "::add-mask::$RANDOM_ALIAS"
+          echo "keystore_pass=$RANDOM_PASS" >> $GITHUB_OUTPUT
+          echo "key_alias=$RANDOM_ALIAS" >> $GITHUB_OUTPUT
       - name: Generate keystore if missing
         working-directory: ./frontend
         env:
-          KEYSTORE_PASS: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEYSTORE_PASS: ${{ steps.generate-secrets.outputs.key_alias }}
+          KEY_ALIAS: ${{ steps.generate-secrets.outputs.key_alias }}
         run: |
             if [ ! -f andoid/release.jks ]; then
               keytool -genkey -v \
@@ -157,7 +168,7 @@ jobs:
                 -keyalg RSA \
                 -keysize 2048 \
                 -validity 10000 \
-                -alias ${{ secrets.ANDROID_KEY_ALIAS }} \
+                -alias ${{ secrets.KEY_ALIAS }} \
                 -keystore android/release.jks
                 -storepass $KEYSTORE_PASS \
                 -keypass $KEYSTORE_PASS \
