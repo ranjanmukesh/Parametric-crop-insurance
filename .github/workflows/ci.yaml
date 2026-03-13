@@ -162,14 +162,14 @@ jobs:
           KEYSTORE_PASS: ${{ steps.generate-secrets.outputs.key_alias }}
           KEY_ALIAS: ${{ steps.generate-secrets.outputs.key_alias }}
         run: |
-            if [ ! -f andoid/release.jks ]; then
+            if [ ! -f android/release.jks ]; then
               keytool -genkey -v \
                 -storetype JKS \
                 -keyalg RSA \
                 -keysize 2048 \
                 -validity 10000 \
                 -alias ${{ secrets.KEY_ALIAS }} \
-                -keystore android/release.jks
+                -keystore android/release.jks \
                 -storepass $KEYSTORE_PASS \
                 -keypass $KEYSTORE_PASS \
                 -dname "Parametric crop insurance"
@@ -181,14 +181,17 @@ jobs:
 
       - name: Generate credentials json for local signing
         working-directory: ./frontend
+        env:
+          KEYSTORE_PASS: ${{ steps.generate-secrets.outputs.keystore_pass }}
+          KEY_ALIAS: ${{ steps.generate-secrets.outputs.key_alias }}
         run: |
           echo '{
           "android": {
             "keystore": {
               "keystorePath": "android/release.jks",
-              "keystorePassword":"$ANDROID_KEYSTORE_PASSWORD",
-              "keyAlias":"$ANDROID_KEY_ALIAS",
-              "keyPassword":"$ANDROID_KEYSTORE_PASSWORD"
+              "keystorePassword":"$KEYSTORE_PASS",
+              "keyAlias":"$KEY_ALIAS",
+              "keyPassword":"$KEYSTORE_PASS"
               }
             }
           }' > credentials.json
