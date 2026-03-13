@@ -173,7 +173,7 @@ jobs:
               -keystore android/release.jks \
               -storepass "$KEYSTORE_PASS" \
               -keypass "$KEYSTORE_PASS" \
-              -dname "Parametric crop insurance"
+              -dname "CN=com.mranjan7.parametriccropinsurance"
           fi
       - name: Lint (if configured)
         working-directory: ./frontend
