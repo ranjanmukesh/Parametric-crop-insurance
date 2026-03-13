@@ -162,18 +162,19 @@ jobs:
           KEYSTORE_PASS: ${{ steps.generate-secrets.outputs.key_alias }}
           KEY_ALIAS: ${{ steps.generate-secrets.outputs.key_alias }}
         run: |
-            if [ ! -f android/release.jks ]; then
-              keytool -genkey -v \
-                -storetype JKS \
-                -keyalg RSA \
-                -keysize 2048 \
-                -validity 10000 \
-                -alias ${{ secrets.KEY_ALIAS }} \
-                -keystore android/release.jks \
-                -storepass $KEYSTORE_PASS \
-                -keypass $KEYSTORE_PASS \
-                -dname "Parametric crop insurance"
-            fi
+          KEYSTORE_PATH="android/release.jks"
+          if [ ! -f "$KEYSTORE_PATH" ]; then
+            keytool -genkey -v \
+              -storetype JKS \
+              -keyalg RSA \
+              -keysize 2048 \
+              -validity 10000 \
+              -alias ${{ secrets.KEY_ALIAS }} \
+              -keystore android/release.jks \
+              -storepass $KEYSTORE_PASS \
+              -keypass $KEYSTORE_PASS \
+              -dname "Parametric crop insurance"
+          fi
       - name: Lint (if configured)
         working-directory: ./frontend
         run: npm run lint || echo "lint passed or no script defined" 
