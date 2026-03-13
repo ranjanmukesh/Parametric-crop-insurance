@@ -207,4 +207,5 @@ jobs:
           npm install
           npm install expo
           npx expo install expo-updates
+          npx expo install react react-native
           eas build --platform android --profile production --non-interactive --no-wait
