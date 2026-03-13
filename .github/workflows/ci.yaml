@@ -150,7 +150,7 @@ jobs:
         working-directory: ./frontend
         env:
           KEYSTORE_PASS: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-          run: |
+        run: |
             if [ ! -f andoid/release.jks ]; then
               keytool -genkey -v \
                 -storetype JKS \
