@@ -150,7 +150,7 @@ jobs:
         id: generate-secrets
         working-directory: ./frontend
         run: |
-          RANDOM_PASS=$(cat /dev/urandom | tr -dc 'A-Za-z0-9!@#$%^&' | head -c 40
+          RANDOM_PASS=$(cat /dev/urandom | tr -dc 'A-Za-z0-9!@#$%^&' | head -c 40)
           RANDOM_ALIAS="ci-$(date + %s)-$(cat /dev/urandom | tr -dc 'a-z0-9' | head -c 8)"
           echo "add-mask::$RANDOM_PASS"
           echo "::add-mask::$RANDOM_ALIAS"
