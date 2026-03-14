@@ -205,8 +205,6 @@ jobs:
         working-directory: ./frontend
         run: |
           rm -rf node_modules .expo .cache
-          npm install --save-dev expo@~54.0.0
+          npm install --save-dev expo
           npx expo install expo-updates
-          npx expo install react
-          npm install @expo/config-plugins
           eas build --platform android --profile production --non-interactive --no-wait
