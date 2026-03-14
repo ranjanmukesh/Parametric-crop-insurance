@@ -206,5 +206,5 @@ jobs:
         run: |
           rm -rf node_modules .expo .cache
           npm install --save-dev expo@latest
-          npx expo install expo-updates react react-native
+          npx expo install expo-updates
           eas build --platform android --profile production --non-interactive --no-wait
