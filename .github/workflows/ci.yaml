@@ -117,7 +117,10 @@ jobs:
     
       - name: Install dependencies for eas
         working-directory: ./frontend
-        run: npm install
+        run: |
+          rm -rf node_modules package-lock.json
+          npm install
+          npx expo install --fix
 
       - name: Setup EAS CLI
         uses: expo/expo-github-action@v8
