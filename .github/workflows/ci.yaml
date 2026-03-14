@@ -204,10 +204,7 @@ jobs:
       - name: EAS Build(Andoid production)
         working-directory: ./frontend
         run: |
-          rm -rf node_modules .expo .cache package-lock.json
-          npm install
-          npm install expo
-          npx expo install expo-updates
-          npx expo install react react-native
-          npm audit fix --force
+          rm -rf node_modules .expo .cache
+          npm install --save-dev expo@latest
+          npx expo install expo-updates react react-native
           eas build --platform android --profile production --non-interactive --no-wait
