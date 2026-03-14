@@ -205,7 +205,7 @@ jobs:
         working-directory: ./frontend
         run: |
           rm -rf node_modules .expo .cache
-          npm install --save-dev expo@latest
+          npm install --save-dev expo@~54.0.0
           npx expo install expo-updates
           npx expo install react
           npm install @expo/config-plugins
