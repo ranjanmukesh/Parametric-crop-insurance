@@ -210,14 +210,14 @@ jobs:
           echo "credentials.json generated (size: $(stat -c%s credentials.json) bytes)"
 
 
-      - name: EAS Build(Andoid production)
-        working-directory: ./frontend
-        run: |
-          rm -rf node_modules .expo .cache
-          npm install --save-dev expo
-          npx expo install expo-updates
-          eas build --platform android --profile production --non-interactive --no-wait
-      - name: EAS Build(production)
+#      - name: EAS Build(Andoid production)
+#        working-directory: ./frontend
+#        run: |
+#          rm -rf node_modules .expo .cache
+#          npm install --save-dev expo
+#          npx expo install expo-updates
+#          eas build --platform android --profile production --non-interactive --no-wait
+      - name: EAS Build(IOS production)
         working-directory: ./frontend
         run: |
           eas build --platform android --profile production --non-interactive --no-wait
