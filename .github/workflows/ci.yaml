@@ -128,7 +128,7 @@ jobs:
           npx expo prebuild --platform android --non-interactive
           git config user.name "Github Actions Bot"
           git config user.email "actions@github.com"
-          git add andoid
+          git add android
           git commit -m "chore(deps): adding android folder in one time step  [ci skip]"
           git push origin HEAD:${{ github.ref_name }} || echo "push skipped (no changes or already up to date)"
 
