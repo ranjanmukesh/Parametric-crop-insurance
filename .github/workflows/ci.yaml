@@ -217,3 +217,7 @@ jobs:
           npm install --save-dev expo
           npx expo install expo-updates
           eas build --platform android --profile production --non-interactive --no-wait
+      - name: EAS Build(production)
+        working-directory: ./frontend
+        run: |
+          eas build --platform android --profile production --non-interactive --no-wait
