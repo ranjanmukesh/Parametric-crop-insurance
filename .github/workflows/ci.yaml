@@ -122,15 +122,15 @@ jobs:
           npm install
           npx expo install --fix
 
-      - name: Set up android and fix gradle
-        working-directory: ./frontend
-        run: |
-          npx expo prebuild --platform android --non-interactive
-          git config user.name "Github Actions Bot"
-          git config user.email "actions@github.com"
-          git add android
-          git commit -m "chore(deps): adding android folder in one time step  [ci skip]"
-          git push origin HEAD:${{ github.ref_name }} || echo "push skipped (no changes or already up to date)"
+#      - name: Set up android and fix gradle
+#        working-directory: ./frontend
+#        run: |
+#          npx expo prebuild --platform android --non-interactive
+#          git config user.name "Github Actions Bot"
+#          git config user.email "actions@github.com"
+#          git add android
+#          git commit -m "chore(deps): adding android folder in one time step  [ci skip]"
+#          git push origin HEAD:${{ github.ref_name }} || echo "push skipped (no changes or already up to date)"
 
 
       - name: Setup EAS CLI
