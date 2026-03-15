@@ -220,4 +220,4 @@ jobs:
       - name: EAS Build(IOS production)
         working-directory: ./frontend
         run: |
-          eas build --platform android --profile production --non-interactive --no-wait
+          eas build --platform ios --profile production --non-interactive --no-wait
