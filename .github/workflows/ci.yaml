@@ -110,7 +110,7 @@ jobs:
             --etherscan-api-key ${{ secrets.POLYGONSCAN_API_KEY }} \
 
   frontend-checks:
-    needs: build-and-test
+    needs: build-test-deploy
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
