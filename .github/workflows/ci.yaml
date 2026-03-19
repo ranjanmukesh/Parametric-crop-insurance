@@ -97,6 +97,16 @@ jobs:
       - name: Generate ABI for frontend
         #working-directory: ./contracts
         run: jq '.abi' out/ParametricCropInsurance.sol/ParametricCropInsurance.json > ../../abi.json
+
+      - name: Deploy 
+        run: |
+          forge script contracts/script/DeployInsurance.s.sol:DeployInsurance \
+            --rpc-url $RPC_URL \
+            --private-key ${{ secrets.PRIVATE_KEY }} \
+            --broadcast \
+            --verify \
+            --etherscan-api-key ${{ secrets.POLYGONSCAN_API_KEY }} \
+
   frontend-checks:
     needs: build-and-test
     runs-on: ubuntu-latest
