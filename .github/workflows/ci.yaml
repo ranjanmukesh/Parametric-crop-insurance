@@ -9,6 +9,8 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    env:
+          RPC_URL: https://sepolia.base.org  
     steps:
       - uses: actions/checkout@v4
         with:
