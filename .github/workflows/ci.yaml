@@ -103,7 +103,7 @@ jobs:
       - name: Install Playwright and dependencis
         working-directory: ./frontend
         run: |
-          npm install --save-dev @playwright/testserve
+          npm install --save-dev @playwright/test serve
           npx playwright install --with-deps chromium
 
       - name: Create Paywright config & test file if missing
@@ -112,7 +112,7 @@ jobs:
           cat > playwright.config.js << 'EOF'
           import { defineConfig } from '@playwright/test';
 
-          export bdefaultbdefineConfig({
+          export default defineConfig({
             testDir:'.',
             testMatch: ['connect.spec.js'],
             fullyParallel: true,
@@ -125,7 +125,7 @@ jobs:
               trace: 'on-first-retry',
             },
             webServer: {
-              commaand: 'npx serve . -p 3000 --no-port-switching',
+              command: 'npx serve . -p 3000 --no-port-switching',
               port: 3000,
               reuseExistingServer: !process.env.CI,
             },
@@ -133,7 +133,7 @@ jobs:
           EOF
 
           cat > connect.spec.js << 'EOF'
-          const ( test, expect } = require('@playwright/tst');
+          const ( test, expect } = require('@playwright/test');
 
           test('Connect Wallet button works', async ({ page }) => {
             await page.addinitScript(() => {
