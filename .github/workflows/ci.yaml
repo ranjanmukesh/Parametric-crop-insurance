@@ -156,7 +156,7 @@ jobs:
                 isMetaMask: true,
               };
             });
-            await page.goto('/index.html');
+            await page.goto('/web/index.html');
 
             await page.getByRole('button', { name: 'Connect Wallet (metaMask)' }).click();
             await expect(page.locator('#status')).toHaveClass(/green/);
