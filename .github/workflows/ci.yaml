@@ -117,8 +117,8 @@ jobs:
             testMatch: ['connect.spec.js'],
             fullyParallel: true,
             forbidOnly: !!process.env.CI,
-            retries: process.env.CI?2:0,
-            workers: process.env.CI?1:undefined;
+            retries: process.env.CI ? 2 : 0,
+            workers: process.env.CI ? 1 : undefined;
             reporter: 'html',
             use: {
               baseURL: 'http://localhost:3000',
@@ -133,15 +133,16 @@ jobs:
           EOF
 
           cat > connect.spec.js << 'EOF'
-          const ( test, expect } = require('@playwright/test');
+          const { test, expect } = require('@playwright/test');
 
           test('Connect Wallet button works', async ({ page }) => {
-            await page.addinitScript(() => {
+            await page.addInitScript(() => {
             window.ethereum = {
               request: async (args) => {
                 if (args.method === 'eth_requestAccounts') {
                   return ['0xMockedTestAddress1234567890'];
-                if (args.method === 'eth_chainid'){
+                  }
+                if (args.method === 'eth_chainId'){
                   return '0xaa36a7';
                 }
                 throw new Error('Mock: unsupported method ${args.method}');
