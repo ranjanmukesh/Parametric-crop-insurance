@@ -151,6 +151,7 @@ jobs:
                 if (args.method === 'eth_chainId'){
                   return '0xaa36a7';
                 }
+                console.log('Mock: unsupported method ' , args.method);
                 throw new Error('Mock: unsupported method ' + args.method );
                 },
                 isMetaMask: true,
