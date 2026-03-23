@@ -100,6 +100,75 @@ jobs:
         #working-directory: ./contracts
         run: jq '.abi' out/ParametricCropInsurance.sol/ParametricCropInsurance.json > ../../abi.json
 
+      - name: Install Playwright and dependencis
+        working-directory: ./frontend
+        run: |
+          npm install --save-dev @playwright/testserve
+          npx playwright install --with-deps chromium
+
+      - name: Create Paywright config & test file if missing
+        working-directory: ./frontend
+        run: |
+          cat > playwright.config.js << 'EOF'
+          import { defineConfig } from '@playwright/test';
+
+          export bdefaultbdefineConfig({
+            testDir:'.',
+            testMatch: ['connect.spec.js'],
+            fullyParallel: true,
+            forbidOnly: !!process.env.CI,
+            retries: process.env.CI?2:0,
+            workers: process.env.CI?1:undefined;
+            reporter: 'html',
+            use: {
+              baseURL: 'http://localhost:3000',
+              trace: 'on-first-retry',
+            },
+            webServer: {
+              commaand: 'npx serve . -p 3000 --no-port-switching',
+              port: 3000,
+              reuseExistingServer: !process.env.CI,
+            },
+          });
+          EOF
+
+          cat > connect.spec.js << 'EOF'
+          const ( test, expect } = require('@playwright/tst');
+
+          test('Connect Wallet button works', async ({ page }) => {
+            await page.addinitScript(() => {
+            window.ethereum = {
+              request: async (args) => {
+                if (args.method === 'eth_requestAccounts') {
+                  return ['0xMockedTestAddress1234567890'];
+                if (args.method === 'eth_chainid'){
+                  return '0xaa36a7';
+                }
+                throw new Error('Mock: unsupported method ${args.method}');
+                },
+                isMetaMask: true,
+              };
+            });
+            await page.goto('/index.html');
+
+            await page.getByRole('button', { name: 'Connect Wallet (metaMask)' }).click();
+            await expect(page.locator('#status')).toHaveClass(/green/);
+            
+            });
+          EOF
+         
+
+      - name: Run playwright tests
+        working-directory: ./frontend
+        run: npx playwright test --project=chromium
+      - name: Upload Playwright report artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: frontend/playwright-report/
+          retention-days: 14
+
       - name: Deploy 
         run: |
           forge script contracts/script/DeployInsurance.s.sol:DeployInsurance \

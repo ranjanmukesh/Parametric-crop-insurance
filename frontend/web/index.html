@@ -45,7 +45,7 @@
   <input type="number" id="threshold" placeholder="exg. 400" /><br/>
 
   <label>Season Start (YYYY-MM-DD):</label><br/>
-  <input type="text" id="startDaye" placeholder="2025-06-01" /><br/>
+  <input type="text" id="startDate" placeholder="2025-06-01" /><br/>
   
   <label>Season End (YYYY-MM-DD):</label><br/>
   <input type="text" id="endDate" placeholder="2025-08-31"/><br/>
@@ -78,14 +78,28 @@
 
   let provider,signer,contract;
 
-  const CONTRACT_ADDRESS = "";
+  const CONTRACT_ADDRESS = "0xF75ea25c4c0c80F11bFebB5Ed9774D46e9f5dEC8";
   const CHAIN_ID = 11155111;
   const RPC_URL = "https://rpc.sepolia.org";
-  const ABI = [];
 
   const LAT = "29.95";
   const LOn = "-90.07";
 
+  async function loadABI(){
+    try{
+      const response = await fetch('abi.json');
+      if(!response.ok){
+        throw new Error('Failed to load ABI: ${response.status} $(response.statusText}');
+      }
+      const abiData = await response.json();
+      return abiData;
+    } catch (err) {
+      console.error("ABI loading dailed:", err);
+      alert("Colud not load contract ABI. Check if abi.json exists and try refreshing.\nError:"+err.message);
+      connectBtn.disabled = true;
+      return null;
+    }
+  }
   async function init(){
 
     if (window.ethereum) {
@@ -96,7 +110,8 @@
     }
 
     connectBtn.onclick = async() => {
-      alert(1);
+      const ABI = await loadABI();
+      if (!ABI) return;
       try{
         await window.ethereum.request({method:"eth_requestAccounts" });
         signer = provider.getSigner();
@@ -111,14 +126,14 @@
         document.getElementById("status").className = "green";
         document.getElemetById("contractAddr").innerText = CONTRACT_ADDRESS;
         contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
-        buBtn.disabled = false;
+        buyBtn.disabled = false;
         refreshStatus();
         } catch(err){
           alert("Connection failed: "+err.message);
         }
       };
       
-      buBtn.onclick = async(0 => {
+      buyBtn.onclick = async() => {
         if(!contract) return alert("Connect wallet first");
 
         const coverage = document.getElementById("coverage").value;
@@ -131,21 +146,21 @@
           return;
         }
       
-      const startTs = Math.floor(new Sate(startDate).getTime()/1000);
+      const startTs = Math.floor(new Date(startDate).getTime()/1000);
       const endTs = Math.floor(new Date(endDate).getTime()/1000);
 
       try{
-        const premiumWei = ethers.utils.parseEther((Number(covergae)/10).toString());
-        const tx =wait.contract.buyPolicy(ethers.utils.parseEther(coverage),
+        const premiumWei = ethers.utils.parseEther((Number(coverage)/10).toString());
+        const tx = await contract.buyPolicy(ethers.utils.parseEther(coverage),
         threshold,
-        startDate,
+        startTs,
         endDate,
         startTs,
         endTs,
-        (value:premiumWei}
+        { value:premiumWei }
         );
 
-        document.getElementById("buyStatus").innerTxt = "Transaction sent... waiting";
+        document.getElementById("buyStatus").innerText = "Transaction sent... waiting";
         const receipt = await tx.wait();
 
         document.getElementById("buyStatus").innerHTML = 'Success! <a href = "https://sepolia.etherscan.io/tx/$(receipt.transactionHash}" target="_blank"> View on explorer</a>';
@@ -163,14 +178,14 @@
         const coverage = await contract.coverageAmount();
         const threshold = await contract.rainfallThreshold();
         const measured = await contract.measuredRainfall();
-        const triggered = await contract.payoutTriggered(0;
+        const triggered = await contract.payoutTriggered();
         const bal = await provider.getBalance(CONTRACT_ADDRESS);
 
-        document.getElementById("farmer").innerText = faremr == "0x0000000000000000000000000000000000000000";
+        document.getElementById("farmer").innerText = farmer == "0x0000000000000000000000000000000000000000";
         document.getElementById("coverageVal").innerText=ethers.utils.formatEther(coverage);
         document.getElementById("thresholdVal").innerText = threshold.toString();
-        documnet.getElementById("measured").innerText = measured.toString();
-        document.getElementBYId("triggerred").innerText = ethers.utils.formatEther(bal);
+        document.getElementById("measured").innerText = measured.toString();
+        document.getElementById("triggered").innerText = ethers.utils.formatEther(bal);
       } catch(err){
       console.error(err);
     }
