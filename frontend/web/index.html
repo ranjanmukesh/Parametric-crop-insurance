@@ -19,7 +19,7 @@
   #txHash a { color: #2563eb; text-decoration: underline; }
 </style>
 </head>
-</body>
+<body>
 
 <h1>Parametric Crop Insurance</h1>
 <p style="text-align:center; color:#4b5563;">
@@ -117,14 +117,14 @@
         signer = provider.getSigner();
         const addr = await signer.getAddress();
         const network = await provider.getNetwork();
-        if(network.chainid != CHAIN_ID){
+        if(network.chainId != CHAIN_ID){
           alert('Please switch to chain ID ${CHAIN_ID}');
           return;
         }
         document.getElementById("address").innerText = addr;
         document.getElementById("status").innerText = "Connected";
         document.getElementById("status").className = "green";
-        document.getElemetById("contractAddr").innerText = CONTRACT_ADDRESS;
+        document.getElementById("contractAddr").innerText = CONTRACT_ADDRESS;
         contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
         buyBtn.disabled = false;
         refreshStatus();
@@ -170,7 +170,8 @@
         alert("Buy failed:" + (err.reason || err.message));
       }
     };
-    refreshBtn.onclick = refreshStatus(){
+    refreshBtn.onclick = refreshStatus;
+    async function refreshStatus(){
       if(!contract) return;
 
       try{

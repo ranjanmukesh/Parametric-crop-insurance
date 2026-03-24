@@ -145,7 +145,8 @@ jobs:
             await page.addInitScript(() => {
             window.ethereum = {
               request: async (args) => {
-                if (args.method === 'eth_requestAccounts') {
+                console.log('Mock:  method ' , args.method);
+if (args.method === 'eth_requestAccounts') {
                   return ['0xMockedTestAddress1234567890'];
                   }
                 if (args.method === 'eth_chainId'){
@@ -160,7 +161,7 @@ jobs:
             await page.goto('/web/index.html');
 
             await page.getByRole('button', { name: 'Connect Wallet (metaMask)' }).click();
-            await expect(page.locator('#status')).toHaveClass(/green/);
+            await expect(page.locator('#status')).toHaveText('Connected');
             
             });
           EOF
