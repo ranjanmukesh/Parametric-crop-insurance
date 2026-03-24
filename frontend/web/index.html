@@ -3,53 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connect to MetaMask</title>
+    <title>Connect MetaMask with Ethers.js</title>
+    <!-- Load Ethers.js from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.5/dist/ethers.umd.min.js"></script>
 </head>
 <body>
 
-    <h1>Connect to MetaMask</h1>
+    <h1>Connect to MetaMask using Ethers.js</h1>
     
     <button onclick="connectWallet()">Connect Wallet</button>
     
     <p id="account"></p>
     <p id="network"></p>
+    <p id="balance"></p>
 
     <script>
+        let provider;
+        let signer;
+
         async function connectWallet() {
             if (typeof window.ethereum !== "undefined") {
                 try {
-                    // Request account access
-                    const accounts = await ethereum.request({ method: "eth_requestAccounts" });
-                    const account = accounts[0];
+                    // Create provider from MetaMask
+                    provider = new ethers.BrowserProvider(window.ethereum);
+                    
+                    // Request connection
+                    await provider.send("eth_requestAccounts", []);
+                    
+                    // Get signer and account
+                    signer = await provider.getSigner();
+                    const address = await signer.getAddress();
 
                     document.getElementById("account").innerHTML = 
-                        `<strong>Connected Account:</strong> ${account}`;
+                        `<strong>Connected Account:</strong> ${address}`;
 
-                    // Get current network
-                    const chainId = await ethereum.request({ method: "eth_chainId" });
+                    // Get network
+                    const network = await provider.getNetwork();
                     document.getElementById("network").innerHTML = 
-                        `<strong>Network ID:</strong> ${parseInt(chainId, 16)}`;
+                        `<strong>Network:</strong> ${network.name} (Chain ID: ${network.chainId})`;
 
-                    console.log("Connected:", account);
+                    // Get balance
+                    const balance = await provider.getBalance(address);
+                    const ethBalance = ethers.formatEther(balance);
+                    document.getElementById("balance").innerHTML = 
+                        `<strong>Balance:</strong> ${ethBalance} ETH`;
+
+                    console.log("Connected with Ethers.js:", address);
 
                 } catch (error) {
                     console.error(error);
-                    alert("User rejected the connection.");
+                    alert("Connection failed or was rejected.");
                 }
             } else {
-                alert("MetaMask is not installed. Please install MetaMask!");
+                alert("MetaMask is not installed!");
             }
         }
 
         // Optional: Listen for account changes
         if (typeof window.ethereum !== "undefined") {
-            ethereum.on("accountsChanged", (accounts) => {
-                if (accounts.length > 0) {
-                    document.getElementById("account").innerHTML = 
-                        `<strong>Connected Account:</strong> ${accounts[0]}`;
-                } else {
-                    document.getElementById("account").innerHTML = "Wallet disconnected";
-                }
+            window.ethereum.on("accountsChanged", () => {
+                connectWallet(); // Re-connect to update UI
             });
         }
     </script>
