@@ -145,8 +145,10 @@ jobs:
             await page.addInitScript(() => {
             window.ethereum = {
               request: async (args) => {
-                console.log('Mock:  method ' , args.method);
-if (args.method === 'eth_requestAccounts') {
+
+                console.log('args method', args.method);
+
+                if (args.method === 'eth_requestAccounts') {
                   return ['0xMockedTestAddress1234567890'];
                   }
                 if (args.method === 'eth_chainId'){
