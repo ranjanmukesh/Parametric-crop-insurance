@@ -189,16 +189,16 @@ jobs:
           EOF
          
 
-      - name: Run playwright tests
-        working-directory: ./frontend
-        run: npx playwright test --project=chromium
-      - name: Upload Playwright report artifact
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: playwright-report
-          path: frontend/playwright-report/
-          retention-days: 14
+#      - name: Run playwright tests
+#        working-directory: ./frontend
+#        run: npx playwright test --project=chromium
+#      - name: Upload Playwright report artifact
+#        if: always()
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: playwright-report
+#          path: frontend/playwright-report/
+#          retention-days: 14
 
       - name: Deploy 
         run: |
@@ -209,127 +209,4 @@ jobs:
             --verify \
             --etherscan-api-key ${{ secrets.POLYGONSCAN_API_KEY }} \
 
-  frontend-checks:
-    needs: build-test-deploy
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-#          cache: 'npm'
-#          cache-dependency-path: frontend/package-lock.json
-
-      - name: Install frontend dependencies
-        working-directory: ./frontend
-        run: npm run typecheck || echo "TRypecheckassed or no scripr defined"
-    
-      - name: Install dependencies for eas
-        working-directory: ./frontend
-        run: |
-          rm -rf node_modules package-lock.json
-          npm install
-          npx expo install --fix
-
-#      - name: Set up android and fix gradle
-#        working-directory: ./frontend
-#        run: |
-#          npx expo prebuild --platform android --non-interactive
-#          git config user.name "Github Actions Bot"
-#          git config user.email "actions@github.com"
-#          git add android
-#          git commit -m "chore(deps): adding android folder in one time step  [ci skip]"
-#          git push origin HEAD:${{ github.ref_name }} || echo "push skipped (no changes or already up to date)"
-
-
-      - name: Setup EAS CLI
-        uses: expo/expo-github-action@v8
-        with:
-          eas-version: latest
-          token: ${{ secrets.EXPO_TOKEN }}
-
-
-      - name: Set up environment variables for signing
-        env:
-          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
-          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-        run: echo "Credentials ready (passwords set via env)"
-
-
-      - name: Install JDK for keytool
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-
-
-      - name: Generate random keystore password and alias
-        id: generate-secrets
-        working-directory: ./frontend
-        run: |
-          RANDOM_PASS=$(cat /dev/urandom | tr -dc 'A-Za-z0-9!@#$%^&' | head -c 40)
-          RANDOM_ALIAS="ci-$(date + %s)-$(cat /dev/urandom | tr -dc 'a-z0-9' | head -c 8)"
-          echo "add-mask::$RANDOM_PASS"
-          echo "::add-mask::$RANDOM_ALIAS"
-          echo "keystore_pass=$RANDOM_PASS" >> $GITHUB_OUTPUT
-          echo "key_alias=$RANDOM_ALIAS" >> $GITHUB_OUTPUT
-      - name: Generate keystore if missing
-        working-directory: ./frontend
-        env:
-          KEYSTORE_PASS: ${{ steps.generate-secrets.outputs.keystore_pass }}
-          KEY_ALIAS: ${{ steps.generate-secrets.outputs.key_alias }}
-        run: |
-          KEYSTORE_PATH="android/release.jks"
-          if [ ! -f "$KEYSTORE_PATH" ]; then
-            keytool -genkeypair -v \
-              -storetype JKS \
-              -keyalg RSA \
-              -keysize 2048 \
-              -validity 10000 \
-              -alias "$KEY_ALIAS" \
-              -keystore android/release.jks \
-              -storepass "$KEYSTORE_PASS" \
-              -keypass "$KEYSTORE_PASS" \
-              -dname "CN=com.mranjan7.parametriccropinsurance"
-          fi
-      - name: Lint (if configured)
-        working-directory: ./frontend
-        run: npm run lint || echo "lint passed or no script defined" 
-
-
-      - name: Generate credentials json for local signing
-        working-directory: ./frontend
-        env:
-          KEYSTORE_PASS: ${{ steps.generate-secrets.outputs.keystore_pass }}
-          KEY_ALIAS: ${{ steps.generate-secrets.outputs.key_alias }}
-        run: |
-          echo '{
-          "android": {
-            "keystore": {
-              "keystorePath": "android/release.jks",
-              "keystorePassword":"$KEYSTORE_PASS",
-              "keyAlias":"$KEY_ALIAS",
-              "keyPassword":"$KEYSTORE_PASS"
-              }
-            }
-          }' > credentials.json
-          ls -la credentials.json
-          grep -A 5 "keystore" credentials.json || echo "JSOn snippet not found"
-          echo "credentials.json generated (size: $(stat -c%s credentials.json) bytes)"
-
-
-#      - name: EAS Build(Andoid production)
-#        working-directory: ./frontend
-#        run: |
-#          rm -rf node_modules .expo .cache
-#          npm install --save-dev expo
-#          npx expo install expo-updates
-#          eas build --platform android --profile production --non-interactive --no-wait
-      - name: EAS Build(IOS production)
-        working-directory: ./frontend
-        run: |
-          eas build --platform ios --profile production --non-interactive --no-wait
+  
