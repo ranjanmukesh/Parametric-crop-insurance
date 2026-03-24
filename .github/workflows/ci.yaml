@@ -189,11 +189,6 @@ jobs:
           EOF
          
 
-      - name: Download ether js for testing
-        working-directory: ./frontend
-        run: |
-          mkdir -p web
-          curl -L -o web/ethers-5.7.umd.min.js https://cdn.ethers.io/lib/ethers-5.7.umd.min.js
       - name: Run playwright tests
         working-directory: ./frontend
         run: npx playwright test --project=chromium
