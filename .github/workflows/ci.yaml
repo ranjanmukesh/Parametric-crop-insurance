@@ -144,8 +144,9 @@ jobs:
           test('Connect Wallet button works', async ({ page }) => {
             const logs = [];
             page.on('console', msg => {
-              logs.push('${msg.type()}: ${msg.text()}');
-              console.log('[BROWSER] ${msg.type()}: ${msg.text()}');
+              const text = '${msg.type()}: ${msg.text()}';
+              logs.push(text);
+              console.log('[BROWSER] ${text}');
               });
 
             await page.addInitScript(() => {
