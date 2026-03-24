@@ -149,6 +149,19 @@ jobs:
               console.log(`[BROWSER] ${text}`);
               });
 
+            page.on('pageerror', err => {
+              console.error(`[PAGE ERROR] ${err.message}`);
+              });
+
+            await page.route('**/*', async (route) => {
+              const url = route.request().url();
+              if(url.includes('rpc.sepolia.org') || url.includes('etherscan') || url.includes('cdn')){
+                console.log(`Blocked external: ${url}`);
+                return route.abort();
+              }
+              return route.continue();
+            });
+
             await page.addInitScript(() => {
             window.ethereum = {
               request: async (args) => {
