@@ -117,7 +117,7 @@
         signer = provider.getSigner();
         const addr = await signer.getAddress();
         const network = await provider.getNetwork();
-        if(network.chainId != CHAIN_ID){
+        if(network.chainId !== CHAIN_ID){
           alert('Please switch to chain ID ${CHAIN_ID}');
           return;
         }

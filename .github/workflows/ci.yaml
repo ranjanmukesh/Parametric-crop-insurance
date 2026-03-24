@@ -142,6 +142,12 @@ jobs:
           const { test, expect } = require('@playwright/test');
 
           test('Connect Wallet button works', async ({ page }) => {
+            const logs = [];
+            page.on('console', msg => {
+              logs.push('${msg.type()}: ${msg.text()}');
+              console.log('[BROWSER] ${msg.type()}: ${msg.text()}');
+              });
+
             await page.addInitScript(() => {
             window.ethereum = {
               request: async (args) => {
