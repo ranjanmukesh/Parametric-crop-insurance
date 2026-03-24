@@ -155,7 +155,7 @@ jobs:
 
             await page.route('**/*', async (route) => {
               const url = route.request().url();
-              if(url.includes('rpc.sepolia.org') || url.includes('etherscan') || url.includes('cdn')){
+              if(url.includes('rpc.sepolia.org') || url.includes('etherscan') ){
                 console.log(`Blocked external: ${url}`);
                 return route.abort();
               }
