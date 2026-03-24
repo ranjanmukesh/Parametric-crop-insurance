@@ -74,7 +74,7 @@ jobs:
 
           [ -f frontend/package.json ] && git add -f frontend/package.json || true
 #          [ -f frontend/package-lock.json ] && git add frontend/package-lock.json || true
-#
+
           git diff --cached --quiet || git commit -m "chore(deps): bootstrap package.json + install node_modules [ci skip]"
           git push origin HEAD:${{ github.ref_name }} || echo "push skipped (no changes or already up to date)"
           ls -la frontend/package.json || "package.json missing"
