@@ -32,6 +32,7 @@
                     
                     // Get signer and account
                     signer = await provider.getSigner();
+                    alert('signer'+signer);
                     const address = await signer.getAddress();
 
                     document.getElementById("account").innerHTML = 
