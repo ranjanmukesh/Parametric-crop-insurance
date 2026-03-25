@@ -221,16 +221,16 @@
               const coverage = await contract.coverageAmount();
               const threshold = await contract.rainfallThreshold();
               const start = await contract.seasonStart();
-              const end = await contract.seaasonEnd();
+              const end = await contract.seasonEnd();
               const triggered = await contract.payoutTriggered();
 
               document.getElementById("activeFarmer").textContent = currentFarmer;
 
               document.getElementById("activeCoverage").textContent = ethers.formatEther(coverage);
 
-              document.getElementById("activeThreshold").textContent = threshold.toString(0;
+              document.getElementById("activeThreshold").textContent = threshold.toString();
 
-              documnet.getElementById("activeSeason").textContent = `${start} to ${end}`;
+              document.getElementById("activeSeason").textContent = `${start} to ${end}`;
               document.getElementById("activePayout").textContent = triggered?"Yes":"No";
             } else {
               document.getElementById("packageSection").style.display = "block";
@@ -287,7 +287,10 @@ function selectPackage() {
   document.getElementById("threshold").value = pkg.threshold + " mm";
   document.getElementById("premium").value = pkg.minPremium.toFixed(2);
   
-  const startDateObj = new Date(startDate.value);
+const startInput = document.getElementById("startDate");
+const endInput = document.getElementById("endDate"); 
+
+  const startDateObj = new Date(startInput.value);
   const endDateObj = new Date(startDateObj);
   endDateObj.setDate(endDateObj.getDate() + 60);
   endInput.value = endDateObj.toISOString(0.split("T")[0];
