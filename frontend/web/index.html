@@ -146,6 +146,16 @@
   <button onclick="buyPolicy()">Buy Policy Now</button>
 </div>
 
+<!-- Active Policy Details (shown if policy already exists) -->
+<div id="activePolicySection" class="section active-policy" style="display: none;">
+    <h3>✅ You Already Have an Active Policy</h3>
+    <p><strong>Farmer:</strong> <span id="activeFarmer"></span></p>
+    <p><strong>Coverage:</strong> <span id="activeCoverage"></span> ETH</p>
+    <p><strong>Threshold:</strong> <span id="activeThreshold"></span> mm</p>
+    <p><strong>Season:</strong> <span id="activeSeason"></span></p>
+    <p><strong>Payout Triggered:</strong> <span id="activePayout"></span></p>
+</div>
+
 
     <script>
         let provider;
@@ -202,6 +212,32 @@
 
         async function checkActivePolicy(userAddress){
           try{
+            const currentFarmer = await contract.farmer();
+            if (currentFarmer.toLowerCase() === userAddress.toLowerCase()){
+              document.getElementById("packageSection").style.display = "none";
+              document.getElementById("formSection").style.display = "none";
+              document.getElementById("activePolicySection").style.display = "block";
+              const coverage = await contract.coverageAmount();
+              const threshold = await contract.rainfallThreshold();
+              const start = await contract.seasonStart();
+              const end = await contract.seaasonEnd();
+              const triggered = await contract.payoutTriggered();
+
+              document.getElementById("activeFarmer").textContent = currentFarmer;
+
+              document.getElementById("activeCoverage").textContent = ethers.formatEther(coverage);
+
+              document.getElementById("activeThreshold").textContent = threshold.toString(0;
+
+              documnet.getElementById("activeSeason").textContent = `${start} to ${end}`;
+              document.getElementById("activePayout").textContent = triggered?"Yes":"No";
+            } else {
+              document.getElementById("packageSection").style.display = "block";
+              
+              document.getElementById("activePolicySection").style.display = "none";
+            }
+          } catch (error){
+            document.getElementById("packageSection").style.display = "block";
           }
         }
 
