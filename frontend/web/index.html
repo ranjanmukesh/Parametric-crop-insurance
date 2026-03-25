@@ -5,7 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connect MetaMask with Ethers.js</title>
     <!-- Load Ethers.js from CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.5/dist/ethers.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.5/dist/ethers.umd.min.js">
+        function test(){
+          alert(3);
+        }
+ 
+    </script>
   <style>
 			* {
 			box-sizing: border-box;
@@ -167,10 +172,7 @@
         const abi =[];
 
 
-        function test(){
-          alert(3);
-        }
-        async function connectWallet() {
+       async function connectWallet() {
             alert(1);
             if (typeof window.ethereum !== "undefined") {
                 try {
