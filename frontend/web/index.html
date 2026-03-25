@@ -121,19 +121,27 @@
   <h3 id="packageTitle">Selected Package</h3>
 
   <label>Coverage Amount (ETH) - Payout if triggered</label>
-  <input type="text" id="coverage" readonly>
+  <p id="coverage" readonly></p>
 
   <label>Rainfall Threshold (mm) - Trigger for payout</label>
-  <input type="text" id="threshold" readonly>
+  <p id="threshold" readonly></p>
 
   <label>Season Start Date (YYYY-MM-DD)</label>
   <input type="text" id="startDate" value="2026-06-01">
 
+	```html
+<small style="color: #d32f2f; display: block; margin-top: 4px;">
+  ⚠️ Coverage starts only from the Season Start Date you select (can be today or future). 
+  Rainfall before this date is NOT covered. Choose dates matching your crop's risky period (e.g., dry season Jun–Sep). 
+  Suggested: 2-month windows like Jun 1 – Jul 31.
+</small>
+```
+
   <label>Season End Date (YYYY-MM-DD)</label>
-  <input type="text" id="endDate" value="2026-09-30">
+  <p id="endDate" value="2026-09-30"></p>
 
   <label>Premium to Pay (ETH) - Minimum 10% of Coverage</label>
-  <input type="number" id="premium" step="0.01" min="0.05">
+  <p id="premium" step="0.01" min="0.05"></p>
 
   <button onclick="buyPolicy()">Buy Policy Now</button>
 </div>
@@ -142,6 +150,12 @@
     <script>
         let provider;
         let signer;
+        let contract;
+
+        const contractAddress = "";
+
+        const abi =[];
+
 
         async function connectWallet() {
             if (typeof window.ethereum !== "undefined") {
@@ -181,7 +195,14 @@
                 alert("MetaMask is not installed!");
                 return;
             }
-            document.getElementById("packageSection").style.display = "block";
+          contract = new ethers.Contract(contractAddress, abi, signer);
+
+          await checkActivePolicy(address);
+        }
+
+        async function checkActivePolicy(userAddress){
+          try{
+          }
         }
 
         // Optional: Listen for account changes
@@ -196,20 +217,20 @@ const packages = {
   low: {
     name: "Low Protection",
     coverage: 0.5,
-    threshold: 60,
+    threshold: 80,
     minPremium: 0.05
   },
   medium: {
     name: "Medium Protection",
     coverage: 1.0,
-    threshold: 50,
-    minPremium: 0.10
+    threshold: 60,
+    minPremium: 0.12
   },
   high: {
     name: "High Protection",
     coverage: 2.0,
     threshold: 40,
-    minPremium: 0.20
+    minPremium: 0.38
   }
 };
 
@@ -228,6 +249,11 @@ function selectPackage() {
   document.getElementById("coverage").value = pkg.coverage + " ETH";
   document.getElementById("threshold").value = pkg.threshold + " mm";
   document.getElementById("premium").value = pkg.minPremium.toFixed(2);
+  
+  const startDateObj = new Date(startDate.value);
+  const endDateObj = new Date(startDateObj);
+  endDateObj.setDate(endDateObj.getDate() + 60);
+  endInput.value = endDateObj.toISOString(0.split("T")[0];
 
   form.style.display = "block";
 }

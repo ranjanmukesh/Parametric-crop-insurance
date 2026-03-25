@@ -10,25 +10,27 @@ import {AutomationCompatibleInterface} from "@chainlink/contracts/src/v0.8/autom
 
 contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner, AutomationCompatibleInterface {
 	using FunctionsRequest for FunctionsRequest.Request;	
+  struct Policy{
+    uint256  coverageAmount;
+    uint256  rainfallThreshold;
+    uint256  measuredRainfall;
+    bool  payoutTriggered;
+    uint256  lastChecked;
+    uint256  checkInterval;
+    string  seasonStart;
+    string  seasonEnd;
+    uint256  seasonStartTimestamp;
+    uint256  seasonEndTimestamp;
+  }
+  uint256 public totalPremiumCollected;
 	string public jsSource;
 	bytes32 public donID;
 	uint64 public subscriptionId;
 	uint32 public gasLimit = 300_000;
 
-	address public farmer;
-	uint256 public premiumCollected;
-	uint256 public coverageAmount;
-	uint256 public rainfallThreshold;
-	uint256 public measuredRainfall;
-	bool public payoutTriggered;
-
-	uint256 public lastChecked;
-	uint256 public checkInterval = 1 days;
-	string public seasonStart;
-	string public seasonEnd;
-	uint256 public seasonStartTimestamp;
-	uint256 public seasonEndTimestamp;
-
+  mapping(address => Policy) public policies;
+  mapping(bytes32 => address) public requestToFarmer;
+  uint256 public totalPremiumCollected;
 	event PolicyPurchased(address indexed farmer, uint256 premium, uint256 coverage, uint256 threshold);
 	event RainfallChecked(uint256 totalRainfallMm);
 	event PayoutTriggered(address indexed farmer, uint256 amount);
@@ -49,18 +51,19 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner, AutomationC
 		   string calldata _seasonEnd,
 		   uint256 _seasonStartTimestamp,
 		   uint256 _seasonEndTimestamp) external payable {
-		require(farmer == address(0), "Policy already active");
+    require(policies[msg.sender].seasonStartTimestamp == 0, "Policy already active");
 		require(msg.value >= _coverageAmount / 10, "Premium too low (min 10 %)");
 
-		farmer = msg.sender;
-		premiumCollected += msg.value;
-		coverageAmount = _coverageAmount;
-		rainfallThreshold = _threshold;
-		seasonStart = _seasonStart;
-		seasonEnd = _seasonEnd;
-		seasonStartTimestamp = _seasonStartTimestamp;
-		seasonEndTimestamp = _seasonEndTimestamp;
-		lastChecked = block.timestamp;
+    Policy storage policy = policies[msg.sender];
+    totalPremiumCollected += msg.value;
+    policy.coverageAmount = _coverageAmount;
+    policy.rainfallThreshold = _threshold;
+    policy.seasonStart = _seasonStart;
+    policy.seasonEnd = _seasonEnd;
+    policy.seasonStartTimestamp = _seasonStartTimestamp;
+    policy.seasonEndTimestamp = _seasonEndTimestamp;
+    policy.lastChecked = block.timestamp;
+    policy.checkInterval = 1 days;
 
 		emit PolicyPurchased(msg.sender, msg.value, _coverageAmount, _threshold);
 		
@@ -69,12 +72,13 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner, AutomationC
 	function fundPayout() external payable onlyOwner {}
 
 	function checkRainfallPeriod(
-		string memory javascriptSource,
+    address _farmer,
+    string memory javascriptSource,
 		string memory startDate,
 		string memory endDate
 	) public onlyOwner {
-		require(farmer != address(0), "No active policy");
-
+    Policy storage policy = policies[_farmer];
+    require(policy.seasonStartTimestamp != 0, "No active policy");
 		FunctionsRequest.Request memory req;
 		req.initializeRequest(
 			FunctionsRequest.Location.Inline,
@@ -86,17 +90,21 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner, AutomationC
 		args[1] = endDate;
 		req.setArgs(args);
 
-		_sendRequest(req.encodeCBOR(), subscriptionId, gasLimit, donID);
+		bytes32 requestId = _sendRequest(req.encodeCBOR(), subscriptionId, gasLimit, donID);
+    requestToFarmer[requestId] = _farmer;
 	}
 
 	function fulfillRequest(bytes32, bytes memory response, bytes memory) internal override {
-		measuredRainfall = abi.decode(response, (uint256));
+    address farmerAddr = requestToFarmer[requestId];
+    require(farmerAddr != address(0), "Unknown request");
+    Policy storage policy = policies[farmerAddr];
+		policy.measuredRainfall = abi.decode(response, (uint256));
 		emit RainfallChecked(measuredRainfall);
 
-		if(measuredRainfall < rainfallThreshold && !payoutTriggered){
+		if(policy.measuredRainfall < policy.rainfallThreshold && !payoutTriggered){
 
 			payoutTriggered = true;
-			uint256 payout = coverageAmount;
+			uint256 payout = policy.coverageAmount;
 			require(address(this).balance >= payout, "Insufficient Funds");
 			payable(farmer).transfer(payout);
 			emit PayoutTriggered(farmer, payout);
@@ -108,7 +116,15 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner, AutomationC
 		payable(owner()).transfer(address(this).balance);
 	}
 
-	function checkUpkeep(bytes calldata) external view override returns (bool upkeepNeeded, bytes memory){
+  function requestMyRainfallCheck() external {
+    Policy storage policy = policies[msg.sender];
+    require(policy.seasonStartTimestamp != 0, "No active policy");
+    require(block.timestamp >= policy.lastChecked + policy.checkInterval, "Too soon");
+    require(block.timestamp >= policy.seasonStartTimestamp && block.timestamp <= policy.seasonEndTimestamp, "Not in season");
+    checkRainfallPeriod(nsg.sender,jsSource, policy.seasonStart, policy.seasonEnd);
+    policy.lastChecked = block.timestamp;
+  }
+	function function checkUpkeep(bytes calldata) external view override returns (bool upkeepNeeded, bytes memory){
 		upkeepNeeded = (farmer != address(0)) &&
 		(block.timestamp >= lastChecked + checkInterval) &&
 		(block.timestamp >= seasonStartTimestamp) &&
@@ -126,8 +142,7 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner, AutomationC
 		checkRainfallPeriod(js, start, end);
 		lastChecked = block.timestamp;
 	}
-
-	function isInSeason() internal view returns (bool) {
+isInSeason() internal view returns (bool) {
 		return block.timestamp >= seasonStartTimestamp && 
 		block.timestamp <= seasonEndTimestamp;
 	}
