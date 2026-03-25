@@ -23,7 +23,6 @@
     <p id="network"></p>
     <p id="balance"></p>
 
-
 <!-- Dropdown for Protection Level -->
 <label for="package">Choose Protection Level:</label>
 <select id="package" onchange="selectPackage()">
@@ -54,6 +53,7 @@
 
   <button onclick="buyPolicy()">Buy Policy Now</button>
 </div>
+
 
     <script>
         let provider;
@@ -104,26 +104,46 @@
                 connectWallet(); // Re-connect to update UI
             });
         }
-let selectedCoverage = 1.0;
-let selectedThreshold = 50;
 
-function selectPackage(level) {
-  document.getElementById('selectedPackage').style.display = 'block';
-  
-  if (level === 'low') {
-    selectedCoverage = 0.5; selectedThreshold = 60;
-    document.getElementById('packageName').innerText = 'Low Protection';
-  } else if (level === 'medium') {
-    selectedCoverage = 1.0; selectedThreshold = 50;
-    document.getElementById('packageName').innerText = 'Medium Protection';
-  } else if (level === 'high') {
-    selectedCoverage = 2.0; selectedThreshold = 40;
-    document.getElementById('packageName').innerText = 'High Protection';
+
+const packages = {
+  low: {
+    name: "Low Protection",
+    coverage: 0.5,
+    threshold: 60,
+    minPremium: 0.05
+  },
+  medium: {
+    name: "Medium Protection",
+    coverage: 1.0,
+    threshold: 50,
+    minPremium: 0.10
+  },
+  high: {
+    name: "High Protection",
+    coverage: 2.0,
+    threshold: 40,
+    minPremium: 0.20
+  }
+};
+
+function selectPackage() {
+  const selected = document.getElementById("package").value;
+  const form = document.getElementById("formSection");
+
+  if (!selected) {
+    form.style.display = "none";
+    return;
   }
 
-  document.getElementById('coverage').value = selectedCoverage;
-  document.getElementById('threshold').value = selectedThreshold;
-  document.getElementById('premium').value = (selectedCoverage * 0.10).toFixed(2); // min 10%
+  const pkg = packages[selected];
+
+  document.getElementById("packageTitle").innerText = pkg.name + " Selected";
+  document.getElementById("coverage").value = pkg.coverage + " ETH";
+  document.getElementById("threshold").value = pkg.threshold + " mm";
+  document.getElementById("premium").value = pkg.minPremium.toFixed(2);
+
+  form.style.display = "block";
 }
     </script>
 
