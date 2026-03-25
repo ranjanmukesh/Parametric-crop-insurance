@@ -63,7 +63,7 @@
     <p id="balance"></p>
 
 <!-- Dropdown for Protection Level -->
-<div is="packageSection" style="display:none; margin-top:20px;">
+<div id="packageSection" style="display:none; margin-top:20px;">
 <label for="package">Choose Protection Level:</label>
 <select id="package" onchange="selectPackage()">
   <option value="">-- Select Package --</option>
@@ -128,7 +128,6 @@
                         `<strong>Balance:</strong> ${ethBalance} ETH`;
 
                     console.log("Connected with Ethers.js:", address);
-                    document.getElementById("packageSection").style.display = "block";
 
                 } catch (error) {
                     console.error(error);
@@ -137,6 +136,7 @@
             } else {
                 alert("MetaMask is not installed!");
             }
+            document.getElementById("packageSection").style.display = "block";
         }
 
         // Optional: Listen for account changes
