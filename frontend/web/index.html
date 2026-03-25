@@ -63,6 +63,7 @@
     <p id="balance"></p>
 
 <!-- Dropdown for Protection Level -->
+<div is="packageSection" style="display:none; margin-top:20px;">
 <label for="package">Choose Protection Level:</label>
 <select id="package" onchange="selectPackage()">
   <option value="">-- Select Package --</option>
@@ -70,6 +71,7 @@
   <option value="medium">Medium Protection (Most Popular)</option>
   <option value="high">High Protection</option>
 </select>
+</div>
 
 <!-- Hidden Form that appears after selection -->
 <div id="formSection" style="display: none; margin-top: 20px;">
@@ -109,7 +111,6 @@
                     
                     // Get signer and account
                     signer = await provider.getSigner();
-                    alert('signer'+signer);
                     const address = await signer.getAddress();
 
                     document.getElementById("account").innerHTML = 
@@ -127,6 +128,7 @@
                         `<strong>Balance:</strong> ${ethBalance} ETH`;
 
                     console.log("Connected with Ethers.js:", address);
+                    document.getElementById("packageSection").style.display = "block";
 
                 } catch (error) {
                     console.error(error);
