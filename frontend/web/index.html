@@ -22,56 +22,35 @@
     <p id="account"></p>
     <p id="network"></p>
     <p id="balance"></p>
-<h2>Choose Your Insurance Package</h2>
 
-<div style="display: flex; gap: 20px; margin: 20px 0;">
-  
-  <!-- Low Package Card -->
-  <div style="border: 2px solid #ccc; padding: 15px; width: 300px; border-radius: 10px;">
-    <h3>Low Protection</h3>
-    <p><strong>Coverage:</strong> 0.5 ETH</p>
-    <p><strong>Trigger:</strong> Rainfall < 60 mm</p>
-    <p><strong>Min Premium:</strong> 0.05 ETH</p>
-    <button onclick="selectPackage('low')">Select Low</button>
-  </div>
 
-  <!-- Medium Package Card -->
-  <div style="border: 2px solid #4CAF50; padding: 15px; width: 300px; border-radius: 10px; background: #f9fff9;">
-    <h3>Medium Protection <span style="color:green;">(Most Popular)</span></h3>
-    <p><strong>Coverage:</strong> 1.0 ETH</p>
-    <p><strong>Trigger:</strong> Rainfall < 50 mm</p>
-    <p><strong>Min Premium:</strong> 0.10 ETH</p>
-    <button onclick="selectPackage('medium')">Select Medium</button>
-  </div>
+<!-- Dropdown for Protection Level -->
+<label for="package">Choose Protection Level:</label>
+<select id="package" onchange="selectPackage()">
+  <option value="">-- Select Package --</option>
+  <option value="low">Low Protection</option>
+  <option value="medium">Medium Protection (Most Popular)</option>
+  <option value="high">High Protection</option>
+</select>
 
-  <!-- High Package Card -->
-  <div style="border: 2px solid #ccc; padding: 15px; width: 300px; border-radius: 10px;">
-    <h3>High Protection</h3>
-    <p><strong>Coverage:</strong> 2.0 ETH</p>
-    <p><strong>Trigger:</strong> Rainfall < 40 mm</p>
-    <p><strong>Min Premium:</strong> 0.20 ETH</p>
-    <button onclick="selectPackage('high')">Select High</button>
-  </div>
-</div>
+<!-- Hidden Form that appears after selection -->
+<div id="formSection" style="display: none; margin-top: 20px;">
+  <h3 id="packageTitle">Selected Package</h3>
 
-<!-- Hidden form that gets auto-filled -->
-<div id="selectedPackage" style="margin-top: 30px; display: none;">
-  <h3>You selected: <span id="packageName"></span></h3>
-  
-  <label>Coverage Amount (ETH):</label>
-  <input type="number" id="coverage" readonly>
+  <label>Coverage Amount (ETH) - Payout if triggered</label>
+  <input type="text" id="coverage" readonly>
 
-  <label>Rainfall Threshold (mm):</label>
-  <input type="number" id="threshold" readonly>
+  <label>Rainfall Threshold (mm) - Trigger for payout</label>
+  <input type="text" id="threshold" readonly>
 
-  <label>Season Start (YYYY-MM-DD):</label>
+  <label>Season Start Date (YYYY-MM-DD)</label>
   <input type="text" id="startDate" value="2026-06-01">
 
-  <label>Season End (YYYY-MM-DD):</label>
+  <label>Season End Date (YYYY-MM-DD)</label>
   <input type="text" id="endDate" value="2026-09-30">
 
-  <label>Premium to Pay (ETH) - Minimum shown above:</label>
-  <input type="number" id="premium" step="0.01" value="0.10">
+  <label>Premium to Pay (ETH) - Minimum 10% of Coverage</label>
+  <input type="number" id="premium" step="0.01" min="0.05">
 
   <button onclick="buyPolicy()">Buy Policy Now</button>
 </div>
