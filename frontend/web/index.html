@@ -44,6 +44,51 @@
 			padding: 20px;
 			border-radius: 12px;
 	}
+
+  .shield-container {
+      position: relative;
+      width: 100%;
+      max-width: 380px;           /* Change this to make the whole shield bigger/smaller */
+      aspect-ratio: 0.85 / 1;
+    }
+
+    .shield {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(#ff2222, #cc0000); /* Red shield like the image */
+      clip-path: polygon(
+        50% 0%,
+        100% 15%,
+        100% 70%,
+        50% 100%,
+        0% 70%,
+        0% 15%
+      );
+      box-shadow: 
+        0 10px 30px rgba(0,0,0,0.6),
+        inset 0 8px 20px rgba(255,255,255,0.25),
+        inset 0 -8px 20px rgba(0,0,0,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .shield-text {
+      color: white;
+      font-size: clamp(28px, 9vw, 78px);
+      font-weight: 900;
+      letter-spacing: -3px;
+      text-transform: lowercase;   /* matches the image */
+      text-shadow: 
+        3px 3px 0 #000,
+        -2px -2px 0 #000,
+         2px -2px 0 #000,
+        -2px  2px 0 #000;
+      z-index: 2;
+      text-align: center;
+      line-height: 1;
+    }
   </style>
 </head>
 <body>
@@ -55,6 +100,12 @@
 						 style="max-width: 200px; height: auto;">
 </div>
     <h1>Paramora</h1>
+
+<div class="shield-container">
+    <div class="shield">
+      <div class="shield-text">paramora</div>
+    </div>
+  </div>
     
     <button onclick="connectWallet()">Connect Wallet</button>
     
