@@ -132,9 +132,11 @@
                 } catch (error) {
                     console.error(error);
                     alert("Connection failed or was rejected."+error);
+                    return;
                 }
             } else {
                 alert("MetaMask is not installed!");
+                return;
             }
             document.getElementById("packageSection").style.display = "block";
         }
