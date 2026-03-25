@@ -99,7 +99,7 @@
     </div>
   </div>
     
-    <button onclick="connectWallet()">Connect Wallet</button>
+    <button onclick="test()">Connect Wallet</button>
     
     <p id="account"></p>
     <p id="network"></p>
@@ -167,6 +167,9 @@
         const abi =[];
 
 
+        function test(){
+          alert(3);
+        }
         async function connectWallet() {
             alert(1);
             if (typeof window.ethereum !== "undefined") {
