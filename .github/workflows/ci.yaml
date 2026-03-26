@@ -32,51 +32,9 @@ jobs:
           node-version: '20'
 
           
-      - name: Create basic package json if missing
-        working-directory: ./frontend
-        run: |
-          if [ ! -f package.json ]; then
-            echo "package json not found -> running npm init -y"
-            npm init -y
-            jq '. + {
-              "private": true,
-              "scripts": {
-                "start": "node index.js",
-                "test": "echo \"Error: no test specified\" && exit 1"
-              },
-              "dependencies": {
-              }
-            }' package.json > tmp.json && mv tmp.json package.json
-          else
-            echo "package.json already exists + skipping creation"
-          fi
-
-             
       - name: Install ESLint and HTML plugin
         working-directory: ./frontend
-        run: npm install
-
-      - name: Create .eslintrc.json for JS syntax checking
-        working-directory: ./frontend
-        run: |
-          cat > eslintrc.json << 'EOF'
-          {
-            "plugins": ["html"],
-            "extends": ["eslint:recommended"],
-            "env": {
-              "browser":true,
-              "es2022": true
-            },
-            "parseOptions": {
-              "ecmaaVersion": "latest",
-              "sourceType": "module"
-            },
-            "rules": {
-              "no-console": "warn",
-              "no-unused-vars": "error"
-            }
-          }
-          EOF
+        run: npm install 
 
       - name: Lint javascript syntax in html files
         working-directory: ./frontend
