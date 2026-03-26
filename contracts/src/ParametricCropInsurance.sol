@@ -32,6 +32,7 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
 	event PolicyPurchased(address indexed farmer, uint256 premium, uint256 coverage, uint256 threshold);
 	event RainfallChecked(uint256 totalRainfallMm);
 	event PayoutTriggered(address indexed farmer, uint256 amount);
+  event RequestFailed(bytes32 indexed requestId, string errorMessage);
 
 	constructor(address router, bytes32 _donID, uint64 _subscriptionId) 
 	FunctionsClient(router)
@@ -84,19 +85,22 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
 			javascriptSource
 		);
 		string[] memory args = new string[](2);
-		args[0] = startDate;
-		args[1] = endDate;
+		args[0] = "20.7984";
+		args[1] = "-156.3319";
+		args[2] = startDate;
+		args[3] = endDate;
 		req.setArgs(args);
 
 		bytes32 requestId = _sendRequest(req.encodeCBOR(), subscriptionId, gasLimit, donID);
     requestToFarmer[requestId] = _farmer;
 	}
 
-	function fulfillRequest(bytes32 requestId, bytes memory response, bytes memory) internal override {
+	function fulfillRequest(bytes32 requestId, bytes memory response, bytes memory err) internal override {
     address farmerAddr = requestToFarmer[requestId];
     require(farmerAddr != address(0), "Unknown request");
     if(err.length > 0) {
       emit RequestFailed(requestId, string(err));
+      delete requestToFarmer[requestId];
       return;
     }
     Policy storage policy = policies[farmerAddr];
