@@ -28,7 +28,7 @@ contract ParametricCropInsuranceTest is Test {
   vm.deal(address(insurance), 5000 ether);
   }
 
-  function test_BuyPolicy_Success(0 public {
+  function test_BuyPolicy_Success() public {
     vm.deal(farmer, PREMIUM);
     vm.prank(farmer);
     
