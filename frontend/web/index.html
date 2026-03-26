@@ -186,7 +186,7 @@ let provider;
             if (typeof window.ethereum !== "undefined") {
                 try {
                       if ( abi.length === 0 ) {
-                      await ;oadABI();
+                      await loadABI();
                       }
                       provider = new ethers.BrowserProvider(window.ethereum);
                     
