@@ -1,4 +1,5 @@
 import html from "eslint-plugin-html";
+import globals from "globals";
 
 export default [
   {
@@ -10,9 +11,7 @@ export default [
       ecmaVersion: "latest",
       sourceType: "module",
       globals: {
-        window: "readonly",
-        document: "readonly",
-        console: "readonly",
+        ...globals.browser,
         ethers: "readonly"
       }
     },
