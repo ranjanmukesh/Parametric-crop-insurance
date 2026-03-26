@@ -3,7 +3,7 @@
 pragma solidity ^0.8.19;
 
 import "forge-std/Test.sol";
-import "../contracts/ParametricCropInsurance.sol";
+import "../contracts/src/ParametricCropInsurance.sol";
 
 contract ParametricCropInsuranceTest is Test {
   ParametricCropInsurance public insurance;
