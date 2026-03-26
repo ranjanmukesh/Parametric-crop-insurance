@@ -159,13 +159,16 @@
 
 
     <script>
+    /* exported connectWallet */
+    /* global ethers */
     import CONFIG from './config.js';
 
 let provider;
         let signer;
         let contract;
 
-        let contractAddress = CONFIG.contractAddress;;
+        let contractAddress = CONFIG.contractAddress;
+        let currentFarmer = null;
 
         const abi = [];
 
@@ -176,7 +179,7 @@ let provider;
             if (!response.ok) throw new Error(`Failed to load abi json : ${response.status}`);
             const abiData = await response.json();
             abi = Array.isArra(abiData)?abiData:(abiData.abi || abiData);
-          } catch(error) {
+          } catch(_error) {
             alert("Failed to load abi");
           }
         }
@@ -194,6 +197,8 @@ let provider;
                     
                     signer = await provider.getSigner();
                     const address = await signer.getAddress();
+
+                    currentFarmer = address;
 
                     document.getElementById("account").innerHTML = 
                         `<strong>Connected Account:</strong> ${address}`;
@@ -247,7 +252,7 @@ let provider;
 
               document.getElementById("activeThreshold").textContent = threshold.toString();
 
-              documnet.getElementById("activeSeason").textContent = `${start} to ${end}`;
+              document.getElementById("activeSeason").textContent = `${start} to ${end}`;
               document.getElementById("activePayout").textContent = triggered?"Yes":"No";
             } else {
               document.getElementById("packageSection").style.display = "block";
