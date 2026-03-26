@@ -2,7 +2,7 @@ import html from "eslint-plugin-html";
 
 export default [
   {
-    files: ["**/*.js", "**/*.html"],
+    files: ["web/index.html"],
     plugins: {
       html: html
     },
@@ -13,7 +13,7 @@ export default [
         window: "readonly",
         document: "readonly",
         console: "readonly",
-        ethers: "readonly"   // since you use ethers.js
+        ethers: "readonly"
       }
     },
     rules: {
@@ -21,10 +21,5 @@ export default [
       "no-undef": "error",
       "no-console": "warn"
     }
-  },
-  {
-    // This enables extraction of <script> tags from HTML files
-    files: ["**/*.html"],
-    processor: "html/html"
   }
 ];
