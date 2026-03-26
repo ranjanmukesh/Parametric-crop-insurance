@@ -52,6 +52,36 @@ jobs:
           fi
 
              
+      - name: Install ESLint and HTML plugin
+        working-directory: ./frontend
+        run: npm install
+
+      - name: Create .eslintrc.json for JS syntax checking
+        working-directory: ./frontend
+        run: |
+          cat > eslintrc.json << 'EOF'
+          {
+            "plugins": ["html"],
+            "extends": ["eslint:recommended"],
+            "env": {
+              "browser":true,
+              "es2022": true
+            },
+            "parseOptions": {
+              "ecmaaVersion": "latest",
+              "sourceType": "module"
+            },
+            "rules": {
+              "no-console": "warn",
+              "no-unused-vars": "error"
+            }
+          }
+          EOF
+
+      - name: Lint javascript syntax in html files
+        working-directory: ./frontend
+        run: npm run lint
+
       - name: Install chainlink contracts via npm
         run: npm install @chainlink/contracts --no-save --no-package-lock
 
