@@ -121,7 +121,7 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner, AutomationC
     require(policy.seasonStartTimestamp != 0, "No active policy");
     require(block.timestamp >= policy.lastChecked + policy.checkInterval, "Too soon");
     require(block.timestamp >= policy.seasonStartTimestamp && block.timestamp <= policy.seasonEndTimestamp, "Not in season");
-    checkRainfallPeriod(nsg.sender,jsSource, policy.seasonStart, policy.seasonEnd);
+    checkRainfallPeriod(msg.sender,jsSource, policy.seasonStart, policy.seasonEnd);
     policy.lastChecked = block.timestamp;
   }
 	function function checkUpkeep(bytes calldata) external view override returns (bool upkeepNeeded, bytes memory){
