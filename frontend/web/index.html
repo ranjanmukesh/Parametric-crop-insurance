@@ -159,8 +159,9 @@
 
 
     <script>
-    /* exported connectWallet */
     /* global ethers */
+    /* exported connectWallet,selectPackage, buyPolicy */
+
     import CONFIG from './config.js';
 
 let provider;
@@ -179,7 +180,7 @@ let provider;
             if (!response.ok) throw new Error(`Failed to load abi json : ${response.status}`);
             const abiData = await response.json();
             abi = Array.isArra(abiData)?abiData:(abiData.abi || abiData);
-          } catch(_error) {
+          } catch {
             alert("Failed to load abi");
           }
         }
@@ -225,7 +226,7 @@ let provider;
             }
           contract = new ethers.Contract(contractAddress, abi, signer);
 
-          await checkActivePolicy(address);
+          await checkActivePolicy(currentFarmer);
         }
 
         async function checkActivePolicy(userAddress){
