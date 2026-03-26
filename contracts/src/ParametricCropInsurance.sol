@@ -124,28 +124,7 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner, AutomationC
     checkRainfallPeriod(msg.sender,jsSource, policy.seasonStart, policy.seasonEnd);
     policy.lastChecked = block.timestamp;
   }
-	function function checkUpkeep(bytes calldata) external view override returns (bool upkeepNeeded, bytes memory){
-		upkeepNeeded = (farmer != address(0)) &&
-		(block.timestamp >= lastChecked + checkInterval) &&
-		(block.timestamp >= seasonStartTimestamp) &&
-		(block.timestamp <= seasonEndTimestamp);
-		return (upkeepNeeded, "");
-	}
-
-	function performUpkeep(bytes calldata) external override{
-		(bool upkeepNeeded, ) = this.checkUpkeep("");
-		require(upkeepNeeded, "Upkeep not needed");
-		string memory js = jsSource;
-		string memory start = seasonStart;
-		string memory end = seasonEnd;
-
-		checkRainfallPeriod(js, start, end);
-		lastChecked = block.timestamp;
-	}
-isInSeason() internal view returns (bool) {
-		return block.timestamp >= seasonStartTimestamp && 
-		block.timestamp <= seasonEndTimestamp;
-	}
+	
 	}
 
 
