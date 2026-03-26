@@ -8,7 +8,7 @@
     "start": "npx serve . --listen 3000",
     "dev": "npx serve . --listen 3000",
     "open": "npx serve . --listen 3000 --open",
-    "lint": "eslint \"**/*.{html,js}\" --max-warnings 0"
+    "lint": "eslint \"web/index.html\" --max-warnings 0"
   },
   "dependencies": {
     "ethers": "^6.13.5"
