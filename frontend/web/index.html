@@ -159,8 +159,9 @@
 
 
     <script>
-    /* global ethers */
+    /* global ethers, window */
     /* exported connectWallet,selectPackage, buyPolicy */
+    /* eslint-disable no-unused-vars */
 
     import CONFIG from './config.js';
 
@@ -265,6 +266,8 @@ let provider;
             document.getElementById("packageSection").style.display = "block";
           }
         }
+
+    /* eslint-enable no-unused-vars */
          </script>
 
 </body>
