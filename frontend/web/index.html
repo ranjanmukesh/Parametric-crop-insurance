@@ -159,19 +159,35 @@
 
 
     <script>
+    import CONFIG from './config.js';
 
 let provider;
         let signer;
         let contract;
 
-        const contractAddress = "";
+        let contractAddress = CONFIG.contractAddress;;
 
         const abi = [];
+
+
+        async function loadABI(){
+          try{
+            const response = await fetch('abi.json');
+            if (!response.ok) throw new Error(`Failed to load abi json : ${response.status}`);
+            const abiData = await response.json();
+            abi = Array.isArra(abiData)?abiData:(abiData.abi || abiData);
+          } catch(error) {
+            alert("Failed to load abi");
+          }
+        }
 
 
         async function connectWallet(){
             if (typeof window.ethereum !== "undefined") {
                 try {
+                      if ( abi.length === 0 ) {
+                      await ;oadABI();
+                      }
                       provider = new ethers.BrowserProvider(window.ethereum);
                     
                     await provider.send("eth_requestAccounts", []);
@@ -208,9 +224,14 @@ let provider;
         }
 
         async function checkActivePolicy(userAddress){
+          if (!contract) {
+            alert("contract not initialized");
+            return;
+          }
           try{
-            const currentFarmer = await contract.farmer();
-            if (currentFarmer.toLowerCase() === userAddress.toLowerCase()){
+            const policy = await contract.getPolicy(userAddress);
+            const hasActivePolicy = policy.seasonStartTimestamp !== 0;
+            if (hasActivePolicy){
               document.getElementById("packageSection").style.display = "none";
               document.getElementById("formSection").style.display = "none";
               document.getElementById("activePolicySection").style.display = "block";
