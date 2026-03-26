@@ -214,10 +214,8 @@ let provider;
                     document.getElementById("balance").innerHTML = 
                         `<strong>Balance:</strong> ${ethBalance} ETH`;
 
-                    console.log("Connected with Ethers.js:", address);
 
                 } catch (error) {
-                    console.error(error);
                     alert("Connection failed or was rejected."+error);
                     return;
                 }
