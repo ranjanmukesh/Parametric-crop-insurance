@@ -6,9 +6,8 @@ import {FunctionsClient} from "@chainlink/contracts/src/v0.8/functions/v1_0_0/Fu
 import {FunctionsRequest} from "@chainlink/contracts/src/v0.8/functions/v1_0_0/libraries/FunctionsRequest.sol";
 import {ConfirmedOwner} from "@chainlink/contracts/src/v0.8/shared/access/ConfirmedOwner.sol";
 
-import {AutomationCompatibleInterface} from "@chainlink/contracts/src/v0.8/automation/AutomationCompatible.sol";
 
-contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner, AutomationCompatibleInterface {
+contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
 	using FunctionsRequest for FunctionsRequest.Request;	
   struct Policy{
     uint256  coverageAmount;
@@ -30,7 +29,6 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner, AutomationC
 
   mapping(address => Policy) public policies;
   mapping(bytes32 => address) public requestToFarmer;
-  uint256 public totalPremiumCollected;
 	event PolicyPurchased(address indexed farmer, uint256 premium, uint256 coverage, uint256 threshold);
 	event RainfallChecked(uint256 totalRainfallMm);
 	event PayoutTriggered(address indexed farmer, uint256 amount);
@@ -94,22 +92,27 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner, AutomationC
     requestToFarmer[requestId] = _farmer;
 	}
 
-	function fulfillRequest(bytes32, bytes memory response, bytes memory) internal override {
+	function fulfillRequest(bytes32 requestId, bytes memory response, bytes memory) internal override {
     address farmerAddr = requestToFarmer[requestId];
     require(farmerAddr != address(0), "Unknown request");
+    if(err.length > 0) {
+      emit RequestFailed(requestId, string(err));
+      return;
+    }
     Policy storage policy = policies[farmerAddr];
 		policy.measuredRainfall = abi.decode(response, (uint256));
-		emit RainfallChecked(measuredRainfall);
+		emit RainfallChecked(policy.measuredRainfall);
 
-		if(policy.measuredRainfall < policy.rainfallThreshold && !payoutTriggered){
+		if(policy.measuredRainfall < policy.rainfallThreshold && !policy.payoutTriggered){
 
-			payoutTriggered = true;
+			policy.payoutTriggered = true;
 			uint256 payout = policy.coverageAmount;
 			require(address(this).balance >= payout, "Insufficient Funds");
-			payable(farmer).transfer(payout);
-			emit PayoutTriggered(farmer, payout);
+			payable(farmerAddr).transfer(payout);
+			emit PayoutTriggered(farmerAddr, payout);
 			
 		}
+    delete requestToFarmer[requestId];
 	}
 
 	function withdrawProfits() external onlyOwner{
