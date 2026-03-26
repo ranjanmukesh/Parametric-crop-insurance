@@ -202,9 +202,39 @@ let provider;
                 alert("MetaMask is not installed!");
                 return;
             }
-//          contract = new ethers.Contract(contractAddress, abi, signer);
+          contract = new ethers.Contract(contractAddress, abi, signer);
 
-          //await checkActivePolicy(address);
+          await checkActivePolicy(address);
+        }
+        async function checkActivePolicy(userAddress){
+          try{
+            const currentFarmer = await contract.farmer();
+            if (currentFarmer.toLowerCase() === userAddress.toLowerCase()){
+              document.getElementById("packageSection").style.display = "none";
+              document.getElementById("formSection").style.display = "none";
+              document.getElementById("activePolicySection").style.display = "block";
+              const coverage = await contract.coverageAmount();
+              const threshold = await contract.rainfallThreshold();
+              const start = await contract.seasonStart();
+              const end = await contract.seaasonEnd();
+              const triggered = await contract.payoutTriggered();
+
+              document.getElementById("activeFarmer").textContent = currentFarmer;
+
+              document.getElementById("activeCoverage").textContent = ethers.formatEther(coverage);
+
+              document.getElementById("activeThreshold").textContent = threshold.toString(0;
+
+              documnet.getElementById("activeSeason").textContent = `${start} to ${end}`;
+              document.getElementById("activePayout").textContent = triggered?"Yes":"No";
+            } else {
+              document.getElementById("packageSection").style.display = "block";
+              
+              document.getElementById("activePolicySection").style.display = "none";
+            }
+          } catch (error){
+            document.getElementById("packageSection").style.display = "block";
+          }
         }
          </script>
 
