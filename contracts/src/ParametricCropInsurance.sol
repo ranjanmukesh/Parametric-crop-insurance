@@ -132,6 +132,8 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
     policy.lastChecked = block.timestamp;
   }
 	
-	}
 
-
+  function getPolicy(address _farmer) external view returns (Policy memory){
+    return policies[_farmer];
+  }
+}

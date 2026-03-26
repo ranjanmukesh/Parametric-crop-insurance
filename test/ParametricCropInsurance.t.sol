@@ -40,7 +40,7 @@ contract ParametricCropInsuranceTest is Test {
       START_TS,
       END_TS
     );
-    ParametricCropInsurance.Policy memory policy = insurance.policies(farmer);
+    ParametricCropInsurance.Policy memory policy = insurance.getPolicy(farmer);
 
     assertEq(policy.coverageAmount, COVERAGE_AMOUNT);
     assertEq(policy.rainfallThreshold, RAINFALL_THRESHOLD);
