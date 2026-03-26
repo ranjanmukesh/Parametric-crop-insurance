@@ -171,7 +171,7 @@ let provider;
 
         async function connectWallet(){
             alert("1");
-//            if (typeof window.ethereum !== "undefined") {
+            if (typeof window.ethereum !== "undefined") {
 //                try {
 //                     Create provider from MetaMask
 //                    provider = new ethers.BrowserProvider(window.ethereum);
@@ -203,11 +203,11 @@ let provider;
 //                    console.error(error);
 //                    alert("Connection failed or was rejected."+error);
 //                    return;
-//                }
-//            } else {
-//                alert("MetaMask is not installed!");
-//                return;
-//            }
+                }
+            } else {
+                alert("MetaMask is not installed!");
+                return;
+            }
 //          contract = new ethers.Contract(contractAddress, abi, signer);
 
           //await checkActivePolicy(address);
