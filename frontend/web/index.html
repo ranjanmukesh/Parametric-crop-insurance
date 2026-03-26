@@ -170,34 +170,28 @@ let provider;
 
 
         async function connectWallet(){
-            alert("1");
             if (typeof window.ethereum !== "undefined") {
                 try {
-                     Create provider from MetaMask
-                    provider = new ethers.BrowserProvider(window.ethereum);
+                      provider = new ethers.BrowserProvider(window.ethereum);
                     
-//                     Request connection
-//                    await provider.send("eth_requestAccounts", []);
-//                    
-//                     Get signer and account
-//                    signer = await provider.getSigner();
-//                    const address = await signer.getAddress();
-//
-//                    document.getElementById("account").innerHTML = 
-//                        `<strong>Connected Account:</strong> ${address}`;
-//
-//                     Get network
-//                    const network = await provider.getNetwork();
-//                    document.getElementById("network").innerHTML = 
-//                        `<strong>Network:</strong> ${network.name} (Chain ID: ${network.chainId})`;
-//
-//                     Get balance
-//                    const balance = await provider.getBalance(address);
-//                    const ethBalance = ethers.formatEther(balance);
-//                    document.getElementById("balance").innerHTML = 
-//                        `<strong>Balance:</strong> ${ethBalance} ETH`;
-//
-//                    console.log("Connected with Ethers.js:", address);
+                    await provider.send("eth_requestAccounts", []);
+                    
+                    signer = await provider.getSigner();
+                    const address = await signer.getAddress();
+
+                    document.getElementById("account").innerHTML = 
+                        `<strong>Connected Account:</strong> ${address}`;
+
+                    const network = await provider.getNetwork();
+                    document.getElementById("network").innerHTML = 
+                        `<strong>Network:</strong> ${network.name} (Chain ID: ${network.chainId})`;
+
+                    const balance = await provider.getBalance(address);
+                    const ethBalance = ethers.formatEther(balance);
+                    document.getElementById("balance").innerHTML = 
+                        `<strong>Balance:</strong> ${ethBalance} ETH`;
+
+                    console.log("Connected with Ethers.js:", address);
 
                 } catch (error) {
                     console.error(error);
