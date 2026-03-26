@@ -16,7 +16,7 @@ contract ParametricCropInsuranceTest is Test {
   string constant SEASON_START = "2025-06-01";
   string constant SEASON_END = "2025-09-30";
   uint256 constant START_TS = 1748736000;
-  unit256 constant END_TS = 1759276800;
+  uint256 constant END_TS = 1759276800;
 
   function setUp() public {
     vm.prank(owner);
