@@ -240,11 +240,11 @@ let provider;
               document.getElementById("packageSection").style.display = "none";
               document.getElementById("formSection").style.display = "none";
               document.getElementById("activePolicySection").style.display = "block";
-              const coverage = await contract.coverageAmount();
-              const threshold = await contract.rainfallThreshold();
-              const start = await contract.seasonStart();
-              const end = await contract.seaasonEnd();
-              const triggered = await contract.payoutTriggered();
+              const coverage = await policy.coverageAmount;
+              const threshold = await policy.rainfallThreshold;
+              const start = await policy.seasonStart;
+              const end = await policy.seaasonEnd;
+              const triggered = await policy.payoutTriggered;
 
               document.getElementById("activeFarmer").textContent = currentFarmer;
 
