@@ -128,7 +128,7 @@
   <p id="threshold" readonly></p>
 
   <label>Season Start Date (YYYY-MM-DD)</label>
-  <input type="text" id="startDate" value="2026-06-01">
+  <input type="text" id="startDate" >
 
 	```html
 <small style="color: #d32f2f; display: block; margin-top: 4px;">
@@ -139,7 +139,7 @@
 ```
 
   <label>Season End Date (YYYY-MM-DD)</label>
-  <p id="endDate" value="2026-09-30"></p>
+  <p id="endDate" ></p>
 
   <label>Premium to Pay (ETH) - Minimum 10% of Coverage</label>
   <p id="premium" step="0.01" min="0.05"></p>
@@ -198,6 +198,18 @@ let provider;
         }
         const pkg = CONFIG.packages[value];
 
+        const startDateInput = document.getElementById("startDate");
+        const endDateInput = document.getElementById("endDate");
+
+        if (!startDateInput.value) {
+          const today = new Date();
+          const formattedToday = today.toISOString().split('T')[0];
+          startDateInput.value = formattedToday;
+        }
+        updateEndDate(startDateInput, endDateInput);
+        startDateInput.addEventListener('change', function(){
+        updateEndDate(startDateInput, endDateInput);
+        });
         document.getElementById("packageTitle").textContent = pkg.name;
         document.getElementById("coverage").textContent = ethers.formatEther(pkg.coverage)+" ETH";
         document.getElementById("threshold").textContent = pkg.threshold + " mm";
@@ -288,6 +300,17 @@ let provider;
             alert(error);
             document.getElementById("packageSection").style.display = "block";
           }
+        }
+
+
+        function updateEndDate(startInput, endInput) {
+          if (!startInput.value ) return;
+          const startDate = new Date(startInput.value);
+          startDate.setMonth9startDate.getMonth() + 2);
+          const year = startDate.getFullYear();
+          const month = String(startDate.getMonth() + 1).padStart(2, '0');
+          const day = String(startDate.getDate()).padStart(2, '0');
+          endInput.value = `${year}-${month}-${day}`;
         }
 
 
