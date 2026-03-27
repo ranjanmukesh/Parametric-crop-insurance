@@ -237,7 +237,7 @@ let provider;
             const policy = await contract.getPolicy(userAddress);
             alert("timestamp "+policy.seasonStartTimestamp);
             const timestamp = policy.seasonStartTimestamp;
-            const hasActivePolicy = !timestamp.isZero();
+            const hasActivePolicy = timestamp !== 0n;
             if (hasActivePolicy){
               document.getElementById("packageSection").style.display = "none";
               document.getElementById("formSection").style.display = "none";
