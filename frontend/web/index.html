@@ -276,7 +276,7 @@ let provider;
          document.getElementById("formSection").style.display = "none";
          return;
         }
-        const pkg = CONGIG.packages[value];
+        const pkg = CONFIG.packages[value];
 
         document.getElementById("packageTitle").textContent = pkg.name;
         document.getElementById("coverage").textContent = ethers.formatEther(pkg.coverage+" ETH");
