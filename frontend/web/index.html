@@ -180,7 +180,7 @@ let provider;
             const response = await fetch('abi.json');
             if (!response.ok) throw new Error(`Failed to load abi json : ${response.status}`);
             const abiData = await response.json();
-            abi = Array.isArra(abiData)?abiData:(abiData.abi || abiData);
+            abi = Array.isArray(abiData)?abiData:(abiData.abi || abiData);
           } catch (error){
             alert("Failed to load abi"+error);
           }
