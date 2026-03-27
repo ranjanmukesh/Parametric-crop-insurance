@@ -75,12 +75,13 @@
       overflow: hidden;
     }
 
+    
     .shield-text {
       color: white;
-      font-size: clamp(28px, 9vw, 78px);
+      font-size: clamp(32px, 11vw, 82px);
       font-weight: 900;
-      letter-spacing: -3px;
-      text-transform: lowercase;   /* matches the image */
+      letter-spacing: -2px;
+      text-transform: lowercase;
       text-shadow: 
         3px 3px 0 #000,
         -2px -2px 0 #000,
@@ -89,6 +90,9 @@
       z-index: 2;
       text-align: center;
       line-height: 1;
+      width: 100%;
+      padding: 0 20px;           /* Helps spread the text */
+      word-spacing: 8px;         /* Adds space between letters for better spread */
     }
   </style>
 </head>
@@ -189,7 +193,6 @@ let provider;
         try{
         const select = document.getElementById("package");
         const value = select.value;
-        alert(value);
         if(!value){
          document.getElementById("formSection").style.display = "none";
          return;
@@ -268,7 +271,6 @@ let provider;
           }
           try{
             const policy = await contract.getPolicy(userAddress);
-            alert("timestamp "+policy.seasonStartTimestamp);
             const timestamp = policy.seasonStartTimestamp;
             const hasActivePolicy = timestamp !== 0n;
             if (hasActivePolicy){
@@ -302,7 +304,6 @@ let provider;
 
 
         function updateEndDate(startInput, endInput) {
-          alert(startInput+" "+endInput+" sv "+startInput.value+"ev  "+endInput.value);
           if (!startInput.value ) return;
           const startDate = new Date(startInput.value);
           startDate.setMonth(startDate.getMonth() + 2);
