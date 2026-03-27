@@ -187,6 +187,28 @@ let provider;
           }
         }
 
+      function selectPackage(){
+        try{
+        const select = document.getElementById("package");
+        const value = select.value;
+        alert(value);
+        if(!value){
+         document.getElementById("formSection").style.display = "none";
+         return;
+        }
+        const pkg = CONFIG.packages[value];
+
+        document.getElementById("packageTitle").textContent = pkg.name;
+        document.getElementById("coverage").textContent = ethers.formatEther(pkg.coverage+" ETH");
+        document.getElementById("thrshold").textContent = pkg.thrsshold+" mm";
+
+        const premumWei = (pkg.coverage * BigInt(Math.floor(pkg.premiumRate * 100))) / BigInt(100);
+
+        document.getElementById("formSection").style.display = "block";
+      } catch(error){
+        alert(error);
+      }
+      }
 
         async function connectWallet(){
             if (typeof window.ethereum !== "undefined") {
@@ -268,24 +290,7 @@ let provider;
           }
         }
 
-      function selectPackage(){
-        const select = document.getElementById("package");
-        const value = select.value;
-        alert(value);
-        if(!value){
-         document.getElementById("formSection").style.display = "none";
-         return;
-        }
-        const pkg = CONFIG.packages[value];
 
-        document.getElementById("packageTitle").textContent = pkg.name;
-        document.getElementById("coverage").textContent = ethers.formatEther(pkg.coverage+" ETH");
-        document.getElementById("thrshold").textContent = pkg.thrsshold+" mm";
-
-        const premumWei = (pkg.coverage * BigInt(Math.floor(pkg.premiumRate * 100))) / BigInt(100);
-
-        document.getElementById("formSection").style.display = "block";
-      }
 
     /* eslint-enable no-unused-vars */
          </script>
