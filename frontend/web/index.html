@@ -203,7 +203,7 @@ let provider;
         document.getElementById("threshold").textContent = pkg.threshold + " mm";
 
         const premumWei = (pkg.coverage * BigInt(Math.floor(pkg.premiumRate * 100))) / BigInt(100);
-
+        document.getElementById("premium").textContent = ethers.formatEther(premiumWei)+" ETH";
         document.getElementById("formSection").style.display = "block";
       } catch(error){
         alert(error);

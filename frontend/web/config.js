@@ -14,7 +14,7 @@
       premiumRate:0.11
     },
     high: {
-      name: "Higgh Protection",
+      name: "High Protection",
       coverage: ethers.parseEther("2.0"),
       threshold: 50,
       premiumRate: 0.10
