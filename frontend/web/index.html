@@ -181,8 +181,8 @@ let provider;
             if (!response.ok) throw new Error(`Failed to load abi json : ${response.status}`);
             const abiData = await response.json();
             abi = Array.isArra(abiData)?abiData:(abiData.abi || abiData);
-          } catch {
-            alert("Failed to load abi");
+          } catch (error){
+            alert("Failed to load abi"+error);
           }
         }
 
