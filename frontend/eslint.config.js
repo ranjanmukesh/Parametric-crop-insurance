@@ -12,7 +12,8 @@ export default [
       sourceType: "module",
       globals: {
         ...globals.browser,
-        ethers: "readonly"
+        ethers: "readonly",
+        CONFIG: "readonly"
       }
     },
     rules: {
