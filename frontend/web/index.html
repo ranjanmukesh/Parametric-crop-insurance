@@ -306,7 +306,7 @@ let provider;
         function updateEndDate(startInput, endInput) {
           if (!startInput.value ) return;
           const startDate = new Date(startInput.value);
-          startDate.setMonth9startDate.getMonth() + 2);
+          startDate.setMonth(startDate.getMonth() + 2);
           const year = startDate.getFullYear();
           const month = String(startDate.getMonth() + 1).padStart(2, '0');
           const day = String(startDate.getDate()).padStart(2, '0');
