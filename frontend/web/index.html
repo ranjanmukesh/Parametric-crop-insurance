@@ -175,6 +175,7 @@ let provider;
         let abi = [];
 
 
+
         async function loadABI(){
           try{
             const response = await fetch('abi.json');
@@ -266,6 +267,25 @@ let provider;
             document.getElementById("packageSection").style.display = "block";
           }
         }
+
+      function selectPackage(){
+        const select = document.getElementById("package");
+        const value = select.value;
+
+        if(!value){
+         document.getElementById("formSection").style.display = "none";
+         return;
+        }
+        const pkg = CONGIG.packages[value];
+
+        document.getElementById("packageTitle").textContent = pkg.name;
+        document.getElementById("coverage").textContent = ethers.formatEther(pkg.coverage)+" ETH");
+        document.getElementById("thrshold").textContent = pkg.thrsshold+" mm";
+
+        const premumWei = (pkg.coverage * BigInt(Math.floor(pkg.premiumRate * 100))) / BigInt(100);
+
+        document.getElementById("formSection").style.display = "block";
+      }
 
     /* eslint-enable no-unused-vars */
          </script>
