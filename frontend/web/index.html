@@ -279,7 +279,7 @@ let provider;
         const pkg = CONGIG.packages[value];
 
         document.getElementById("packageTitle").textContent = pkg.name;
-        document.getElementById("coverage").textContent = ethers.formatEther(pkg.coverage)+" ETH");
+        document.getElementById("coverage").textContent = ethers.formatEther(pkg.coverage+" ETH");
         document.getElementById("thrshold").textContent = pkg.thrsshold+" mm";
 
         const premumWei = (pkg.coverage * BigInt(Math.floor(pkg.premiumRate * 100))) / BigInt(100);
