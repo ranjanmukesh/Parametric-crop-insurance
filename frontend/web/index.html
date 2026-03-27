@@ -235,6 +235,7 @@ let provider;
           }
           try{
             const policy = await contract.getPolicy(userAddress);
+            alert("timestamp "+policy.seasonStartTimestamp);
             const hasActivePolicy = policy.seasonStartTimestamp !== 0;
             if (hasActivePolicy){
               document.getElementById("packageSection").style.display = "none";
