@@ -158,18 +158,18 @@
 </div>
 
 
+    <script src="config.js"></script>
     <script type = "module" >
     /* global ethers, window */
     /* exported connectWallet,selectPackage, buyPolicy */
     /* eslint-disable no-unused-vars */
 
-    import CONFIG from './config.js';
 
 let provider;
         let signer;
         let contract;
 
-        let contractAddress = "";// CONFIG.contractAddress;
+        let contractAddress =  CONFIG.contractAddress;
         let currentFarmer = null;
 
         const abi = [];
