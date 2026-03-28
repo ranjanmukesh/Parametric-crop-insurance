@@ -91,7 +91,7 @@
       color: white;
       font-size: 22cqw;
       font-weight: 900;
-      letter-spacing: -2px;
+      letter-spacing: 0;
       text-transform: lowercase;
       text-shadow: 
         3px 3px 0 #000,
@@ -102,8 +102,11 @@
       text-align: center;
       line-height: 1;
       width: 100%;
-      padding: 0 20px;           /* Helps spread the text */
+      padding: 0;           /* Helps spread the text */
       word-spacing: 8px;         /* Adds space between letters for better spread */
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   </style>
 </head>
@@ -142,7 +145,7 @@
   <label><strong>Rainfall Threshold (mm) - Trigger for payout</strong></label>
   <p id="threshold" readonly></p>
 
-  <label><strong>Season Start Date (YYYY-MM-DD)<strong></label>
+  <label><strong>Season Start Date (YYYY-MM-DD)</strong></label>
 
   <input type="text" id="startDate" >
 
