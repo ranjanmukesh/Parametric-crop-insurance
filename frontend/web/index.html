@@ -337,7 +337,7 @@ let provider;
           const pkgKey = packageSelect.value;
           const pkg = CONFIG.packages[pkgKey];
           const startDateInput = document.getElementById("startDate").value;
-          const endDateInput = document.getElementById("endDate").value;
+          const endDateInput = document.getElementById("endDate").textContent;
           const startTimestamp = Math.floor(new Date(startDateInput).getTime()/1000);
           const endTimestamp = Math.floor(new Date(endDateInput).getTime()/1000);
           
