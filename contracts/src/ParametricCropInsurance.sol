@@ -84,7 +84,7 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
 			FunctionsRequest.CodeLanguage.JavaScript,
 			javascriptSource
 		);
-		string[] memory args = new string[](2);
+		string[] memory args = new string[](4);
 		args[0] = "20.7984";
 		args[1] = "-156.3319";
 		args[2] = startDate;

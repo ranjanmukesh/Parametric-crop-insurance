@@ -76,13 +76,13 @@ jobs:
         run: jq '.abi' out/ParametricCropInsurance.sol/ParametricCropInsurance.json > ../../abi.json
 
 
-#      - name: Deploy 
-#        run: |
-#          forge script contracts/script/DeployInsurance.s.sol:DeployInsurance \
-#            --rpc-url $RPC_URL \
-#            --private-key ${{ secrets.PRIVATE_KEY }} \
-#            --broadcast \
-#            --verify \
-#            --etherscan-api-key ${{ secrets.POLYGONSCAN_API_KEY }} \
-#
+      - name: Deploy 
+        run: |
+          forge script contracts/script/DeployInsurance.s.sol:DeployInsurance \
+            --rpc-url $RPC_URL \
+            --private-key ${{ secrets.PRIVATE_KEY }} \
+            --broadcast \
+            --verify \
+            --etherscan-api-key ${{ secrets.POLYGONSCAN_API_KEY }} \
+
   
