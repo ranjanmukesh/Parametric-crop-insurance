@@ -352,7 +352,7 @@ let provider;
             endTimestamp,
             { value: premiumWei }
           );
-          gasLimitToUse = Math.ceil(Number(estimated) * 1.30);
+          gasLimitToUse = Math.ceil(Number(gasestimate) * 1.30);
           } catch {
             gasLimitToUse = 600000;
           }
