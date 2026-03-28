@@ -319,8 +319,10 @@ let provider;
           const packageSelect = document.getElementById("package");
           const pkgKey = packageSelect.value;
           const pkg = CONFIG.packages[pkgKey];
-          const startTimestamp = Math.floor(new Date(document.getElementById("startDate").value).getTime()/1000);
-          const endTimestamp = Math.floor(new Date(document.getElementById("endDate").value).getTime()/1000);
+          const startDateInput = document.getElementById("startDate").value;
+          const endDateInput = document.getElementById("endDate").value;
+          const startTimestamp = Math.floor(new Date(startDateInput).getTime()/1000);
+          const endTimestamp = Math.floor(new Date(endDateInput).getTime()/1000);
           
           const premiumDisplay = document.getElementById("premium").textContent;
           const premiumEth = premiumDisplay.replace("ETH","").trim();
@@ -335,6 +337,8 @@ let provider;
           const tx = await contract.buyPolicy(
           pkg.coverage,
           pkg.threshold,
+          startDateInput,
+          endDateInput,
           startTimestamp,
           endTimestamp,
           { value: premiumWei }
