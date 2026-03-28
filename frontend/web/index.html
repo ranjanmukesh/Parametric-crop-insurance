@@ -83,12 +83,13 @@
       align-items: center;
       justify-content: center;
       overflow: hidden;
+      container-type: inline-size;
     }
 
     
     .shield-text {
       color: white;
-      font-size: clamp(32px, 11vw, 82px);
+      font-size: 22cqw;
       font-weight: 900;
       letter-spacing: -2px;
       text-transform: lowercase;
@@ -323,7 +324,7 @@ let provider;
           const year = startDate.getFullYear();
           const month = String(startDate.getMonth() + 1).padStart(2, '0');
           const day = String(startDate.getDate()).padStart(2, '0');
-          endInput.value = `${year}-${month}-${day}`;
+          endInput.textContent = `${year}-${month}-${day}`;
         }
 
       async function buyPolicy(){
