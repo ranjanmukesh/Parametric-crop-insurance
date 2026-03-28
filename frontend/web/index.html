@@ -333,15 +333,17 @@ let provider;
           buyButton.textContent = "Processing...";
           buyButton.disabled = true;
 
-          alert("Buying policy with params: "+ "coverage "+ pkg.coverage.toString()+ " threshold "+pkg.threshold+" start "+startTimestamp+" end "+endTimestamp+" premium "+premiumWei.toString()+"Premium wei greater than min"+(premiumWei >= (pkg.coverage/10n)));
+          /*alert("Buying policy with params: "+ "coverage "+ pkg.coverage.toString()+ " threshold "+pkg.threshold+" start "+startTimestamp+" end "+endTimestamp+" premium "+premiumWei.toString()+"Premium wei greater than min"+(premiumWei >= (pkg.coverage/10n)));*/
           const minPremiumWei = pkg.coverage/10n;
 
           if(premiumWei < minPremiumWei){
-            alert("premium was low");
+            //alert("premium was low");
             premiumWei = minPremiumWei;
           }
 
-/*          const gasEstimate = await contract.buyPolicy.estimateGas(
+          let gasLimitToUse;
+          try{
+            const gasEstimate = await contract.buyPolicy.estimateGas(
             pkg.coverage,
             pkg.threshold,
             startDateInput,
@@ -350,8 +352,11 @@ let provider;
             endTimestamp,
             { value: premiumWei }
           );
-          alert("gas  estimate succeeded "+gasEstimate.toString());
-          */
+          gasLimitToUse = Math.ceil(Number(estimated) * 1.30);
+          } catch {
+            gasLimitToUse = 600000;
+          }
+          
           const tx = await contract.buyPolicy(
           pkg.coverage,
           pkg.threshold,
@@ -360,7 +365,7 @@ let provider;
           startTimestamp,
           endTimestamp,
           { value: premiumWei,
-            gasLimit: 600000
+            gasLimit: gasLimitToUse 
             }
           );
           document.getElementById("premium").innerHTML += "<small>(pending)</small>";
