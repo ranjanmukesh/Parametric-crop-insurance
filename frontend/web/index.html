@@ -334,6 +334,13 @@ let provider;
           buyButton.disabled = true;
 
           alert("Buying policy with params: "+ "coverage "+ pkg.coverage.toString()+ " threshold "+pkg.threshold+" start "+startTimestamp+" end "+endTimestamp+" premium "+premiumWei.toString()+"Premium wei greater than min"+premiumWei >= (pkg.coverage/10n));
+          const minPremiumWei = pkg.coverage/10n;
+
+          if(premiumWei < minPremiumWei){
+            alert("premium was low");
+            premiumWei = minPremiumWei;
+          }
+
           const gasEstimate = await contract.buyPolicy.estimateGas(
             pkg.coverage,
             pkg.threshold,
