@@ -333,7 +333,17 @@ let provider;
           buyButton.textContent = "Processing...";
           buyButton.disabled = true;
 
-          alert("Buying policy with params: "+ "coverage "+ pkg.coverage.toString()+ " threshold "+pkg.threshold+" start "+startTimestamp+" end "+endTimestamp+" premium "+premiumWei.toString());
+          alert("Buying policy with params: "+ "coverage "+ pkg.coverage.toString()+ " threshold "+pkg.threshold+" start "+startTimestamp+" end "+endTimestamp+" premium "+premiumWei.toString()+"Premium wei greater than min"+premiumWei >= (pkg.coverage/10n));
+          const gasEstimate = await contract.buyPolicy.estimateGas(
+            pkg.coverage,
+            pkg.threshold,
+            startDateInput,
+            endDateInput,
+            startTimestamp,
+            endTimestamp,
+            { value: premiumWei }
+          );
+          alert("gas  estimate succeeded "+gasEstimate.toString());
           const tx = await contract.buyPolicy(
           pkg.coverage,
           pkg.threshold,
