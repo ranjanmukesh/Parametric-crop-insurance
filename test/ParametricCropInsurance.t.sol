@@ -5,17 +5,16 @@ pragma solidity ^0.8.19;
 import "forge-std/Test.sol";
 import "../contracts/src/ParametricCropInsurance.sol";
 
-contract MockFunctionsRouter {
-  address public lastConsumer;
-  bytes public lastEncodedRequest;
-  uint64 public lastSubscriptionId;
-  uint32 public lastGasLimit;
-  bytes32 public lastDonId;
+contract ParametrcicCropInsuranceHarness is ParametricCropInsurance {
+  constructor(address router, bytes32 _donID, uint64 _subscriptionId)
+  ParametricCropInsurance(router, _donID, _subscriptionId)
+  ()
 
-
-bytes public simulatedResponse = abi.encode(uint256(420));
-
-bytes public simulatedErr;
+  function fulfillRequest(
+    bytes32 requestId,
+    bytes memory response,
+    bytes memory err
+  ) public override { super.fulfillrquest(requestId, response, err); } } contract MockFunctionsRouter { address public lastConsumer; bytes public lastEncodedRequest; uint64 public lastSubscriptionId; uint32 public lastGasLimit; bytes32 public lastDonId; bytes public simulatedResponse = abi.encode(uint256(420)); bytes public simulatedErr;
 
 function sendRequest(
   bytes calldata data,
@@ -29,15 +28,14 @@ function sendRequest(
   lastGasLimit = gasLimit;
   lastDonId = donId;
 
-  bytes32 requestId = keccak256(abi.encode(block.timestamp, msg.sender, data));
-
-  vm.prank(address(this));
-  ParametricCropInsurance(msg.sender).fulfillRequest(
+  ParametricCropInsuranceHarness(msg.sender).fulfillRequest(
     requestId,
     simulatedResponse,
     simulatedErr
-  );
+    ); 
+    bytes32 requestId = keccak256(abi.encode(block.timestamp, msg.sender, data));
   return requestId;
+
   }
   
   function setSimulatedResponse( bytes memory response, bytes memory err) external {
@@ -47,9 +45,9 @@ function sendRequest(
 }
 
 contract ParametricCropInsuranceTest is Test {
-  ParametricCropInsurance public insurance;
+  ParametricCropInsuranceHarness public insurance;
   MockFunctionsRouter public mockRouter;
-  address public owner = makeAddr("owner");
+    
   address public farmer = makeAddr("farmer");
 
   uint256 constant COVERAGE_AMOUNT = 1000 ether;
@@ -63,7 +61,7 @@ contract ParametricCropInsuranceTest is Test {
   function setUp() public {
     mockRouter = new MockFunctionsRouter();
     vm.prank(owner);
-    insurance = new ParametricCropInsurance(
+    insurance = new ParametricCropInsuranceHarness(
     address(mockRouter),
     bytes32(0),
     1
