@@ -80,7 +80,7 @@ contract ParametricCropInsuranceTest is Test {
     bytes32(0),
     1
 );
-  vm.stopPrank(owner);
+  vm.stopPrank();
   vm.deal(address(insurance), 5000 ether);
   }
 
