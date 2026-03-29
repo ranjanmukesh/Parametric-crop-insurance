@@ -133,7 +133,7 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
 			require(address(this).balance >= payout, "Insufficient Funds");
 			payable(farmerAddr).transfer(payout);
 			emit PayoutTriggered(farmerAddr, payout);
-		  _removeFromActive[farmerAddr];	
+		  _removeFromActive(farmerAddr);	
 		}
     delete requestToFarmer[requestId];
 	}
