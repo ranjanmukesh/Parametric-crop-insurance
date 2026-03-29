@@ -126,13 +126,14 @@ contract ParametricCropInsuranceTest is Test {
       END_TS
     );
 
-    vm.prank(owner);
+    vm.startPrank(owner);
     insurance.checkRainfallPeriod(
       farmer,
       insurance.jsSource(),
       SEASON_START,
       SEASON_END
     );
+    vm.stooPrank();
 
     assertEq(mockRouter.lastGasLimit(), insurance.gasLimit());
     assertEq(mockRouter.lastDonId(), bytes32(0));
