@@ -37,7 +37,7 @@ function sendRequest(
 ) external returns (bytes32) {
   lastConsumer = msg.sender;
   lastEncodedRequest = data;
-  uint64 subscriptionId;
+  lastSubscriptionId = subscriptionId;
   lastGasLimit = gasLimit;
   lastDonId = donId;
     
@@ -61,7 +61,7 @@ function sendRequest(
 contract ParametricCropInsuranceTest is Test {
   ParametricCropInsuranceHarness public insurance;
   MockFunctionsRouter public mockRouter;
-    
+  address public owner = makeAddr("owner");  
   address public farmer = makeAddr("farmer");
 
   uint256 constant COVERAGE_AMOUNT = 1000 ether;
