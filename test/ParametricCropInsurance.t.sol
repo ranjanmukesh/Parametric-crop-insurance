@@ -74,12 +74,13 @@ contract ParametricCropInsuranceTest is Test {
 
   function setUp() public {
     mockRouter = new MockFunctionsRouter();
-    vm.prank(owner);
+    vm.startPrank(owner);
     insurance = new ParametricCropInsuranceHarness(
     address(mockRouter),
     bytes32(0),
     1
 );
+  vm.stopPrank(owner);
   vm.deal(address(insurance), 5000 ether);
   }
 
