@@ -31,12 +31,18 @@ function sendRequest(
 
   bytes32 requestId = keccak256(abi.encode(block.timestamp, msg.sender, data));
 
+  vm.prank(address(this));
   ParametricCropInsurance(msg.sender).fulfillRequest(
     requestId,
     simulatedResponse,
     simulatedErr
   );
   return requestId;
+  }
+  
+  function setSimulatedResponse( bytes memory response, bytes memory err) external {
+    simulatedResponse = response;
+    simulatedErr = err;
   }
 }
 
