@@ -27,13 +27,14 @@ function sendRequest(
   uint64 subscriptionId;
   lastGasLimit = gasLimit;
   lastDonId = donId;
+    
+  bytes32 requestId = keccak256(abi.encode(block.timestamp, msg.sender, data));
 
   ParametricCropInsuranceHarness(msg.sender).fulfillRequest(
     requestId,
     simulatedResponse,
     simulatedErr
     ); 
-    bytes32 requestId = keccak256(abi.encode(block.timestamp, msg.sender, data));
   return requestId;
 
   }
