@@ -5,8 +5,44 @@ pragma solidity ^0.8.19;
 import "forge-std/Test.sol";
 import "../contracts/src/ParametricCropInsurance.sol";
 
+contract MockFunctionsRouter {
+  address public lastConsumer;
+  bytes public lastEncodedRequest;
+  uint64 public lastSubscriptionId;
+  uint32 public lastGasLimit;
+  bytes32 public lastDonId;
+
+
+bytes public simulatedResponse = abi.encode(uint256(420));
+
+bytes public simulatedErr;
+
+function sendRequest(
+  bytes calldata data;
+  uint64 subscriptionId,
+  uint32 gasLimit,
+  bytes32 donId
+) external returns (bytes32) {
+  lastConsumer = msg.sender;
+  lastEncodedRequest = data;
+  uint64 subscriptionId;
+  lastGasLimit = gasLimit;
+  lastDonId = donId;
+
+  bytes32 requestId = keccak256(abi.encode(block.timestamp, msg.sender, data);
+
+  ParametricCropInsurance(msg.sender).fulfillRequest(
+    requestId,
+    simulatedResponse,
+    simulatedErr
+  );
+  return requestId;
+  }
+}
+
 contract ParametricCropInsuranceTest is Test {
   ParametricCropInsurance public insurance;
+  MockFunctionsRouter public mockRouter;
   address public owner = makeAddr("owner");
   address public farmer = makeAddr("farmer");
 
@@ -19,9 +55,10 @@ contract ParametricCropInsuranceTest is Test {
   uint256 constant END_TS = 1759276800;
 
   function setUp() public {
+    mockRouter = new MockFunctionsRouter();
     vm.prank(owner);
     insurance = new ParametricCropInsurance(
-    address(0x123),
+    address(mockRouter),
     bytes32(0),
     1
 );
@@ -55,6 +92,38 @@ contract ParametricCropInsuranceTest is Test {
     assertEq(insurance.totalPremiumCollected(), PREMIUM);
 
 
+  }
+
+
+  function test_CheckRainfallPeriod_ChainlinkFunctions_Success() public {
+    vm.deal(farmer, PREMIUM);
+    vm.prank(farmer);
+    insurance.buyPolicy{value: PREMIUM}(
+      COVERAGE_AMOUNT,
+      RAINFALL_THRESHOLD,
+      SEASON_START,
+      SEASON_END,
+      START_TS,
+      END_TS
+    );
+
+    vm.prank(owner);
+    insurance.checkRainfallPeriod(
+      farmer,
+      insurance.jsSource(),
+      SEASON_START,
+      SEASON_END
+    );
+
+    assertEq(mockRouter.lastGasLimit(), insurance.gasLimit());
+    assertEq(mockRouter.lastDonId(), bytes32(0));
+
+    ParametricCropInsurance.Policy memory policy = insurance.getPolicy(farmer);
+
+    assertEq(policy.measuredRainfall, 420);
+    assertTrue(policy.payoutTriggered);
+
+    assertEq(address(farmer).balance, PREMIUM + COVERAGE_AMOUNT);
   }
 }
 
