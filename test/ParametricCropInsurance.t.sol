@@ -133,7 +133,7 @@ contract ParametricCropInsuranceTest is Test {
       SEASON_START,
       SEASON_END
     );
-    vm.stooPrank();
+    vm.stopPrank();
 
     assertEq(mockRouter.lastGasLimit(), insurance.gasLimit());
     assertEq(mockRouter.lastDonId(), bytes32(0));
