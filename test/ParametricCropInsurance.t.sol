@@ -8,7 +8,7 @@ import "../contracts/src/ParametricCropInsurance.sol";
 contract ParametrcicCropInsuranceHarness is ParametricCropInsurance {
   constructor(address router, bytes32 _donID, uint64 _subscriptionId)
   ParametricCropInsurance(router, _donID, _subscriptionId)
-  ()
+  {}
 
   function fulfillRequest(
     bytes32 requestId,
