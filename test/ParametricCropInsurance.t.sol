@@ -29,7 +29,7 @@ function sendRequest(
   lastGasLimit = gasLimit;
   lastDonId = donId;
 
-  bytes32 requestId = keccak256(abi.encode(block.timestamp, msg.sender, data);
+  bytes32 requestId = keccak256(abi.encode(block.timestamp, msg.sender, data));
 
   ParametricCropInsurance(msg.sender).fulfillRequest(
     requestId,
