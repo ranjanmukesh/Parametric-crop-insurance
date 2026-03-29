@@ -18,7 +18,7 @@ bytes public simulatedResponse = abi.encode(uint256(420));
 bytes public simulatedErr;
 
 function sendRequest(
-  bytes calldata data;
+  bytes calldata data,
   uint64 subscriptionId,
   uint32 gasLimit,
   bytes32 donId
