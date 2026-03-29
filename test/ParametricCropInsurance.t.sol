@@ -14,7 +14,7 @@ contract ParametricCropInsuranceHarness is ParametricCropInsurance {
     bytes32 requestId,
     bytes memory response,
     bytes memory err
-  ) public override { 
+  ) internal override { 
     super.fulfillRequest(requestId, response, err);
     } 
   } 
