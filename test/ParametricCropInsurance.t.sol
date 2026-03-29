@@ -14,7 +14,20 @@ contract ParametrcicCropInsuranceHarness is ParametricCropInsurance {
     bytes32 requestId,
     bytes memory response,
     bytes memory err
-  ) public override { super.fulfillrquest(requestId, response, err); } } contract MockFunctionsRouter { address public lastConsumer; bytes public lastEncodedRequest; uint64 public lastSubscriptionId; uint32 public lastGasLimit; bytes32 public lastDonId; bytes public simulatedResponse = abi.encode(uint256(420)); bytes public simulatedErr;
+  ) public override { 
+    super.fulfillrquest(requestId, response, err);
+    } 
+  } 
+
+contract MockFunctionsRouter 
+{ 
+  address public lastConsumer; 
+  bytes public lastEncodedRequest; 
+  uint64 public lastSubscriptionId; 
+  uint32 public lastGasLimit; 
+  bytes32 public lastDonId; 
+  bytes public simulatedResponse = abi.encode(uint256(420)); 
+  bytes public simulatedErr;
 
 function sendRequest(
   bytes calldata data,
