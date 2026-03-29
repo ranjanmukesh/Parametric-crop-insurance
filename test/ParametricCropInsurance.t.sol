@@ -10,11 +10,11 @@ contract ParametricCropInsuranceHarness is ParametricCropInsurance {
   ParametricCropInsurance(router, _donID, _subscriptionId)
   {}
 
-  function fulfillRequest(
+  function fulfillRequestTest(
     bytes32 requestId,
     bytes memory response,
     bytes memory err
-  ) internal override { 
+  ) external { 
     super.fulfillRequest(requestId, response, err);
     } 
   } 
@@ -43,7 +43,7 @@ function sendRequest(
     
   bytes32 requestId = keccak256(abi.encode(block.timestamp, msg.sender, data));
 
-  ParametricCropInsuranceHarness(msg.sender).fulfillRequest(
+  ParametricCropInsuranceHarness(msg.sender).fulfillRequestTest(
     requestId,
     simulatedResponse,
     simulatedErr
