@@ -5,7 +5,7 @@ pragma solidity ^0.8.19;
 import "forge-std/Test.sol";
 import "../contracts/src/ParametricCropInsurance.sol";
 
-contract ParametrcicCropInsuranceHarness is ParametricCropInsurance {
+contract ParametricCropInsuranceHarness is ParametricCropInsurance {
   constructor(address router, bytes32 _donID, uint64 _subscriptionId)
   ParametricCropInsurance(router, _donID, _subscriptionId)
   {}
