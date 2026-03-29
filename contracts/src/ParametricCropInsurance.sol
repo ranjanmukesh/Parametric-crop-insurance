@@ -26,6 +26,8 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
 	bytes32 public donID;
 	uint64 public subscriptionId;
 	uint32 public gasLimit = 300_000;
+  address[] public activeFarmers;
+  mapping(address => uint256) public farmerIndex;
 
   mapping(address => Policy) public policies;
   mapping(bytes32 => address) public requestToFarmer;
@@ -64,9 +66,26 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
     policy.lastChecked = block.timestamp;
     policy.checkInterval = 1 days;
 
+    activeFarmers.push(msg.sender);
+    farmerIndex[msg.sender] = activeFarmers.length;
+
 		emit PolicyPurchased(msg.sender, msg.value, _coverageAmount, _threshold);
 		
 	}
+
+  function _removeFromActive(address _farmer) internal {
+    uint256 index = farmerIndex[_farmer];
+    if (index == 0) return;
+
+    uint256 lastIndex = activeFarmers.length - 1;
+    address lastFarmer = activeFarmers[lastIndex];
+    activeFarmers[index-1] = lastFarmer;
+    farmerIndex[lastFarmer] = index;
+
+    activeFarmers.pop();
+
+    delete farmerIndex[_farmer];
+  }
 
 	function fundPayout() external payable onlyOwner {}
 
@@ -114,7 +133,7 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
 			require(address(this).balance >= payout, "Insufficient Funds");
 			payable(farmerAddr).transfer(payout);
 			emit PayoutTriggered(farmerAddr, payout);
-			
+		  _removeFromActive[farmerAddr);	
 		}
     delete requestToFarmer[requestId];
 	}
