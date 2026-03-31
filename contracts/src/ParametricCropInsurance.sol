@@ -92,7 +92,7 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
       msg.value, 
       _coverageAmount, 
       _droughtThreshold,
-      _excessrainThreshold,
+      _excessRainThreshold,
       _expectedRainfall,
       _seasonStart,
       _seasonEnd
