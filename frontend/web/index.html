@@ -337,7 +337,7 @@ let provider;
           const pkgKey = packageSelect.value;
           const pkg = CONFIG.packages[pkgKey];
           const startDateInput = document.getElementById("startDate").value;
-          oonst startMonth = parseInt(startDateInput.split('-')[1]);
+          const startMonth = parseInt(startDateInput.split('-')[1]);
           let expectedRainfall;
           if(startMonth >= 5 &7 startMonth <= 10){
             expectedRainfall = 90n;
