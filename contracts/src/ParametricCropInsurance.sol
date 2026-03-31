@@ -34,7 +34,16 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
 
   mapping(address => Policy) public policies;
   mapping(bytes32 => address) public requestToFarmer;
-	event PolicyPurchased(address indexed farmer, uint256 premium, uint256 coverage, uint256 threshold);
+	event PolicyPurchased(
+    address indexed farmer, 
+    uint256 premium, 
+    uint256 coverage, 
+    uint256 droughtThreshold,
+    uint256 excessRainThreshold,
+    uint256 expectedRainfall,
+    string seasonStart,
+    string seasonEnd
+    );
 	event RainfallChecked(uint256 totalRainfallMm);
 	event PayoutTriggered(address indexed farmer, uint256 amount);
   event RequestFailed(bytes32 indexed requestId, string errorMessage);
@@ -78,7 +87,16 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
     activeFarmers.push(msg.sender);
     farmerIndex[msg.sender] = activeFarmers.length;
 
-		emit PolicyPurchased(msg.sender, msg.value, _coverageAmount, _threshold);
+		emit PolicyPurchased(
+      msg.sender, 
+      msg.value, 
+      _coverageAmount, 
+      _droughtThreshold,
+      _excessrainThreshold,
+      _expectedRainfall,
+      _seasonStart,
+      _seasonEnd
+      );
 		
 	}
 
