@@ -72,7 +72,7 @@ jobs:
         run: forge test -vvv
 
       - name: Generate ABI for frontend
-        #working-directory: ./contracts
+        working-directory: ./contracts
         run: jq '.abi' out/ParametricCropInsurance.sol/ParametricCropInsurance.json > ../../abi.json
 
 			- name: Echo ABI + Contract Info
