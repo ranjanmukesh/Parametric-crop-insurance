@@ -74,7 +74,7 @@ jobs:
       - name: Generate ABI for frontend
         #working-directory: ./contracts
         run: |
-          jq '.abi' out/ParametricCropInsurance.sol/ParametricCropInsurance.json > ../../abi_latest.json
+          jq '.abi' out/ParametricCropInsurance.sol/ParametricCropInsurance.json > ../abi_latest.json
           git config user.name "GitHub Actions"
           git add ../../abi_latest.json
           git commit -m "CI:  commit latest abi [skip ci]" || echo "Nothing to commit"
