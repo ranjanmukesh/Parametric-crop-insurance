@@ -66,7 +66,12 @@ contract ParametricCropInsuranceTest is Test {
 
   uint256 constant COVERAGE_AMOUNT = 1000 ether;
   uint256 constant PREMIUM = 100 ether;
-  uint256 constant RAINFALL_THRESHOLD = 500;
+  uint256 constant LOW_DROUGHT_THRESHOLD = 650;
+  uint256 constant LOW_EXCESS_THRESHOLD - 1600;
+  uint256 constant MED_DROUGHT_THRESHOLD = 750;
+  uint256 constant MED_EXCESS_THRESHOLD = 1400;
+  uint256 constant HIGH_DROUGHT_THRESHOLD = 850;
+  uint256 constant HIGH_EXCESS_THRESHOLD,
   string constant SEASON_START = "2025-06-01";
   string constant SEASON_END = "2025-09-30";
   uint256 constant START_TS = 1748736000;
