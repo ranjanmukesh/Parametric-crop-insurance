@@ -161,7 +161,7 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
     bool shouldPayout = false;
     uint256 payoutAmount = 0;
     if (policy.rainfallIndex < policy.droughtThreshold && !payoutTriggered){
-      shouldPayout = tru;
+      shouldPayout = true;
       uint256 factor = (policy.droughtThreshold - policy.rainfallIndex) * 1000 / (policy.droughtThreshold * 750);
       payoutAmount = (policy.coverageAmount * factor) / 1000;
     }
