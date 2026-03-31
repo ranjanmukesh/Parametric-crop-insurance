@@ -75,7 +75,19 @@ jobs:
         #working-directory: ./contracts
         run: jq '.abi' out/ParametricCropInsurance.sol/ParametricCropInsurance.json > ../../abi.json
 
-
+			- name: Echo ABI + Contract Info
+        run: |
+          echo "=================================================================="
+          echo "🚀 DEPLOYMENT SUCCESSFUL"
+          echo "Contract Address : ${{ steps.deploy.outputs.CONTRACT_ADDRESS }}"
+          echo "Explorer URL     : https://sepolia.basescan.org/address/${{ steps.deploy.outputs.CONTRACT_ADDRESS }}"
+          echo "=================================================================="
+          echo ""
+          echo "📋 FULL ABI (copy this):"
+          echo "=================================================================="
+          jq '.' frontend/src/abi/ParametricCropInsurance.json
+          echo ""
+          echo "=================================================================="
       - name: Deploy 
         run: |
           forge script contracts/script/DeployInsurance.s.sol:DeployInsurance \
