@@ -1,5 +1,5 @@
  const CONFIG = {
-  contractAddress: "0xe39e6577Ed0F8A3E79a23DaF871e4cEDB72c0f85",
+  contractAddress: "0x47acec90BF5baD02a81030aF4A48681B04deED4D",
   packages: {
     low: {
       name: "Low Protection",
