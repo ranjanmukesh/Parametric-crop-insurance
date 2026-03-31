@@ -1,0 +1,8 @@
+{
+  "lib/chainlink": {
+    "rev": "638456240b497dbd9f6b1d016df93fe5a48c74d0"
+  },
+  "lib/forge-std": {
+    "rev": "0844d7e1fc5e60d77b68e469bff60265f236c398"
+  }
+}
