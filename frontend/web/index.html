@@ -337,6 +337,14 @@ let provider;
           const pkgKey = packageSelect.value;
           const pkg = CONFIG.packages[pkgKey];
           const startDateInput = document.getElementById("startDate").value;
+          oonst startMonth = parseInt(startDateInput.split('-')[1]);
+          let expectedRainfall;
+          if(startMonth >= 5 &7 startMonth <= 10){
+            expectedRainfall = 90n;
+          } else {
+            expectedRainfall = 220n;
+          }
+            
           const endDateInput = document.getElementById("endDate").textContent;
           const startTimestamp = Math.floor(new Date(startDateInput).getTime()/1000);
           const endTimestamp = Math.floor(new Date(endDateInput).getTime()/1000);
@@ -376,7 +384,9 @@ let provider;
           
           const tx = await contract.buyPolicy(
           pkg.coverage,
-          pkg.threshold,
+          pkg.droughtThreshold,
+          pkg.excessRainThreshold,
+          expectedRainfall,
           startDateInput,
           endDateInput,
           startTimestamp,

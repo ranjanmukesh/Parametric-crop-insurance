@@ -81,7 +81,7 @@ contract ParametricCropInsuranceTest is Test {
     1
 );
   vm.stopPrank();
-  vm.deal(address(insurance), 5000 ether);
+  vm.deal(address(insurance), 10000 ether);
   }
 
   function test_BuyPolicy_Success() public {
@@ -90,7 +90,9 @@ contract ParametricCropInsuranceTest is Test {
     
     insurance.buyPolicy{value: PREMIUM}(
       COVERAGE_AMOUNT,
-      RAINFALL_THRESHOLD,
+      MED_DROUGHT_THRESHOLD,
+      MED_EXCESS_THRESHOLD,
+      EXPECTED_RAINFALL,
       SEASON_START,
       SEASON_END,
       START_TS,
@@ -99,13 +101,16 @@ contract ParametricCropInsuranceTest is Test {
     ParametricCropInsurance.Policy memory policy = insurance.getPolicy(farmer);
 
     assertEq(policy.coverageAmount, COVERAGE_AMOUNT);
-    assertEq(policy.rainfallThreshold, RAINFALL_THRESHOLD);
+    assertEq(policy.droughtThreshold, MED_DROUGHT_THRESHOLD);
+    assertEq(policy.excessRainThreshold, MED_EXCESS_THRESHOLD);
+    assertEq(policy.expectedRainfall, EXPECTED_RAINFALL);
     assertEq(policy.seasonStart, SEASON_START);
     assertEq(policy.seasonEnd, SEASON_END);
     assertEq(policy.seasonStartTimestamp, START_TS);
     assertEq(policy.seasonEndTimestamp, END_TS);
     assertFalse(policy.payoutTriggered);
     assertEq(policy.measuredRainfall, 0);
+    assertEq(policy.rainfallIndex, 0);
     assertGt(policy.lastChecked, 0);
     assertEq(policy.checkInterval, 1 days);
     assertEq(insurance.totalPremiumCollected(), PREMIUM);
@@ -119,7 +124,9 @@ contract ParametricCropInsuranceTest is Test {
     vm.prank(farmer);
     insurance.buyPolicy{value: PREMIUM}(
       COVERAGE_AMOUNT,
-      RAINFALL_THRESHOLD,
+      MED_DROUGHT_THRESHOLD,
+      MED_EXCESS_THRESHOLD,
+      EXPECTED_RAINFALL,
       SEASON_START,
       SEASON_END,
       START_TS,
@@ -127,6 +134,8 @@ contract ParametricCropInsuranceTest is Test {
     );
 
     vm.startPrank(owner);
+    uint256 simulatedMeasured = 30;
+    bytes memory simulatedResponse = abi.encode(simulatedMeasured);
     insurance.checkRainfallPeriod(
       farmer,
       insurance.jsSource(),
@@ -140,10 +149,11 @@ contract ParametricCropInsuranceTest is Test {
 
     ParametricCropInsurance.Policy memory policy = insurance.getPolicy(farmer);
 
-    assertEq(policy.measuredRainfall, 420);
+    assertEq(policy.measuredRainfall simulatedMeasured);
+    assertGt(policy.rainfallIndex, 0);
     assertTrue(policy.payoutTriggered);
 
-    assertEq(address(farmer).balance, PREMIUM + COVERAGE_AMOUNT);
+    assertEq(address(farmer).balance, PREMIUM);
   }
 }
 

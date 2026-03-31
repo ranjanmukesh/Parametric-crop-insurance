@@ -11,8 +11,11 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
 	using FunctionsRequest for FunctionsRequest.Request;	
   struct Policy{
     uint256  coverageAmount;
-    uint256  rainfallThreshold;
-    uint256  measuredRainfall;
+    uint256 droughtThreshold;
+    uint256 excessRainThreshold;
+    uint256 expectedRainfall;
+    uint256 measuredRainfall;
+    uint256 rainfallIndex;
     bool  payoutTriggered;
     uint256  lastChecked;
     uint256  checkInterval;
@@ -47,7 +50,11 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
 	}	
 
 
-	function buyPolicy(uint256 _coverageAmount, uint256 _threshold,
+	function buyPolicy(
+       uint256 _coverageAmount,
+       uint256 _droughtThreshold,
+       uint256 _excessRainThreshold,
+       uint256 _expectedRainfall,
 		   string calldata _seasonStart,
 		   string calldata _seasonEnd,
 		   uint256 _seasonStartTimestamp,
@@ -58,7 +65,9 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
     Policy storage policy = policies[msg.sender];
     totalPremiumCollected += msg.value;
     policy.coverageAmount = _coverageAmount;
-    policy.rainfallThreshold = _threshold;
+    policy.droughtThreshold = _droughtThreshold; 
+    policy.excessRainThreshold = _excessRainThreshold;
+    policy.expectedRainfall = _expectedRainfall;
     policy.seasonStart = _seasonStart;
     policy.seasonEnd = _seasonEnd;
     policy.seasonStartTimestamp = _seasonStartTimestamp;
@@ -125,8 +134,26 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
     Policy storage policy = policies[farmerAddr];
 		policy.measuredRainfall = abi.decode(response, (uint256));
 		emit RainfallChecked(policy.measuredRainfall);
+    if(policy.expectedRainfall == 0){
+      delete requestToFarmer[requestId];
+      return;
+    }
 
-		if(policy.measuredRainfall < policy.rainfallThreshold && !policy.payoutTriggered){
+    policy.rainfallIndex = (policy.measuredRainfall * 1000) / policy.expectedRainfall;
+    bool shouldPayout = false;
+    uint256 payoutAmount = 0;
+    if (policy.rainfallIndex < policy.droughtThreshold && !payoutTriggered){
+      shouldPayout = tru;
+      uint256 factor = (policy.droughtThreshold - policy.rainfallIndex) * 1000 / (policy.droughtThreshold * 750);
+      payoutAmount = (policy.coverageAmount * factor) / 1000;
+    }
+    else if (policy.rainfallIndex > policy.excessRainThreshold && !policy.payoutTriggered){
+      shouldPayout = true;
+      uint256 factor = (policy.rainfallIndex - policy.excessRainThreshold) * 1000 / ((2000 - policy.excessRainthrshold)*750);
+      payoutAmount = (policy.coverageAmount * factor) / 1000;
+    }
+		if(shouldPayout){
+      if (payoutAmount > policy.coverageAmount) payoutAmount = policy.coverageAmount;
 
 			policy.payoutTriggered = true;
 			uint256 payout = policy.coverageAmount;
