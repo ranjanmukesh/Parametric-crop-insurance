@@ -149,7 +149,7 @@ contract ParametricCropInsuranceTest is Test {
 
     ParametricCropInsurance.Policy memory policy = insurance.getPolicy(farmer);
 
-    assertEq(policy.measuredRainfall simulatedMeasured);
+    assertEq(policy.measuredRainfall, simulatedMeasured);
     assertGt(policy.rainfallIndex, 0);
     assertTrue(policy.payoutTriggered);
 
