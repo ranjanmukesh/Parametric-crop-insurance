@@ -30,7 +30,7 @@ contract MockFunctionsRouter
   bytes public simulatedErr;
 
 function sendRequest(
-  bytes calldata data,
+  bytes memory data,
   uint64 subscriptionId,
   uint32 gasLimit,
   bytes32 donId
