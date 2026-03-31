@@ -76,7 +76,7 @@ jobs:
         run: |
           jq '.abi' out/ParametricCropInsurance.sol/ParametricCropInsurance.json > ../../abi_latest.json
           git config user.name "GitHub Actions"
-          git add .
+          git add ../../abi_latest.json
           git commit -m "CI:  commit latest abi [skip ci]" || echo "Nothing to commit"
           git push || echo "Push failed"
 
