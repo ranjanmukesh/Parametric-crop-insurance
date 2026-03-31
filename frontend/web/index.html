@@ -370,7 +370,9 @@ let provider;
           try{
             const gasEstimate = await contract.buyPolicy.estimateGas(
             pkg.coverage,
-            pkg.threshold,
+            pkg.droughtThreshold,
+            pkg.excessRainThreshold,
+            expectedRainfall,
             startDateInput,
             endDateInput,
             startTimestamp,
