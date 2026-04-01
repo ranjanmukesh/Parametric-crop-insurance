@@ -231,7 +231,8 @@ let provider;
         });
         document.getElementById("packageTitle").textContent = pkg.name;
         document.getElementById("coverage").textContent = ethers.formatEther(pkg.coverage)+" ETH";
-        document.getElementById("threshold").textContent = pkg.threshold + " mm";
+        document.getElementById("droughtThreshold").textContent = pkg.droughtThreshold + " mm";
+        document.getElementById("excessRainThreshold").textContent = pkg.excessRainThreshold + " mm";
 
         const premiumWei = (pkg.coverage * BigInt(Math.floor(pkg.premiumRate * 100))) / BigInt(100);
         document.getElementById("premium").textContent = ethers.formatEther(premiumWei)+" ETH";
