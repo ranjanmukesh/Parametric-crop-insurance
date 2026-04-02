@@ -1,4 +1,5 @@
  const CONFIG = {
+  desiredChainId = 11155111,
   contractAddress: "0x49743DA10682610E9a4B6B4B5AdCa647d527818a",
   packages: {
     low: {

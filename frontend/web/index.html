@@ -207,6 +207,26 @@ let provider;
           }
         }
 
+      async function checkAndSwitchNetwork(){
+        const network = await provider.getNetwork();
+        const currentChainId = Number(network.chainId);
+        if(currentChainId !== CONFIG.desiredChainId){
+          try{
+            await window.ethereum.request({
+            method: 'wallet_switchEthereumChain',
+
+            params: [{ chainId: '0x'+ CONFIG.desiredChainId.toString(16)
+            }
+          ]
+            });
+          } catch(error) {
+            alert("please manually swich your account");
+          }
+          return false;
+        }
+        return true;
+      }
+
       function selectPackage(){
         try{
         const select = document.getElementById("package");
@@ -253,6 +273,8 @@ let provider;
                     await provider.send("eth_requestAccounts", []);
                     
                     signer = await provider.getSigner();
+                    const isCorrectNetwork = await checkAndSwitchNetwork();
+                    if(!isCurrentNetwork) return;
                     const address = await signer.getAddress();
 
                     currentFarmer = address;
