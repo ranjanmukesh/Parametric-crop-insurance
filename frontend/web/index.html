@@ -295,6 +295,7 @@ let provider;
             let policy;
             try{
 
+              alert(userAddress);
               policy = await contract.getPolicy(userAddress);
             } catch (error)
             {
@@ -311,7 +312,7 @@ let provider;
               const droughtThreshold = await policy.droughtThreshold;
               const excessRainThreshold = await policy.excessRainThreshold;
               const start = await policy.seasonStart;
-              const end = await policy.seaasonEnd;
+              const end = await policy.seasonEnd;
               const triggered = await policy.payoutTriggered;
 
               document.getElementById("activeFarmer").textContent = currentFarmer;
