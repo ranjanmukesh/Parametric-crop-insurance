@@ -274,7 +274,7 @@ let provider;
                     
                     signer = await provider.getSigner();
                     const isCorrectNetwork = await checkAndSwitchNetwork();
-                    if(!isCurrentNetwork) return;
+                    if(!isCorrectNetwork) return;
                     const address = await signer.getAddress();
 
                     currentFarmer = address;
