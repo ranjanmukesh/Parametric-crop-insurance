@@ -265,7 +265,7 @@
         async function connectWallet(){
             if (typeof window.ethereum !== "undefined") {
                 try {
-                      if ( abi.length === 0 ) {
+                      if ( !abi ) {
                       await loadABI();
                       }
                       provider = new ethers.BrowserProvider(window.ethereum);
