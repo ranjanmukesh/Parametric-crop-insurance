@@ -291,10 +291,17 @@ let provider;
             return;
           }
           try{
-            const policy = await contract.getPolicy(userAddress);
+            let hasActivePolicy;
+            try{
+
+              const policy = await contract.getPolicy(userAddress);
+            } catch
+            {
+              hasActivePolicy = false;
+            }
+            if (hasActivePolicy){
             const timestamp = policy.seasonStartTimestamp;
             const hasActivePolicy = timestamp !== 0n;
-            if (hasActivePolicy){
               document.getElementById("packageSection").style.display = "none";
               document.getElementById("formSection").style.display = "none";
               document.getElementById("activePolicySection").style.display = "block";
