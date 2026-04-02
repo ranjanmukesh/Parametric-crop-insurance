@@ -296,8 +296,9 @@ let provider;
             try{
 
               policy = await contract.getPolicy(userAddress);
-            } catch
+            } catch (error)
             {
+              alert(error);
               hasActivePolicy = false;
             }
             if (hasActivePolicy){
