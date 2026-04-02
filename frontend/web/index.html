@@ -292,9 +292,10 @@ let provider;
           }
           try{
             let hasActivePolicy;
+            let policy;
             try{
 
-              const policy = await contract.getPolicy(userAddress);
+              policy = await contract.getPolicy(userAddress);
             } catch
             {
               hasActivePolicy = false;
