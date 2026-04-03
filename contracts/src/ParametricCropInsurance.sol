@@ -47,6 +47,9 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
 	event RainfallChecked(uint256 totalRainfallMm);
 	event PayoutTriggered(address indexed farmer, uint256 amount);
   event RequestFailed(bytes32 indexed requestId, string errorMessage);
+  event SubscriptionIdUpdated(uint64 oldId, uint64 newId);
+  event DonIdUpdated(bytes32 oldDonId, bytes32 newDonId);
+  event GasLimitUpdated(uint32 oldGasLimit, uint32 newGasLimit);
 
 	constructor(address router, bytes32 _donID, uint64 _subscriptionId) 
 	FunctionsClient(router)
@@ -58,7 +61,26 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
 		
 	}	
 
+  function setSubscriptionId(uint64 _newSubscriptionId) external onlyOwner {
+    require(_newSubscriptionId != 0, "Invalid subscription ID");
+    uint64 oldId = subscripyionId;
+    subscriptionId = _newSubscriptionId;
+    emit SubscriptionIdUpdated(oldId, _newSubscriptionId);
+  }
 
+
+  function setDonId(bytes32 _newDonId) external onlyOwner {
+    require(_newDonId != bytes32(0), "Invalid DON ID");
+    bytes32 oldDonId = donID;
+    donID = _newDonId;
+    emit SonIdUpdated(oldDonId, _newDonId);
+  }
+
+  function setGasLimit(uint32 _newGasLimit) external onlyOwner {
+    require(_newGasLimit >= 100000 && _newGasLimit <= 500000, "Gas limit must be between 100k and 500k");
+    uint32 oldGasLimit = gasLimit;
+    emit GasLimitUpdated(oldGasLimit, _newGasLimit);
+  }
 	function buyPolicy(
        uint256 _coverageAmount,
        uint256 _droughtThreshold,
