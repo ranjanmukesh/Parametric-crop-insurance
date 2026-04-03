@@ -63,7 +63,7 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
 
   function setSubscriptionId(uint64 _newSubscriptionId) external onlyOwner {
     require(_newSubscriptionId != 0, "Invalid subscription ID");
-    uint64 oldId = subscripyionId;
+    uint64 oldId = subscriptionId;
     subscriptionId = _newSubscriptionId;
     emit SubscriptionIdUpdated(oldId, _newSubscriptionId);
   }
@@ -73,7 +73,7 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
     require(_newDonId != bytes32(0), "Invalid DON ID");
     bytes32 oldDonId = donID;
     donID = _newDonId;
-    emit SonIdUpdated(oldDonId, _newDonId);
+    emit DonIdUpdated(oldDonId, _newDonId);
   }
 
   function setGasLimit(uint32 _newGasLimit) external onlyOwner {
