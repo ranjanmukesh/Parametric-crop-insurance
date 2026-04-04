@@ -2,6 +2,7 @@ let currentLang = 'en';
 let translations = {};
 
 async function loadTranslations(lang) {
+  alert(lang);
   try {
     const response = await fetch(`locales/${lang}.json`);
     translations = await response.json();
@@ -30,6 +31,7 @@ function applyTranslations() {
 }
 
 function changeLanguage(lang) {
+  alert("change"+lang);
   loadTranslations(lang);
   localStorage.setItem('preferredLang', lang);
 }
