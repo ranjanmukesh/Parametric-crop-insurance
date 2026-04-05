@@ -91,6 +91,9 @@ contract ParametricCropInsuranceTest is Test {
   }
 
   function test_BuyPolicy_Success() public {
+    vm.prank(owner);
+    insurance.inviteFarmer(farmer);
+
     vm.deal(farmer, PREMIUM);
     vm.prank(farmer);
     
