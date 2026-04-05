@@ -460,6 +460,7 @@
           if ( !lang || typeof lang !== 'string' || !['en','cs','mr'].includes(lang)){
             lang = 'en';
           }
+          alert("lang"+lang);
           const response = await fetch(`locales/${lang}.json`);
           translations = await response.json();
           currentLang = lang;
