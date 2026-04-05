@@ -492,11 +492,11 @@
         localStorage.setItem('preferredLang', lang);
       }
 
-      window.addEventListener('load' () => {
+      window.addEventListener('load', function() {
         const savedLang = localStorage.getItem('preferredLang') || 
-        (navigator.languageStartsWith('cs')?'cs':
+        (navigator.language.startsWith('cs')?'cs':
         (navigator.language.startsWith('mr')?'mr':
-        'en');
+        'en'));
         loadTranslations(savedLang);
       });
 
