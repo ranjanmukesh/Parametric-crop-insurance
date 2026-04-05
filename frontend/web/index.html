@@ -121,7 +121,7 @@
 </div>
 <div class="shield-container">
     <div class="shield">
-      <div class="shield-text">paramora</div>
+      <div id = "shieldText" class="shield-text">paramora</div>
     </div>
   </div>
     
@@ -481,7 +481,7 @@
           if (key) el.textContent = t(key); 
         });
 
-        if (shieldText) shieldText.textContent = t('shieldText');
+        document.getElementById('shieldText').textContent = t('shieldText');
         document.getElementById('connectBtn').textContent = t('connectWallet');
         document.querySelector('#packageSection label strong').textContent = t('chooseProtectionLevel');
       }
