@@ -34,6 +34,7 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
 
   mapping(address => Policy) public policies;
   mapping(bytes32 => address) public requestToFarmer;
+  mapping(address => bool) public invitedFarmers;
 	event PolicyPurchased(
     address indexed farmer, 
     uint256 premium, 
@@ -46,6 +47,8 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
     );
 	event RainfallChecked(uint256 totalRainfallMm);
 	event PayoutTriggered(address indexed farmer, uint256 amount);
+  event FarmerInvited(address indexed inviter, address indexed invitee);
+
   event RequestFailed(bytes32 indexed requestId, string errorMessage);
   event SubscriptionIdUpdated(uint64 oldId, uint64 newId);
   event DonIdUpdated(bytes32 oldDonId, bytes32 newDonId);
@@ -90,6 +93,7 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
 		   string calldata _seasonEnd,
 		   uint256 _seasonStartTimestamp,
 		   uint256 _seasonEndTimestamp) external payable {
+    require(invitedFarmers[msg.sender], "Only invited farmers can purchase a policy");
     require(policies[msg.sender].seasonStartTimestamp == 0, "Policy already active");
 		require(msg.value >= _coverageAmount / 10, "Premium too low (min 10 %)");
 
@@ -121,6 +125,14 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
       );
 		
 	}
+
+  function inviteFarmer(address _newFarmer) external {
+    require(farmerIndex[msg.sender] != 0 || msg.sender == owner(), "Only farmers or the owners can invite");
+    require(_newFarmer != address(0), "invalid farmer address");
+    require(policies[_newFarmer].seasonStartTimestamp == 0, "Farmer already has an active policy");
+    invitedFarmers[_newFarmer] = true;
+    emit FarmerInvited(msg.sender, _newFarmer);
+  }
 
   function _removeFromActive(address _farmer) internal {
     uint256 index = farmerIndex[_farmer];
