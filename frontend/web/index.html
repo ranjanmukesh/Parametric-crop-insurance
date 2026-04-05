@@ -327,9 +327,7 @@
             let policy;
             try{
 
-              alert(userAddress);
               policy = await contract.getPolicy(userAddress);
-              alert(policy);
             } catch (error)
             {
               alert("error getting policy"+error);
@@ -458,7 +456,6 @@
       let translations = {};
 
       async function loadTranslations(lang) {
-        alert(lang);
         try {
           const response = await fetch(`locales/${lang}.json`);
           translations = await response.json();
@@ -487,7 +484,6 @@
       }
 
       function changeLanguage(lang) {
-        alert("change"+lang);
         loadTranslations(lang);
         localStorage.setItem('preferredLang', lang);
       }
