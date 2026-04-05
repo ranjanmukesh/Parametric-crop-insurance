@@ -21,5 +21,23 @@ export default [
       "no-undef": "error",
       "no-console": "warn"
     }
+  },
+  {
+    files: ["web/**/*.js"],
+
+    languageOptions: {
+      ecmaVersion: "latest",
+      sourceType: "module",
+      globals: {
+        ...globals.browser,
+        ethers: "readonly",
+        CONFIG: "readonly"
+      }
+    },
+    rules: {
+      "no-unused-vars": "error",
+      "no-undef": "error",
+    }
+
   }
 ];
