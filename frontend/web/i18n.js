@@ -36,7 +36,7 @@ function changeLanguage(lang) {
   localStorage.setItem('preferredLang', lang);
 }
 
-window.addEventListener('load' (0 => {
+window.addEventListener('load' () => {
   const savedLang = localStorage.getItem('preferredLang') || 
   (navigator.languageStartsWith('cs')?'cs':
   (navigator.language.startsWith('mr')?'mr':
