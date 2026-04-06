@@ -323,7 +323,7 @@
             return;
           }
           try{
-            let hasActivePolicy;
+            let hasActivePolicy = true;
             let policy;
             try{
 
@@ -460,7 +460,6 @@
           if ( !lang || typeof lang !== 'string' || !['en','cs','mr'].includes(lang)){
             lang = 'en';
           }
-          alert("lang |"+lang+"| "+(`${lang}.json`));
           const response = await fetch(`${lang}.json`);
           translations = await response.json();
           currentLang = lang;
@@ -497,7 +496,6 @@
         (navigator.language.startsWith('cs')?'cs':
         (navigator.language.startsWith('mr')?'mr':
         'en'));
-        alert("savedLang");
         loadTranslations(savedLang);
       });
 
