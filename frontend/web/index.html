@@ -522,7 +522,6 @@ async function inviteFarmer() {
         status.innerHTML = `<span style="color:green">✅ Farmer invited successfully!</span>`;
         document.getElementById("inviteAddress").value = "";
     } catch (error) {
-        console.error(error);
         status.innerHTML = `<span style="color:red">Error: ${error.message || error}</span>`;
     }
 }
