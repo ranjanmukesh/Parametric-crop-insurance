@@ -133,7 +133,7 @@
 
 <!-- Dropdown for Protection Level -->
 <div id="packageSection" style="display:none; margin-top:20px;">
-<label for="package"><strong data-i18n="chooseProtectionLevel">Choose Protection Level:</strong></label>
+<label for="package"><strong >Choose Protection Level:</strong></label>
 <select id="package" onchange="selectPackage()">
   <option value="">-- Select Package --</option>
   <option value="low">Low Protection</option>
@@ -484,8 +484,8 @@
 
         document.getElementById('shieldText').textContent = t('shieldText');
         document.getElementById('connectBtn').textContent = t('connectWallet');
-        document.querySelector('#packageSection label strong').textContent = t('chooseProtectionLevel');
-      }
+        
+        }
 
       function changeLanguage(lang) {
         loadTranslations(lang);
