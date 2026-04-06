@@ -346,7 +346,6 @@
               document.getElementById("packageSection").style.display = "none";
               document.getElementById("formSection").style.display = "none";
               document.getElementById("activePolicySection").style.display = "block";
-              document.getElementById("inviteSection").style.display = "block";
               const coverage = await policy.coverageAmount;
               const droughtThreshold = await policy.droughtThreshold;
               const excessRainThreshold = await policy.excessRainThreshold;
@@ -363,6 +362,7 @@
 
               document.getElementById("activeSeason").textContent = `${start} to ${end}`;
               document.getElementById("activePayout").textContent = triggered?"Yes":"No";
+              document.getElementById("inviteSection").style.display = "block";
             } else {
               document.getElementById("packageSection").style.display = "block";
               
