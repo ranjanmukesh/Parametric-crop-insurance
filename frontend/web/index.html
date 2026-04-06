@@ -229,6 +229,7 @@
 
             await new Promise(resolve => setTimeout(resolve,800));
             provider = new ethers.BrowserProvider(window.ethereum);
+            signer = await provider.getSigner();
           } catch(error) {
             alert("please manually swich your account"+error);
           return false;
