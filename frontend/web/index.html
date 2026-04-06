@@ -183,6 +183,12 @@
     <p><strong>Season:</strong> <span id="activeSeason"></span></p>
     <p><strong>Payout Triggered:</strong> <span id="activePayout"></span></p>
 </div>
+<div id="inviteSection" style="display: none; margin-top: 20px; padding: 15px; background: #f0f8ff; border-radius: 8px;">
+    <h3>Invite New Farmer</h3>
+    <input type="text" id="inviteAddress" placeholder="0x... farmer address" style="width:100%; padding:10px; margin-bottom:10px;">
+    <button onclick="inviteFarmer()">Send Invite</button>
+    <p id="inviteStatus" style="margin-top:10px; font-size:14px;"></p>
+</div>
 
 
     <script src="config.js"></script>
@@ -336,7 +342,6 @@
             }
             if (hasActivePolicy){
             const timestamp = policy.seasonStartTimestamp;
-            alert("tinmestamp |"+timestamp+"|");
             const hasActivePolicy = timestamp !== 0n;
               document.getElementById("packageSection").style.display = "none";
               document.getElementById("formSection").style.display = "none";
@@ -500,6 +505,27 @@
         'en'));
         loadTranslations(savedLang);
       });
+
+async function inviteFarmer() {
+    const addr = document.getElementById("inviteAddress").value.trim();
+    const status = document.getElementById("inviteStatus");
+
+    if (!addr || addr.length !== 42 || !addr.startsWith("0x")) {
+        status.innerHTML = `<span style="color:red">Invalid address</span>`;
+        return;
+    }
+
+    try {
+        status.innerHTML = "Sending invite...";
+        const tx = await contract.inviteFarmer(addr);
+        await tx.wait();
+        status.innerHTML = `<span style="color:green">✅ Farmer invited successfully!</span>`;
+        document.getElementById("inviteAddress").value = "";
+    } catch (error) {
+        console.error(error);
+        status.innerHTML = `<span style="color:red">Error: ${error.message || error}</span>`;
+    }
+}
 
     /* eslint-enable no-unused-vars */
          </script>
