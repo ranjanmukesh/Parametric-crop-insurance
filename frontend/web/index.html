@@ -297,16 +297,16 @@
                     currentFarmer = address;
 
                     document.getElementById("account").innerHTML = 
-                        `<strong>Connected Account:</strong> ${address}`;
+                        `<strong data-i18n="connectedAccount" >Connected Account:</strong> ${address}`;
 
                     const network = await provider.getNetwork();
                     document.getElementById("network").innerHTML = 
-                        `<strong>Network:</strong> ${network.name} (Chain ID: ${network.chainId})`;
+                        `<strong dtaa-i18n="network">Network:</strong> ${network.name} (Chain ID: ${network.chainId})`;
 
                     const balance = await provider.getBalance(address);
                     const ethBalance = ethers.formatEther(balance);
                     document.getElementById("balance").innerHTML = 
-                        `<strong>Balance:</strong> ${ethBalance} ETH`;
+                        `<strong data-i18n="balance" >Balance:</strong> ${ethBalance} ETH`;
                         document.getElementById("connectBtn").style.display = "none";
                         document.querySelector(".shield-container").classList.add("small");
 
