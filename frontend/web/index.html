@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connect MetaMask with Ethers.js</title>
+    <title>Paramora</title>
     <!-- Load Ethers.js from CDN -->
     <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.5/dist/ethers.umd.min.js">
     </script>
@@ -125,7 +125,7 @@
     </div>
   </div>
     
-    <button id="connectBtn" onclick="connectWallet()">Connect Wallet</button>
+    <button id="connectBtn" onclick="connectWallet()" data-i18m="connectWallet" >Connect Wallet</button>
     
     <p id="account"></p>
     <p id="network"></p>
@@ -133,20 +133,20 @@
 
 <!-- Dropdown for Protection Level -->
 <div id="packageSection" style="display:none; margin-top:20px;">
-<label for="package"><strong >Choose Protection Level:</strong></label>
-<select id="package" onchange="selectPackage()">
-  <option value="">-- Select Package --</option>
-  <option value="low">Low Protection</option>
-  <option value="medium">Medium Protection (Most Popular)</option>
-  <option value="high">High Protection</option>
+<label for="package" data-i18n="chooseProtectionLevel"><strong >Choose Protection Level:</strong></label>
+<select id="package" onchange="selectPackage)>
+  <option value="" data-i18n="selectPackage">-- Select Package --</option>
+  <option value="low" data-i18n="lowProtection">Low Protection</option>
+  <option value="medium" data-i18n="mediumProtectiom"n>Medium Protection (Most Popular)</option>
+  <option value="high" data-i18n="highProtection">High Protection</option>
 </select>
 </div>
 
 <!-- Hidden Form that appears after selection -->
 <div id="formSection" style="display: none; margin-top: 20px;">
-  <h3 id="packageTitle">Selected Package</h3>
+  <h3 id="packageTitle" data-18n="SelectedPackage"n>Selected Package</h3>
 
-  <label><strong>Coverage Amount (ETH) - Payout if triggered</strong></label>
+  <label data-i18n="coverageAmount"><strong>Coverage Amount (ETH) - Payout if triggered</strong></label>
   <p id="coverage" readonly></p>
 
   <label><strong>Drought Threshold (mm) - Trigger for payout</strong></label>
