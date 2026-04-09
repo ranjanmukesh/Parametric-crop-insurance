@@ -103,7 +103,7 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
     require(_newInterval >= 1 hours && _newInterval <= 30 days, "interval out of range");
     uint256 oldInterval = defaultCheckInterval;
     defaultCheckInterval = _newInterval;
-    emit DefaultCheckIntervalUpdated(old, _newInterval);
+    emit DefaultCheckIntervalUpdated(oldInterval, _newInterval);
   }
 
   function setMinPremiumPercent(uint8 _newPercent) external onlyOwner {
