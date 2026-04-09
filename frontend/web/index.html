@@ -473,6 +473,7 @@
           currentLang = lang;
           document.documentElement.lang = lang;
           applyTranslations();
+          document.getElementById("languageSwitcher").value = currentLang;
         } catch (err) {
         alert("Failed to load translations|" + err+"|");
       }
