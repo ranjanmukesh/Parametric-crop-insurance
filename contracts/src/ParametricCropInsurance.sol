@@ -139,7 +139,7 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
     policy.seasonStartTimestamp = _seasonStartTimestamp;
     policy.seasonEndTimestamp = _seasonEndTimestamp;
     policy.lastChecked = block.timestamp;
-    policy.checkInterval = defaultCheckInterval;;
+    policy.checkInterval = defaultCheckInterval;
     policy.lat = _lat;
     policy.long = _long;
 
