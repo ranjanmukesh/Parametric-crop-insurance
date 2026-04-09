@@ -23,12 +23,16 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
     string  seasonEnd;
     uint256  seasonStartTimestamp;
     uint256  seasonEndTimestamp;
+    string lat;
+    string long;
   }
   uint256 public totalPremiumCollected;
 	string public jsSource;
 	bytes32 public donID;
 	uint64 public subscriptionId;
 	uint32 public gasLimit = 300_000;
+  uint256 public defaultCheckInterval = 1 days;
+  uint8 public minPremiumPercent = 10;
   address[] public activeFarmers;
   mapping(address => uint256) public farmerIndex;
 
@@ -53,6 +57,10 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
   event SubscriptionIdUpdated(uint64 oldId, uint64 newId);
   event DonIdUpdated(bytes32 oldDonId, bytes32 newDonId);
   event GasLimitUpdated(uint32 oldGasLimit, uint32 newGasLimit);
+  event JsSourceUpdated(string oldSource, string newSource);
+  event DefaultCheckIntervalUpdated(uint256 oldInterval, uint256 newInterval);
+  event MinPremiumPercentUpdated(uint8 oldPercent, uint8 newPercent);
+
 
 	constructor(address router, bytes32 _donID, uint64 _subscriptionId) 
 	FunctionsClient(router)
@@ -84,6 +92,27 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
     uint32 oldGasLimit = gasLimit;
     emit GasLimitUpdated(oldGasLimit, _newGasLimit);
   }
+
+  function setJsSource(string memory _newJsSource) external onlyOwner{
+    string memory oldSource = jsSource;
+    jsSource = _newJsSource;
+    emit JsSourceUpdated(oldSource, _newJsSource);
+  }
+
+  function setDefaultCheckInterval(uint256 _newInterval) external onlyOwner {
+    require(_newInterval >= 1 hours && _newInterval <= 30 days, "interval out of range");
+    uint256 oldInterval = defaultCheckInterval;
+    defaultCheckInterval = _newInterval;
+    emit DefaultCheckIntervalUpdated(old, _newInterval);
+  }
+
+  function setMinPremiumPercent(uint8 _newPercent) external onlyOwner {
+    require(_newPercent >= 5 && _newPercent <= 50, "Percent must be 5-50");
+    uint8 old = minPremiumPercent;
+    minPremiumPercent = _newPercent;
+    emit MinPremiumPercentUpdated(old, _newPercent);
+  }
+
 	function buyPolicy(
        uint256 _coverageAmount,
        uint256 _droughtThreshold,
@@ -92,7 +121,9 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
 		   string calldata _seasonStart,
 		   string calldata _seasonEnd,
 		   uint256 _seasonStartTimestamp,
-		   uint256 _seasonEndTimestamp) external payable {
+		   uint256 _seasonEndTimestamp,
+       string calldata _lat,
+       string calldata _long) external payable {
     require(invitedFarmers[msg.sender], "Only invited farmers can purchase a policy");
     require(policies[msg.sender].seasonStartTimestamp == 0, "Policy already active");
 		require(msg.value >= _coverageAmount / 10, "Premium too low (min 10 %)");
@@ -108,7 +139,9 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
     policy.seasonStartTimestamp = _seasonStartTimestamp;
     policy.seasonEndTimestamp = _seasonEndTimestamp;
     policy.lastChecked = block.timestamp;
-    policy.checkInterval = 1 days;
+    policy.checkInterval = defaultCheckInterval;;
+    policy.lat = _lat;
+    policy.long = _long;
 
     activeFarmers.push(msg.sender);
     farmerIndex[msg.sender] = activeFarmers.length;
@@ -165,8 +198,8 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
 			javascriptSource
 		);
 		string[] memory args = new string[](4);
-		args[0] = "20.7984";
-		args[1] = "-156.3319";
+		args[0] = policy.lat;
+		args[1] = policy.long;
 		args[2] = startDate;
 		args[3] = endDate;
 		req.setArgs(args);
