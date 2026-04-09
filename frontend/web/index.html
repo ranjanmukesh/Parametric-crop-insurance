@@ -179,14 +179,20 @@
     <h3 data-i18n="youHaveActivePolicy">✅ You Already Have an Active Policy</h3>
     <p><strong data-i18n="farmer">Farmer:</strong> <span id="activeFarmer"></span></p>
     <p><strong data-i18n="coverage">Coverage:</strong> <span id="activeCoverage"></span> ETH</p>
-    <p><strong data-i18n="threshold" >Threshold:</strong> <span id="activeThreshold"></span> mm</p>
+    <label><strong data-i18n="droughThreshold">Drought Threshold (mm) - Trigger for payout</strong></label>
+  <p id="activeDroughtThreshold" readonly ></p>
+
+  <label><strong data-i18n="excessRainThreshold">Excess Rain Threshold (mm) - Trigger for payout</strong></label>
+  <p id="activeExcessRainThreshold" readonly></p>
+
+
     <p><strong data-i18n="season">Season:</strong> <span id="activeSeason"></span></p>
     <p><strong data-i18n="payoutTriggered">Payout Triggered:</strong> <span id="activePayout"></span></p>
 </div>
 <div id="inviteSection" style="display: none; margin-top: 20px; padding: 15px; background: #f0f8ff; border-radius: 8px;">
-    <h3>Invite New Farmer</h3>
+    <h3 data-i18n="inviteNewFarmer" >Invite New Farmer</h3>
     <input type="text" id="inviteAddress" placeholder="0x... farmer address" style="width:100%; padding:10px; margin-bottom:10px;">
-    <button onclick="inviteFarmer()">Send Invite</button>
+    <button data-i18n="sendInvite" onclick="inviteFarmer()">Send Invite</button>
     <p id="inviteStatus" style="margin-top:10px; font-size:14px;"></p>
 </div>
 
@@ -358,8 +364,8 @@
 
               document.getElementById("activeCoverage").textContent = ethers.formatEther(coverage);
 
-              document.getElementById("droughtThreshold").textContent = droughtThreshold.toString();
-              document.getElementById("excessRainThreshold").textContent = excessRainThreshold.toString();
+              document.getElementById("activeDroughtThreshold").textContent = droughtThreshold.toString();
+              document.getElementById("activeExcessRainThreshold").textContent = excessRainThreshold.toString();
 
               document.getElementById("activeSeason").textContent = `${start} to ${end}`;
               document.getElementById("activePayout").textContent = triggered?"Yes":"No";
@@ -514,18 +520,18 @@ async function inviteFarmer() {
     const status = document.getElementById("inviteStatus");
 
     if (!addr || addr.length !== 42 || !addr.startsWith("0x")) {
-        status.innerHTML = `<span style="color:red">Invalid address</span>`;
+        status.innerHTML = `<span style="color:red" data-i18n="invalidAddress">Invalid address</span>`;
         return;
     }
 
     try {
-        status.innerHTML = "Sending invite...";
+        status.innerHTML = <span style="color:blue" data-i18n="sendingInvite">"Sending invite..."</span>;
         const tx = await contract.inviteFarmer(addr);
         await tx.wait();
-        status.innerHTML = `<span style="color:green">✅ Farmer invited successfully!</span>`;
+        status.innerHTML = `<span style="color:green" data-i18n="farmerInvitedSuccessfully">✅ Farmer invited successfully!</span>`;
         document.getElementById("inviteAddress").value = "";
     } catch (error) {
-        status.innerHTML = `<span style="color:red">Error: ${error.message || error}</span>`;
+        status.innerHTML = `<span style="color:red" data-i18n="inviteError">Error: ${error.message || error}</span>`;
     }
 }
 

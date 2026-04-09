@@ -32,4 +32,10 @@
   "metamaskNotInstalled": "MetaMask není nainstalován!",
   "pleaseSwitchNetwork": "Prosím ručně přepněte síť.",
   "contractNotInitialized": "Kontrakt není inicializován"
+  "inviteNewFarmer": "Pozvat nového farmáře",
+  "sendInvite": "Odeslat pozvánku",
+  "invalidAddress": "Neplatná adresa",
+  "sendingInvite": "Odesílání pozvánky...",
+  "farmerInvitedSuccessfully": "Farmář úspěšně pozván!",
+  "inviteError": "Chyba"
 }
