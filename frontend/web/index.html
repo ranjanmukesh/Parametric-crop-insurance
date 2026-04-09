@@ -350,6 +350,7 @@
             if (hasActivePolicy){
             const timestamp = policy.seasonStartTimestamp;
             const hasActivePolicy = timestamp !== 0n;
+            if (hasActivePolicy){
               document.getElementById("packageSection").style.display = "none";
               document.getElementById("formSection").style.display = "none";
               document.getElementById("activePolicySection").style.display = "block";
