@@ -89,6 +89,16 @@
         "name": "_seasonEndTimestamp",
         "type": "uint256",
         "internalType": "uint256"
+      },
+      {
+        "name": "_lat",
+        "type": "string",
+        "internalType": "string"
+      },
+      {
+        "name": "_long",
+        "type": "string",
+        "internalType": "string"
       }
     ],
     "outputs": [],
@@ -121,6 +131,19 @@
     ],
     "outputs": [],
     "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "defaultCheckInterval",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
   },
   {
     "type": "function",
@@ -254,6 +277,16 @@
             "name": "seasonEndTimestamp",
             "type": "uint256",
             "internalType": "uint256"
+          },
+          {
+            "name": "lat",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "long",
+            "type": "string",
+            "internalType": "string"
           }
         ]
       }
@@ -324,6 +357,19 @@
         "name": "",
         "type": "string",
         "internalType": "string"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "minPremiumPercent",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint8",
+        "internalType": "uint8"
       }
     ],
     "stateMutability": "view"
@@ -416,6 +462,16 @@
         "name": "seasonEndTimestamp",
         "type": "uint256",
         "internalType": "uint256"
+      },
+      {
+        "name": "lat",
+        "type": "string",
+        "internalType": "string"
+      },
+      {
+        "name": "long",
+        "type": "string",
+        "internalType": "string"
       }
     ],
     "stateMutability": "view"
@@ -448,6 +504,19 @@
   },
   {
     "type": "function",
+    "name": "setDefaultCheckInterval",
+    "inputs": [
+      {
+        "name": "_newInterval",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
     "name": "setDonId",
     "inputs": [
       {
@@ -467,6 +536,32 @@
         "name": "_newGasLimit",
         "type": "uint32",
         "internalType": "uint32"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setJsSource",
+    "inputs": [
+      {
+        "name": "_newJsSource",
+        "type": "string",
+        "internalType": "string"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setMinPremiumPercent",
+    "inputs": [
+      {
+        "name": "_newPercent",
+        "type": "uint8",
+        "internalType": "uint8"
       }
     ],
     "outputs": [],
@@ -533,6 +628,25 @@
   },
   {
     "type": "event",
+    "name": "DefaultCheckIntervalUpdated",
+    "inputs": [
+      {
+        "name": "oldInterval",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
+        "name": "newInterval",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
     "name": "DonIdUpdated",
     "inputs": [
       {
@@ -584,6 +698,44 @@
         "type": "uint32",
         "indexed": false,
         "internalType": "uint32"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "JsSourceUpdated",
+    "inputs": [
+      {
+        "name": "oldSource",
+        "type": "string",
+        "indexed": false,
+        "internalType": "string"
+      },
+      {
+        "name": "newSource",
+        "type": "string",
+        "indexed": false,
+        "internalType": "string"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "MinPremiumPercentUpdated",
+    "inputs": [
+      {
+        "name": "oldPercent",
+        "type": "uint8",
+        "indexed": false,
+        "internalType": "uint8"
+      },
+      {
+        "name": "newPercent",
+        "type": "uint8",
+        "indexed": false,
+        "internalType": "uint8"
       }
     ],
     "anonymous": false
