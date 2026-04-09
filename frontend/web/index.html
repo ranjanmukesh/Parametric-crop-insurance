@@ -525,7 +525,7 @@ async function inviteFarmer() {
     }
 
     try {
-        status.innerHTML = <span style="color:blue" data-i18n="sendingInvite">"Sending invite..."</span>;
+        status.innerHTML = `<span style="color:blue" data-i18n="sendingInvite">"Sending invite..."</span>`;
         const tx = await contract.inviteFarmer(addr);
         await tx.wait();
         status.innerHTML = `<span style="color:green" data-i18n="farmerInvitedSuccessfully">✅ Farmer invited successfully!</span>`;
