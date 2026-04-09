@@ -78,6 +78,10 @@ contract ParametricCropInsuranceTest is Test {
   uint256 constant START_TS = 1748736000;
   uint256 constant END_TS = 1759276800;
 
+  string constant LAT = "20.7984";
+
+  string constant LONG = "-156.3319";
+
   function setUp() public {
     mockRouter = new MockFunctionsRouter();
     vm.startPrank(owner);
@@ -105,7 +109,9 @@ contract ParametricCropInsuranceTest is Test {
       SEASON_START,
       SEASON_END,
       START_TS,
-      END_TS
+      END_TS,
+      LAT,
+      LONG
     );
     ParametricCropInsurance.Policy memory policy = insurance.getPolicy(farmer);
 
@@ -117,6 +123,8 @@ contract ParametricCropInsuranceTest is Test {
     assertEq(policy.seasonEnd, SEASON_END);
     assertEq(policy.seasonStartTimestamp, START_TS);
     assertEq(policy.seasonEndTimestamp, END_TS);
+    assertEq(policy.lat, LAT);
+    assertEq(policy.long, LONG);
     assertFalse(policy.payoutTriggered);
     assertEq(policy.measuredRainfall, 0);
     assertEq(policy.rainfallIndex, 0);
