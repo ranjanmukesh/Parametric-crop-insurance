@@ -31,7 +31,7 @@
   "connectionFailed": "Připojení selhalo nebo bylo odmítnuto.",
   "metamaskNotInstalled": "MetaMask není nainstalován!",
   "pleaseSwitchNetwork": "Prosím ručně přepněte síť.",
-  "contractNotInitialized": "Kontrakt není inicializován"
+  "contractNotInitialized": "Kontrakt není inicializován",
   "inviteNewFarmer": "Pozvat nového farmáře",
   "sendInvite": "Odeslat pozvánku",
   "invalidAddress": "Neplatná adresa",

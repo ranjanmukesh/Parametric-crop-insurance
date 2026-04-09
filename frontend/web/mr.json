@@ -31,7 +31,7 @@
   "connectionFailed": "कनेक्शन अयशस्वी किंवा नाकारले गेले.",
   "metamaskNotInstalled": "MetaMask इन्स्टॉल केलेले नाही!",
   "pleaseSwitchNetwork": "कृपया मॅन्युअली नेटवर्क बदला.",
-  "contractNotInitialized": "कॉन्ट्रॅक्ट इनिशिअलाइझ झालेले नाही"
+  "contractNotInitialized": "कॉन्ट्रॅक्ट इनिशिअलाइझ झालेले नाही",
   "inviteNewFarmer": "नवीन शेतकऱ्याला आमंत्रित करा",
   "sendInvite": "आमंत्रण पाठवा",
   "invalidAddress": "अवैध पत्ता",

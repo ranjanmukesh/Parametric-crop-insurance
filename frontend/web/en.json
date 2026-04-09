@@ -31,7 +31,7 @@
   "connectionFailed": "Connection failed or was rejected.",
   "metamaskNotInstalled": "MetaMask is not installed!",
   "pleaseSwitchNetwork": "Please manually switch your network.",
-  "contractNotInitialized": "Contract not initialized"
+  "contractNotInitialized": "Contract not initialized",
   "inviteNewFarmer": "Invite New Farmer",
   "sendInvite": "Send Invite",
   "invalidAddress": "Invalid address",
