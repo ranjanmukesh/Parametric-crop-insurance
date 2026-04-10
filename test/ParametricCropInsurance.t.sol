@@ -137,6 +137,8 @@ contract ParametricCropInsuranceTest is Test {
 
 
    function test_CheckRainfallPeriod_ChainlinkFunctions_Success() public {
+    vm.prank(owner);
+    insurance.inviteFarmer(farmer);
     vm.deal(farmer, PREMIUM);
     vm.prank(farmer);
     insurance.buyPolicy{value: PREMIUM}(
