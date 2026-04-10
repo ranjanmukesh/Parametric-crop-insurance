@@ -37,5 +37,14 @@
   "invalidAddress": "Invalid address",
   "sendingInvite": "Sending invite...",
   "farmerInvitedSuccessfully": "Farmer invited successfully!",
-  "inviteError": "Error"
+  "inviteError": "Error",
+  "latitude": "Latitude",
+  "longitude": "Longitude",
+  "latitudeDesc": "Farm GPS Latitude (e.g. 20.7984)",
+  "longitudeDesc": "Farm GPS Longitude (e.g. -156.3319)",
+  "latLongHelp": "Enter the GPS coordinates of your farm/field. This determines which rainfall data is used for your policy.",
+  "activeLatitude": "Latitude",
+  "activeLongitude": "Longitude"
+
+
 }

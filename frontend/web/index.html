@@ -168,6 +168,16 @@
   <label><strong data-i18n="seasonEndDate" >Season End Date (YYYY-MM-DD)</strong></label>
   <p id="endDate"></p>
 
+    <label><strong data-i18n="latitude">Latitude (e.g. 20.7984)</strong></label>
+      <input type="text" id="latitude" placeholder="20.7984" value="20.7984">
+
+        <label><strong data-i18n="longitude">Longitude (e.g. -156.3319)</strong></label>
+          <input type="text" id="longitude" placeholder="-156.3319" value="-156.3319">
+
+            <small style="color: #d32f2f; display: block; margin-top: 4px;" data-i18n="latLongHelp" >
+                ⚠️ Enter the GPS coordinates of your farm/field. This determines which rainfall data is used for your policy.
+                  </small>
+
   <label><strong data-i18n="premiumToPay">Premium to Pay (ETH) - Minimum 10% of Coverage</strong></label>
   <p id="premium" step="0.01" min="0.05"></p>
 
@@ -187,6 +197,8 @@
 
 
     <p><strong data-i18n="season">Season:</strong> <span id="activeSeason"></span></p>
+    <p><strong data-i18n="latitude">Latitude:</strong> <span id="activeLat"></span></p>
+    <p><strong data-i18n="longitude">Longitude:</strong> <span id="activeLong"></span></p>
     <p><strong data-i18n="payoutTriggered">Payout Triggered:</strong> <span id="activePayout"></span></p>
 </div>
 <div id="inviteSection" style="display: none; margin-top: 20px; padding: 15px; background: #f0f8ff; border-radius: 8px;">
@@ -371,6 +383,8 @@
 
               document.getElementById("activeSeason").textContent = `${start} to ${end}`;
               document.getElementById("activePayout").textContent = triggered?"Yes":"No";
+              document.getElementById("activeLat").textContent = policy.lat || "N/A";
+              document.getElementById("activeLong").textContent = policy.long || "N/A";
               document.getElementById("inviteSection").style.display = "block";
             } else {
               document.getElementById("packageSection").style.display = "block";
@@ -402,6 +416,8 @@
           const pkg = CONFIG.packages[pkgKey];
           const startDateInput = document.getElementById("startDate").value;
           const startMonth = parseInt(startDateInput.split('-')[1]);
+          conat lat = document.getElementById("latitude").value.trim();
+          conat long = document.getElementById("longitude").value.trim();
           let expectedRainfall;
           if (startMonth >= 5 && startMonth <= 10){
             expectedRainfall = 90n;
@@ -441,6 +457,8 @@
             endDateInput,
             startTimestamp,
             endTimestamp,
+            lat,
+            long,
             { value: premiumWei }
           );
           gasLimitToUse = Math.ceil(Number(gasEstimate) * 1.30);
@@ -457,6 +475,8 @@
           endDateInput,
           startTimestamp,
           endTimestamp,
+          lat,
+          long,
           { value: premiumWei,
             gasLimit: gasLimitToUse 
             }

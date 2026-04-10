@@ -37,5 +37,12 @@
   "invalidAddress": "Neplatná adresa",
   "sendingInvite": "Odesílání pozvánky...",
   "farmerInvitedSuccessfully": "Farmář úspěšně pozván!",
-  "inviteError": "Chyba"
+  "inviteError": "Chyba",
+ "latitude": "Zeměpisná šířka",
+  "longitude": "Zeměpisná délka",
+  "latitudeDesc": "GPS zeměpisná šířka farmy (např. 20.7984)",
+  "longitudeDesc": "GPS zeměpisná délka farmy (např. -156.3319)",
+  "latLongHelp": "Zadejte GPS souřadnice vaší farmy/pole. Tyto údaje určují, která data o srážkách se použijí pro vaši pojistku.",
+  "activeLatitude": "Zeměpisná šířka",
+  "activeLongitude": "Zeměpisná délka"
 }

@@ -37,5 +37,12 @@
   "invalidAddress": "अवैध पत्ता",
   "sendingInvite": "आमंत्रण पाठवत आहे...",
   "farmerInvitedSuccessfully": "शेतकरी यशस्वीरित्या आमंत्रित!",
-  "inviteError": "त्रुटी"
-}
+  "inviteError": "त्रुटी",
+
+  "latitude": "अक्षांश",
+  "longitude": "रेखांश",
+  "latitudeDesc": "शेताचे जीपीएस अक्षांश (उदा. २०.७९८४)",
+  "longitudeDesc": "शेताचे जीपीएस रेखांश (उदा. -१५६.३३१९)",
+  "latLongHelp": "तुमच्या शेत/क्षेत्राचे जीपीएस निर्देशांक (Latitude & Longitude) प्रविष्ट करा. यावरून तुमच्या पॉलिसीसाठी कोणते पाऊस डेटा वापरले जाईल हे ठरेल.",
+  "activeLatitude": "अक्षांश",
+  "activeLongitude": "रेखांश"
