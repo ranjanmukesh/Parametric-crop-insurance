@@ -204,8 +204,7 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
     address _farmer,
     string memory startDate,
 		string memory endDate
-	)
-	) public onlyOwner {
+	)  public onlyOwner {
     _checkRainfallPeriod(_farmer,jsSource,startDate. endDate);
 	}
 
