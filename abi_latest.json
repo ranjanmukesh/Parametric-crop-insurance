@@ -106,17 +106,12 @@
   },
   {
     "type": "function",
-    "name": "checkRainfallPeriod",
+    "name": "checkRainfallForFarmer",
     "inputs": [
       {
         "name": "_farmer",
         "type": "address",
         "internalType": "address"
-      },
-      {
-        "name": "javascriptSource",
-        "type": "string",
-        "internalType": "string"
       },
       {
         "name": "startDate",
@@ -157,6 +152,19 @@
       }
     ],
     "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "emergencyMigrateToNewContract",
+    "inputs": [
+      {
+        "name": "newContract",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
   },
   {
     "type": "function",
@@ -660,6 +668,31 @@
         "type": "bytes32",
         "indexed": false,
         "internalType": "bytes32"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "EmergencyMigration",
+    "inputs": [
+      {
+        "name": "newContract",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "totalFundsMigrated",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
+        "name": "farmersMigrated",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
       }
     ],
     "anonymous": false
