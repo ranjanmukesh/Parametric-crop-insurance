@@ -19,46 +19,51 @@ contract ParametricCropInsuranceHarness is ParametricCropInsurance {
     } 
   } 
 
-contract MockFunctionsRouter 
-{ 
-  address public lastConsumer; 
-  bytes public lastEncodedRequest; 
-  uint64 public lastSubscriptionId; 
-  uint32 public lastGasLimit; 
-  bytes32 public lastDonId; 
-  bytes public simulatedResponse = abi.encode(uint256(420)); 
-  bytes public simulatedErr;
-	
-	function sendRequest(
-    bytes calldata data,        // ← change to calldata (more accurate)
-    uint64 subscriptionId,
-    uint32 gasLimit,
-    bytes32 donId
-) external returns (bytes32) {
-    lastConsumer = msg.sender;
-    lastEncodedRequest = data;  // still works
-    lastSubscriptionId = subscriptionId;
-    lastGasLimit = gasLimit;
-    lastDonId = donId;
+contract MockFunctionsRouter {
+    address public lastConsumer;
+    bytes public lastEncodedRequest;
+    uint64 public lastSubscriptionId;
+    uint32 public lastGasLimit;
+    bytes32 public lastDonId;
+    uint16 public lastDataVersion;
 
-    bytes32 requestId = keccak256(abi.encode(block.timestamp, msg.sender, data));
+    bytes public simulatedResponse = abi.encode(uint256(420));
+    bytes public simulatedErr;
 
-    // Immediately fulfill (your current pattern)
-    ParametricCropInsuranceHarness(msg.sender).fulfillRequestTest(
-        requestId,
-        simulatedResponse,
-        simulatedErr
-    );
+    // ← THIS IS THE EXACT SIGNATURE CHAINLINK CALLS
+    function sendRequest(
+        uint64 subscriptionId,
+        bytes calldata data,
+        uint16 dataVersion,
+        uint32 callbackGasLimit,
+        bytes32 donId
+    ) external returns (bytes32 requestId) {
+        lastConsumer = msg.sender;
+        lastEncodedRequest = data;
+        lastSubscriptionId = subscriptionId;
+        lastGasLimit = callbackGasLimit;
+        lastDonId = donId;
+        lastDataVersion = dataVersion;
 
-		 return requestId;
+        requestId = keccak256(abi.encode(block.timestamp, msg.sender, data));
 
-  }
-  
-  function setSimulatedResponse( bytes memory response, bytes memory err) external {
-    simulatedResponse = response;
-    simulatedErr = err;
-  }
+        // Auto-fulfill for testing (synchronous)
+        ParametricCropInsuranceHarness(msg.sender).fulfillRequestTest(
+            requestId,
+            simulatedResponse,
+            simulatedErr
+        );
+
+        return requestId;
+    }
+
+    function setSimulatedResponse(bytes memory response, bytes memory err) external {
+        simulatedResponse = response;
+        simulatedErr = err;
+    }
 }
+
+
 
 contract ParametricCropInsuranceTest is Test {
   ParametricCropInsuranceHarness public insurance;
@@ -159,6 +164,7 @@ contract ParametricCropInsuranceTest is Test {
     vm.startPrank(owner);
     uint256 simulatedMeasured = 30;
     bytes memory simulatedResponse = abi.encode(simulatedMeasured);
+		mockRouter.setSimulatedResponse(abi.encode(simulatedMeasured), ""); 
     insurance.checkRainfallForFarmer(
       farmer,
       SEASON_START,
@@ -175,7 +181,7 @@ contract ParametricCropInsuranceTest is Test {
     assertGt(policy.rainfallIndex, 0);
     assertTrue(policy.payoutTriggered);
 
-    assertEq(address(farmer).balance, PREMIUM);
+    assertEq(address(farmer).balance, PREMIUM + COVERAGE_AMOUNT);
   }
 }
 
