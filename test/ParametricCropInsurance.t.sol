@@ -28,27 +28,29 @@ contract MockFunctionsRouter
   bytes32 public lastDonId; 
   bytes public simulatedResponse = abi.encode(uint256(420)); 
   bytes public simulatedErr;
-
-function sendRequest(
-  bytes memory data,
-  uint64 subscriptionId,
-  uint32 gasLimit,
-  bytes32 donId
+	
+	function sendRequest(
+    bytes calldata data,        // ← change to calldata (more accurate)
+    uint64 subscriptionId,
+    uint32 gasLimit,
+    bytes32 donId
 ) external returns (bytes32) {
-  lastConsumer = msg.sender;
-  lastEncodedRequest = data;
-  lastSubscriptionId = subscriptionId;
-  lastGasLimit = gasLimit;
-  lastDonId = donId;
-    
-  bytes32 requestId = keccak256(abi.encode(block.timestamp, msg.sender, data));
+    lastConsumer = msg.sender;
+    lastEncodedRequest = data;  // still works
+    lastSubscriptionId = subscriptionId;
+    lastGasLimit = gasLimit;
+    lastDonId = donId;
 
-  ParametricCropInsuranceHarness(msg.sender).fulfillRequestTest(
-    requestId,
-    simulatedResponse,
-    simulatedErr
-    ); 
-  return requestId;
+    bytes32 requestId = keccak256(abi.encode(block.timestamp, msg.sender, data));
+
+    // Immediately fulfill (your current pattern)
+    ParametricCropInsuranceHarness(msg.sender).fulfillRequestTest(
+        requestId,
+        simulatedResponse,
+        simulatedErr
+    );
+
+		 return requestId;
 
   }
   
