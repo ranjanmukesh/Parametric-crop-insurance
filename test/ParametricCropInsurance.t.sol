@@ -17,6 +17,16 @@ contract ParametricCropInsuranceHarness is ParametricCropInsurance {
   ) external { 
     super.fulfillRequest(requestId, response, err);
     } 
+		
+		// Helper so the mock can trigger the real _sendRequest logic
+	function sendRequestForTest(
+    bytes memory data,
+    uint64 subscriptionId,
+    uint32 gasLimit,
+    bytes32 donId
+) external returns (bytes32) {
+    return _sendRequest(data, subscriptionId, gasLimit, donId);
+}
   } 
 
 contract MockFunctionsRouter {
@@ -30,7 +40,7 @@ contract MockFunctionsRouter {
     bytes public simulatedResponse = abi.encode(uint256(420));
     bytes public simulatedErr;
 
-    // ← THIS IS THE EXACT SIGNATURE CHAINLINK CALLS
+    // Exact signature expected by FunctionsClient
     function sendRequest(
         uint64 subscriptionId,
         bytes calldata data,
@@ -45,19 +55,21 @@ contract MockFunctionsRouter {
         lastDonId = donId;
         lastDataVersion = dataVersion;
 
-				requestId = keccak256(
-            abi.encodePacked(
-                uint256(block.chainid),
-                address(this),           // router address
-                msg.sender,              // consumer (insurance contract)
-                data,
-                subscriptionId,
-                callbackGasLimit,
-                donId
-            )
+        // IMPORTANT: Let the real _sendRequest generate the requestId
+        // We call back into the consumer to let it compute and store the ID
+        // Then we immediately fulfill with the SAME ID
+        ParametricCropInsuranceHarness consumer = ParametricCropInsuranceHarness(msg.sender);
+
+        // This line lets the real logic run and store requestToFarmer[requestId]
+        requestId = consumer.sendRequestForTest(
+            data, 
+            subscriptionId, 
+            callbackGasLimit, 
+            donId
         );
-        // Auto-fulfill for testing (synchronous)
-        ParametricCropInsuranceHarness(msg.sender).fulfillRequestTest(
+
+        // Now fulfill using the exact same requestId that was stored
+        consumer.fulfillRequestTest(
             requestId,
             simulatedResponse,
             simulatedErr
@@ -71,8 +83,6 @@ contract MockFunctionsRouter {
         simulatedErr = err;
     }
 }
-
-
 
 contract ParametricCropInsuranceTest is Test {
   ParametricCropInsuranceHarness public insurance;
