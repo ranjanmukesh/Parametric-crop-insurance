@@ -45,8 +45,17 @@ contract MockFunctionsRouter {
         lastDonId = donId;
         lastDataVersion = dataVersion;
 
-        requestId = keccak256(abi.encode(block.timestamp, msg.sender, data));
-
+				requestId = keccak256(
+            abi.encodePacked(
+                uint256(block.chainid),
+                address(this),           // router address
+                msg.sender,              // consumer (insurance contract)
+                data,
+                subscriptionId,
+                callbackGasLimit,
+                donId
+            )
+        );
         // Auto-fulfill for testing (synchronous)
         ParametricCropInsuranceHarness(msg.sender).fulfillRequestTest(
             requestId,
