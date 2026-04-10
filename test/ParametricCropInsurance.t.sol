@@ -136,7 +136,7 @@ contract ParametricCropInsuranceTest is Test {
   }
 
 
-/*   function test_CheckRainfallPeriod_ChainlinkFunctions_Success() public {
+   function test_CheckRainfallPeriod_ChainlinkFunctions_Success() public {
     vm.deal(farmer, PREMIUM);
     vm.prank(farmer);
     insurance.buyPolicy{value: PREMIUM}(
@@ -147,7 +147,9 @@ contract ParametricCropInsuranceTest is Test {
       SEASON_START,
       SEASON_END,
       START_TS,
-      END_TS
+      END_TS,
+      LAT,
+      LONG
     );
 
     vm.startPrank(owner);
@@ -171,6 +173,6 @@ contract ParametricCropInsuranceTest is Test {
     assertTrue(policy.payoutTriggered);
 
     assertEq(address(farmer).balance, PREMIUM);
-  }*/
+  }
 }
 
