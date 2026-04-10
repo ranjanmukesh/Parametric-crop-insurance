@@ -1,6 +1,6 @@
  const CONFIG = {
   desiredChainId: 8453,
-  contractAddress: "0x120138859857Bd972B7AD56165e43D267C4521eb",
+  contractAddress: "0x55C6E9047205aE8457F624390FCa4236EED07527",
   packages: {
     low: {
       name: "Low Protection",
