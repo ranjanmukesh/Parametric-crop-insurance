@@ -26,6 +26,23 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
     string lat;
     string long;
   }
+	struct MigratablePolicy {
+    uint256 coverageAmount;
+    uint256 droughtThreshold;
+    uint256 excessRainThreshold;
+    uint256 expectedRainfall;
+    uint256 measuredRainfall;
+    uint256 rainfallIndex;
+    bool payoutTriggered;
+    uint256 lastChecked;
+    uint256 checkInterval;
+    string seasonStart;
+    string seasonEnd;
+    uint256 seasonStartTimestamp;
+    uint256 seasonEndTimestamp;
+    string lat;
+    string long;
+}
   uint256 public totalPremiumCollected;
 	string public jsSource;
 	bytes32 public donID;
@@ -60,7 +77,7 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
   event JsSourceUpdated(string oldSource, string newSource);
   event DefaultCheckIntervalUpdated(uint256 oldInterval, uint256 newInterval);
   event MinPremiumPercentUpdated(uint8 oldPercent, uint8 newPercent);
-
+  event EmergencyMigration(address indexed newContract, uint256 totalFundsMigrated, uint256 farmersMigrated);
 
 	constructor(address router, bytes32 _donID, uint64 _subscriptionId) 
 	FunctionsClient(router)
@@ -277,4 +294,66 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
   function getPolicy(address _farmer) external view returns (Policy memory){
     return policies[_farmer];
   }
+	function emergencyMigrateToNewContract(address newContract) external onlyOwner {
+    require(newContract != address(0), "Invalid new contract address");
+    require(newContract != address(this), "Cannot migrate to self");
+
+    uint256 totalBalance = address(this).balance;
+    uint256 farmersMigrated = 0;
+
+    // 1. Migrate all active farmers' policies
+    for (uint256 i = 0; i < activeFarmers.length; i++) {
+        address farmer = activeFarmers[i];
+        Policy storage oldPolicy = policies[farmer];
+
+        if (oldPolicy.seasonStartTimestamp == 0) continue; // skip inactive
+
+        // Create migratable snapshot
+        MigratablePolicy memory mp = MigratablePolicy({
+            coverageAmount: oldPolicy.coverageAmount,
+            droughtThreshold: oldPolicy.droughtThreshold,
+            excessRainThreshold: oldPolicy.excessRainThreshold,
+            expectedRainfall: oldPolicy.expectedRainfall,
+            measuredRainfall: oldPolicy.measuredRainfall,
+            rainfallIndex: oldPolicy.rainfallIndex,
+            payoutTriggered: oldPolicy.payoutTriggered,
+            lastChecked: oldPolicy.lastChecked,
+            checkInterval: oldPolicy.checkInterval,
+            seasonStart: oldPolicy.seasonStart,
+            seasonEnd: oldPolicy.seasonEnd,
+            seasonStartTimestamp: oldPolicy.seasonStartTimestamp,
+            seasonEndTimestamp: oldPolicy.seasonEndTimestamp,
+            lat: oldPolicy.lat,
+            long: oldPolicy.long
+        });
+
+        // Call the new contract's migration receiver
+        // The new contract must implement receiveMigratedPolicy(address, MigratablePolicy)
+        (bool success, ) = newContract.call(
+            abi.encodeWithSignature(
+                "receiveMigratedPolicy(address,(uint256,uint256,uint256,uint256,uint256,uint256,bool,uint256,uint256,string,string,uint256,uint256,string,string))",
+                farmer,
+                mp
+            )
+        );
+
+        require(success, "Failed to migrate policy");
+
+        farmersMigrated++;
+        
+        // Optional: Clear old policy to prevent double-claiming (safer)
+        delete policies[farmer];
+    }
+
+    // 2. Send ALL Ether to the new contract
+    if (totalBalance > 0) {
+        (bool sent, ) = newContract.call{value: totalBalance}("");
+        require(sent, "Failed to send funds");
+    }
+
+    // 3. Clear active farmers list (contract is now deprecated)
+    delete activeFarmers;
+
+    emit EmergencyMigration(newContract, totalBalance, farmersMigrated);
+}
 }
