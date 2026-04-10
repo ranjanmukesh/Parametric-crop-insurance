@@ -159,7 +159,6 @@ contract ParametricCropInsuranceTest is Test {
     bytes memory simulatedResponse = abi.encode(simulatedMeasured);
     insurance.checkRainfallForFarmer(
       farmer,
-      insurance.jsSource(),
       SEASON_START,
       SEASON_END
     );
