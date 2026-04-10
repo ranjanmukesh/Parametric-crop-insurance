@@ -136,7 +136,7 @@ contract ParametricCropInsuranceTest is Test {
   }
 
 
-   function test_CheckRainfallPeriod_ChainlinkFunctions_Success() public {
+   function test_CheckRainfallForFarmer_ChainlinkFunctions_Success() public {
     vm.prank(owner);
     insurance.inviteFarmer(farmer);
     vm.deal(farmer, PREMIUM);
@@ -157,7 +157,7 @@ contract ParametricCropInsuranceTest is Test {
     vm.startPrank(owner);
     uint256 simulatedMeasured = 30;
     bytes memory simulatedResponse = abi.encode(simulatedMeasured);
-    insurance.checkRainfallPeriod(
+    insurance.checkRainfallForFarmer(
       farmer,
       insurance.jsSource(),
       SEASON_START,

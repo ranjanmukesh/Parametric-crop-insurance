@@ -183,12 +183,22 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
 
 	function fundPayout() external payable onlyOwner {}
 
-	function checkRainfallPeriod(
+	function checkRainfallForFarmer(
+    address _farmer,
+    string memory startDate,
+		string memory endDate
+	)
+	) public onlyOwner {
+    _checkRainfallPeriod(_farmer,jsSource,startDate. endDate);
+	}
+
+
+	function _checkRainfallPeriod(
     address _farmer,
     string memory javascriptSource,
 		string memory startDate,
 		string memory endDate
-	) public onlyOwner {
+	) internal {
     Policy storage policy = policies[_farmer];
     require(policy.seasonStartTimestamp != 0, "No active policy");
 		FunctionsRequest.Request memory req;
@@ -259,7 +269,7 @@ contract ParametricCropInsurance is FunctionsClient, ConfirmedOwner {
     require(policy.seasonStartTimestamp != 0, "No active policy");
     require(block.timestamp >= policy.lastChecked + policy.checkInterval, "Too soon");
     require(block.timestamp >= policy.seasonStartTimestamp && block.timestamp <= policy.seasonEndTimestamp, "Not in season");
-    checkRainfallPeriod(msg.sender,jsSource, policy.seasonStart, policy.seasonEnd);
+    _checkRainfallPeriod(msg.sender,jsSource, policy.seasonStart, policy.seasonEnd);
     policy.lastChecked = block.timestamp;
   }
 	
