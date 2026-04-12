@@ -9,7 +9,7 @@ Farmers or Farmer Producer Organizations (FPOs) register via MetaMask. Chainlink
 
 A live MVP is deployed on Base Mainnet, with pilots planned in Maharashtra (India) and future implementation in Hawaii.
 
-## The Problem
+## The Maharashtra Problem
 
 Smallholder farmers in rainfed regions (e.g., Maharashtra's Pune, Baramati, Marathwada, Vidarbha) face heavy losses from erratic rainfall — drought during sowing or excess rain during harvest.
 

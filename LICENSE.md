@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2026 Kyle [Your Last Name or GitHub Username]
+Copyright (c) 2026 Mukesh Ranjan
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
