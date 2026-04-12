@@ -92,18 +92,16 @@ This showcases the user flow for purchasing and managing parametric insurance po
 ### For Developers / Contributors
 
 We welcome contributions! Whether you want to fix a bug, improve the frontend, add new features (e.g. multi-crop support, better oracle integration), or help with pilots — this guide will help you get started quickly.
-Prerequisites
-•  Git
-•  Node.js (v20 or higher)
-•  Foundry (latest stable) — Install via:
-```
-curl -L https://foundry.paradigm.xyz | bash
-foundryup
-```
-•  MetaMask (for testing the frontend)
-•  A Base Sepolia (testnet) or Base Mainnet wallet with some ETH for deployment/testing
 
-Project Structure
+### Prerequisites
+
+-  Git
+-  Node.js (v20 or higher)
+-  Foundry (latest stable) 
+-  MetaMask (for testing the frontend)
+-  A Base Sepolia (testnet) or Base Mainnet wallet with some ETH for deployment/testing
+
+### Project Structure
 
 ```
 .
@@ -121,9 +119,12 @@ Project Structure
 ├── lib/                    # Git submodules (forge-std, chainlink)
 ├── foundry.toml
 └── README.md
+```
 
 ### Quick Local Setup (CI-Aligned)
+
 1. Clone the repository
+
 ```
  git clone https://github.com/ranjanmukesh/Parametric-crop-insurance.git
 
@@ -131,26 +132,63 @@ cd Parametric-crop-insurance
 
 ```
 
-4. Install frontend dependencies cd frontend
-5. npm install
-6. cd ..
-7. 
-8. Install Chainlink contracts (same as CI) npm install @chainlink/contracts --no-save
-9. 
-10. Create symlink for Foundry (matches CI step) rm -rf lib/chainlink lib/forge-std   # Clean old folders if present
-11. mkdir -p lib/chainlink/contracts
-12. ln -s $(pwd)/node_modules/@chainlink/contracts lib/chainlink/contracts
-13. 
-14. Build and test the smart contracts forge clean
-15. forge build --sizes
-16. forge test -vvv
-```
-## Contact
+2. Install frontend dependencies
 
-**Mukesh Ranjan**  
-Cofounder  
-Paramora – Parametric Crop Insurance on Blockchain  
-**Email**: paramora@proton.me
+```
+ cd frontend
+npm install
+cd ..
+```
+3. Install Chainlink contracts (same as CI)
+
+```
+ npm install @chainlink/contracts --no-save
+
+4. Create symlink for Foundry (matches CI step)
+
+ rm -rf lib/chainlink lib/forge-stt
+mkdir -p lib/chainlink/contracts
+ln -s $(pwd)/node_modules/@chainlink/contracts lib/chainlink/contracts
+ 
+5. Build and test the smart contracts
+
+```
+ forge clean
+forge build --sizes
+forge test -vvv
+```
+6. Deploy
+
+```
+forge script contracts/script/DeployInsurance.s.sol:DeployInsurance \
+            --rpc-url $RPC_URL \
+            --private-key $PRIVATE_KEY \
+            --broadcast \
+            --verify \
+            --etherscan-api-key $SCAN_API_KEY \
+
+ 
+```
+Change RPC_URL, PRIVATE_KEY and SCAN_API_KEY as required
+
+7.  Running the Frontend
+
+Edit frontend/web/config.js to update desiredChainId and contractAddress.
+
+Update ABI after changing the smart contract:
+
+```
+jq '.abi' out/ParametricCropInsurance.sol/ParametricCropInsurance.json > frontend/web/abi.json
+```
+
+
+ The frontend is a single static HTML file. Simply open frontend/web/index.html in your browser (or we normally use browser inside metamask ).
+
+
+## Need Help?
+-  Open an issue (use labels: bug, enhancement, question, or help wanted)
+-  Contact: Mukesh Ranjan — paramora@proton.me
+
 
 We are actively seeking partnerships with FPOs, KVKs, SFAC, and other agricultural organizations for pilots in Maharashtra and Hawaii.
 
