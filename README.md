@@ -61,6 +61,19 @@ This showcases the user flow for purchasing and managing parametric insurance po
 - Simple onboarding with FPO/KVK support (MetaMask wallet setup + optional UPI/bank distribution).
 - Full data insights and transparency for partner organizations.
 
+### Pilot Details (Hawaii)
+
+We are running parallel pilots in Hawaii, where a co-founder is based and actively supporting outreach to local farms and agricultural organizations.
+
+Hawaii’s smallholder and diversified farms face similar climate risks as Maharashtra — frequent droughts, intense rainfall from Kona lows and tropical systems, flooding, and soil erosion that damage high-value crops such as coffee, cacao, bananas, kalo (taro), and vegetables. Traditional U.S. federal crop insurance is often difficult for small farms (many under 10 acres) to access or afford, with slow claims and coverage gaps for specialty crops and extreme weather events.
+
+The Paramora dApp offers the same fast, transparent, and automatic protection: farmers register via MetaMask, Chainlink oracles pull reliable rainfall data, and the smart contract triggers instant ETH payouts when drought or excess rain thresholds are met — no paperwork, no loss adjustment, and full on-chain verifiability.
+
+Because Hawaii has a less bureaucratic regulatory environment than India’s insurance sector, we expect the Hawaii pilot to launch and complete faster, providing valuable real-world learnings and proof-of-concept that can accelerate implementation in Maharashtra. The pilot will target 50–200 farms initially, with the team covering smart contract funding and payouts during the testing phase. Local co-founder support will help with farmer onboarding, wallet setup, and partnerships with Hawaii’s agricultural networks.
+
+This dual-pilot approach strengthens Paramora’s global applicability while building immediate resilience for farmers in both regions.
+
+
 ## Key Benefits
 
 - **Farmers**: Instant, trust-based compensation with no paperwork.
