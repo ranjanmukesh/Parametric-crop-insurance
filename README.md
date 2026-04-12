@@ -197,9 +197,10 @@ jq '.abi' out/ParametricCropInsurance.sol/ParametricCropInsurance.json > fronten
 -  Contact: Mukesh Ranjan — paramora@proton.me
 
 
-We are actively seeking partnerships with FPOs, KVKs, SFAC, and other agricultural organizations for pilots in Maharashtra and Hawaii.
 
 ---
+
+We are actively seeking partnerships with FPOs, KVKs, SFAC, and other agricultural organizations for pilots in Maharashtra and Hawaii.
 
 **Built with ❤️ for climate-resilient agriculture**
 
