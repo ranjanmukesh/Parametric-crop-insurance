@@ -138,24 +138,30 @@ cd Parametric-crop-insurance
  cd frontend
 npm install
 cd ..
+
 ```
 3. Install Chainlink contracts (same as CI)
 
 ```
  npm install @chainlink/contracts --no-save
 
+```
 4. Create symlink for Foundry (matches CI step)
 
+```
  rm -rf lib/chainlink lib/forge-stt
 mkdir -p lib/chainlink/contracts
 ln -s $(pwd)/node_modules/@chainlink/contracts lib/chainlink/contracts
  
+```
+
 5. Build and test the smart contracts
 
 ```
  forge clean
 forge build --sizes
 forge test -vvv
+
 ```
 6. Deploy
 
@@ -179,6 +185,7 @@ Update ABI after changing the smart contract:
 
 ```
 jq '.abi' out/ParametricCropInsurance.sol/ParametricCropInsurance.json > frontend/web/abi.json
+
 ```
 
 
