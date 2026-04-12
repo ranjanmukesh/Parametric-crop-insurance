@@ -1,72 +1,113 @@
-# Parametric Crop Insurance dApp
+# Paramora
 
-A decentralized parametric crop insurance platform built with **Chainlink Functions** and **Chainlink Automation** (CRE workflow) on **Base Sepolia testnet**. Farmers can purchase policies that automatically pay out if monsoon rainfall in Maharashtra falls below a critical threshold (e.g., drought conditions), using real-world weather data fetched via Chainlink oracles.
+**Parametric Crop Insurance on Blockchain**  
+*Fast • Transparent • Automatic Protection for Smallholder Farmers*
 
-This project solves real-world challenges for smallholder farmers in India by providing transparent, tamper-proof, and instant payouts—no claims adjusters or paperwork required. Built as an entry for the **Chainlink Convergence Hackathon** (February–March 2026).
+Paramora is a decentralized application (dApp) that delivers **parametric crop insurance** using smart contracts on **Base Mainnet**. It automatically triggers payouts based on rainfall thresholds (drought or excess rain), eliminating paperwork, delays, and low-trust issues common in traditional schemes like PMFBY.
 
-### Key Features
-- **Parametric Trigger**: Payouts based on objective rainfall data (total mm during monsoon season) fetched from Open-Meteo API via Chainlink Functions.
-- **Smart Contract**: Solidity contract handles policy purchase, premium collection, funding, and auto-payouts.
-- **Off-Chain Compute**: JavaScript source code aggregates historical rainfall data securely.
-- **Monetization Potential**: 5–10% premium fees collected by the protocol/insurer; high demand in Maharashtra agri regions.
-- **Future Enhancements**: Chainlink Automation for seasonal auto-checks, multi-farmer support, frontend dashboard, cross-chain via CCIP.
+Farmers or Farmer Producer Organizations (FPOs) register via MetaMask. Chainlink oracles monitor real-world weather data from sources like IMD (India Meteorological Department). When predefined triggers are met, the smart contract executes instant ETH payouts with full on-chain transparency.
 
-### Why Chainlink?
-- **Functions**: Securely pulls and computes custom weather data off-chain.
-- **CRE Runtime**: Orchestrates oracles, automation, and cross-chain potential.
-- **Proven Reliability**: Tamper-proof data ensures trust in payouts.
+A live MVP is deployed on Base Mainnet, with pilots planned in Maharashtra (India) and future implementation in Hawaii.
 
-### Tech Stack
-- Solidity ^0.8.19 (EVM-compatible)
-- Chainlink Contracts: FunctionsClient, ConfirmedOwner
-- Foundry (forge) for development, testing, deployment
-- Polygon Amoy testnet (low fees, full Chainlink Functions support)
-- Open-Meteo API (free historical weather data)
+## The Problem
 
-### Demo / Live Contract
-- Deployed on Polygon Amoy: [Insert contract address after deployment]
-- Chainlink Functions Subscription: [Insert your sub ID]
-- Testnet Explorer: https://sepolia.basescan.org/address/0x120138859857Bd972B7AD56165e43D267C4521eb
+Smallholder farmers in rainfed regions (e.g., Maharashtra's Pune, Baramati, Marathwada, Vidarbha) face heavy losses from erratic rainfall — drought during sowing or excess rain during harvest.
 
-### Quick Start (Local Development)
-1. **Prerequisites**
-   - Foundry installed (`curl -L https://foundry.paradigm.xyz | bash && foundryup`) 
-   - MetaMask + Base Sepolia testnet (test ETH from https://faucet.base.org or others)
-   - Chainlink Functions subscription on Base Sepolia[](https://functions.chain.link/base-sepolia) + test LINK from https://faucet.chain.link (select Base Sepolia)
+Traditional insurance involves complex claims, long delays, and low trust, leaving many farmers unprotected.
 
-2. **Clone & Setup**
-	    ```bash
-	       git clone https://github.com/[your-username]/parametric-crop-insurance.git
-	          cd parametric-crop-insurance
-		     forge install
+## Our Solution
 
-3. **Environment**
-Create .env:
-```
-PRIVATE_KEY=0xYourTestnetPrivateKey
-RPC_URL=https://sepolia.base.org  # Or use Alchemy/Infura for faster RPC
-```
-3. **Build & Test**
+Paramora uses blockchain, Chainlink oracles, and Automation for **trustless, automatic payouts**. No claims process needed.
 
-```
-forge build
+- **Live on Base Mainnet** — Low gas fees (~0.05 Gwei) make it affordable.
+- **Payouts** in ETH directly to the farmer's registered wallet.
+- **Transparent** — Every transaction verifiable on Etherscan.
+- **Complements** government schemes rather than replacing them.
 
-forge test -vvv
-```
+## How It Works
 
-4. **Deploy**
+1. **Connect MetaMask** → Register a policy with crop + district-specific rainfall triggers.
+2. **Chainlink oracles** continuously monitor real-world weather data (IMD/public sources).
+3. **Trigger hit** (e.g., rainfall deficit in a critical growth stage) → Smart contract automatically executes the payout in ETH.
 
-```
-source .env
+## Live Demo
 
-forge script script/DeployInsurance.s.sol --rpc-url $RPC_URL --broadcast --verify -vvvvNote the deployed address!
-```
+Try the interactive frontend demo here:  
+**[https://ranjanmukesh.github.io/Parametric-crop-insurance/frontend/web/index.html](https://ranjanmukesh.github.io/Parametric-crop-insurance/frontend/web/index.html)**
 
-5. **Interact (via cast or Basescan)**
+The demo includes:
+- Connect Wallet button
+- Policy selection (Low / Medium / High protection levels)
+- Inputs for coverage amount (ETH), drought & excess rain thresholds (mm), season dates, and farm location (latitude/longitude)
+- "Buy Policy Now" functionality
+- View active policies with farmer details and payout status
+- Invite new farmers feature
 
- - Fund contract (send test ETH as owner).
- - Buy policy: buyPolicy(uint256 coverageAmount, uint256 rainfallThreshold) (send premium ETH).
- - Trigger check: checkRainfallPeriod(bytes javascriptSource, string startDate, string endDate) (encode JS source first).
+This showcases the user flow for purchasing and managing parametric insurance policies.
 
- ## License
- This project is licensed under the MIT License - see the [LICENSE](https://github.com/ranjanmukesh/Parametric-crop-insurance/blob/main/LICENSE.md) file for details.
+## Project Goals
+
+- Provide instant, transparent climate risk protection to smallholder farmers.
+- Reduce dependency on slow, bureaucratic traditional insurance.
+- Build resilience against climate change through automated, verifiable payouts.
+- Run no-cost pilots with FPOs, KVKs (Krishi Vigyan Kendras), and SFAC networks.
+- Align with national priorities on climate resilience and digital agriculture.
+- Explore IRDAI’s Regulatory Sandbox (2025 regulations) for parametric and blockchain-based insurance innovations in India.
+- Expand implementation from Maharashtra to regions like Hawaii.
+
+### Pilot Details (Maharashtra)
+- **Target**: 100–500 farmers initially.
+- We fund the smart contract and cover all payouts during the pilot.
+- Simple onboarding with FPO/KVK support (MetaMask wallet setup + optional UPI/bank distribution).
+- Full data insights and transparency for partner organizations.
+
+## Key Benefits
+
+- **Farmers**: Instant, trust-based compensation with no paperwork.
+- **FPOs / KVKs / SFAC**: Easy value-add service to strengthen member resilience.
+- **Technology**: Tamper-proof automation via Base + Chainlink.
+
+## Tech Stack (High-Level)
+
+- **Blockchain**: Base Mainnet (Ethereum L2)
+- **Oracles & Automation**: Chainlink
+- **Frontend**: Web dApp (MetaMask integration)
+- **Smart Contracts**: Automatic trigger-based payouts
+
+(Full smart contract repository and deployment details will be added as the project progresses.)
+
+## Setup & Onboarding Instructions
+
+### For Farmers / Users (Demo / Pilot)
+1. Install [MetaMask](https://metamask.io/) browser extension or mobile app.
+2. Switch network to **Base Mainnet**.
+3. Visit the [live demo](https://ranjanmukesh.github.io/Parametric-crop-insurance/frontend/web/index.html).
+4. Click **Connect Wallet** and connect your MetaMask.
+5. Select protection level and enter policy details (coverage, thresholds, season, location).
+6. Confirm transaction to register the policy.
+7. Monitor your policy and receive automatic ETH payouts if triggers are met.
+
+**Note**: During pilots, FPO/KVK representatives can assist with wallet setup and distribution.
+
+### For Developers / Contributors
+- Clone the repository (frontend and contracts folders).
+- Install dependencies: `npm install` (in frontend directory).
+- Run locally: Follow standard React/Vite setup (or whatever framework is used).
+- Smart contract deployment scripts and Chainlink oracle integration details are in the `/contracts` folder.
+
+(If you are forking or contributing, please reach out first.)
+
+## Contact
+
+**Mukesh Ranjan**  
+Cofounder  
+Paramora – Parametric Crop Insurance on Blockchain  
+**Email**: paramora@proton.me
+
+We are actively seeking partnerships with FPOs, KVKs, SFAC, and other agricultural organizations for pilots in Maharashtra and Hawaii.
+
+---
+
+**Built with ❤️ for climate-resilient agriculture**
+
+*Transparency • Automation • Trust*
