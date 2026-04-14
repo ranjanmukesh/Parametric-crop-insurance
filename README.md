@@ -63,7 +63,7 @@ This showcases the user flow for purchasing and managing parametric insurance po
 
 ### Pilot Details (Hawaii)
 
-We will berunning parallel pilots in Hawaii, where a co-founder is based and will be able to actively support outreach to local farms and agricultural organizations.
+We will be running parallel pilots in Hawaii, where a co-founder is based and will be able to actively support outreach to local farms and agricultural organizations.
 
 Hawaii’s smallholder and diversified farms face similar climate risks as Maharashtra — frequent droughts, intense rainfall from Kona lows and tropical systems, flooding, and soil erosion that damage high-value crops such as coffee, cacao, bananas, kalo (taro), and vegetables. Traditional U.S. federal crop insurance is often difficult for small farms (many under 10 acres) to access or afford, with slow claims and coverage gaps for specialty crops and extreme weather events.
 
@@ -192,11 +192,11 @@ Change RPC_URL, PRIVATE_KEY and SCAN_API_KEY as required
 
 7.  Running the Frontend
 
+```
 Edit frontend/web/config.js to update desiredChainId and contractAddress.
 
 Update ABI after changing the smart contract:
 
-```
 jq '.abi' out/ParametricCropInsurance.sol/ParametricCropInsurance.json > frontend/web/abi.json
 
 ```
