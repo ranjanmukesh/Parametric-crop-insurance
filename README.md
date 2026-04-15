@@ -3,9 +3,9 @@
 **Parametric Crop Insurance on Blockchain**  
 *Fast • Transparent • Automatic Protection for Smallholder Farmers*
 
-Paramora is a decentralized application (dApp) that delivers **parametric crop insurance** using smart contracts on **Base Mainnet**. It automatically triggers payouts based on rainfall thresholds (drought or excess rain), eliminating paperwork, delays, and low-trust issues common in traditional schemes like PMFBY.
+Paramora is a decentralized application (dApp) that delivers **parametric crop insurance** using smart contracts on **Base Mainnet**. It automatically triggers payouts based on rainfall thresholds (drought or excess rain), eliminating paperwork, delays, and low-trust issues common in traditional schemes like Pradhan Mantri Fasal Bima Yojana(PMFBY).
 
-Farmers or Farmer Producer Organizations (FPOs) register via MetaMask. Chainlink oracles monitor real-world weather data from sources like IMD (India Meteorological Department). When predefined triggers are met, the smart contract executes instant ETH payouts with full on-chain transparency.
+Farmers or Farmer Producer Organizations (FPOs) register via MetaMask. Chainlink oracles fetch real-world weather data via the Open-Meteo archive API (historical daily precipitation sums) for the farmer's registered latitude/longitude and season dates. When predefined triggers are met, the smart contract executes instant ETH payouts with full on-chain transparency.
 
 A live MVP is deployed on Base Mainnet, with pilots planned in Maharashtra (India) and future implementation in Hawaii.
 
@@ -50,7 +50,7 @@ This showcases the user flow for purchasing and managing parametric insurance po
 - Provide instant, transparent climate risk protection to smallholder farmers.
 - Reduce dependency on slow, bureaucratic traditional insurance.
 - Build resilience against climate change through automated, verifiable payouts.
-- Run no-cost pilots with FPOs, KVKs (Krishi Vigyan Kendras), and SFAC networks.
+- Run no-cost pilots with FPOs, Krishi Vigyan Kendras (KVKs), and Small Farmers' Agribusiness Consortium (SFAC) networks.
 - Align with national priorities on climate resilience and digital agriculture.
 - Explore IRDAI’s Regulatory Sandbox (2025 regulations) for parametric and blockchain-based insurance innovations in India.
 - Expand implementation from Maharashtra to regions like Hawaii.
@@ -134,7 +134,7 @@ We welcome contributions! Whether you want to fix a bug, improve the frontend, a
 └── README.md
 ```
 
-### Quick Local Setup (CI-Aligned)
+### Quick Local Setup
 
 1. Clone the repository
 
@@ -207,7 +207,7 @@ jq '.abi' out/ParametricCropInsurance.sol/ParametricCropInsurance.json > fronten
 
 ## Need Help?
 -  Open an issue (use labels: bug, enhancement, question, or help wanted)
--  Contact: Mukesh Ranjan — paramora@proton.me
+-  Contact: Mukesh Ranjan — paramora@disroot.org
 
 
 
