@@ -52,7 +52,7 @@ This showcases the user flow for purchasing and managing parametric insurance po
 - Build resilience against climate change through automated, verifiable payouts.
 - Run no-cost pilots with FPOs, Krishi Vigyan Kendras (KVKs), and Small Farmers' Agribusiness Consortium (SFAC) networks.
 - Align with national priorities on climate resilience and digital agriculture.
-- Explore IRDAI’s Regulatory Sandbox (2025 regulations) for parametric and blockchain-based insurance innovations in India.
+- Explore Insurance Regulatory and Development Authority of India(IRDAI)’s Regulatory Sandbox (2025 regulations) for parametric and blockchain-based insurance innovations in India.
 - Expand implementation from Maharashtra to regions like Hawaii.
 
 ### Pilot Details (Maharashtra)
