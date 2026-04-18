@@ -209,7 +209,7 @@ jq '.abi' out/ParametricCropInsurance.sol/ParametricCropInsurance.json > fronten
 
 ## Need Help?
 -  Open an issue (use labels: bug, enhancement, question, or help wanted)
--  Contact: Mukesh Ranjan — paramora@disroot.org
+-  Contact: paramora@disroot.org
 
 Follow us on X for updates: [@ParamoraInsure](https://x.com/ParamoraInsure)
 
