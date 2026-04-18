@@ -9,6 +9,8 @@ Farmers or Farmer Producer Organizations (FPOs) register via MetaMask. Chainlink
 
 A live MVP is deployed on Base Mainnet, with pilots planned in Maharashtra (India) and future implementation in Hawaii.
 
+- **Deployed Smart Contract**: [0x55C6E9047205aE8457F624390FCa4236EED07527](https://basescan.org/address/0x55C6E9047205aE8457F624390FCa4236EED07527) 
+
 ## The Maharashtra Problem
 
 Smallholder farmers in rainfed regions (e.g., Maharashtra's Pune, Baramati, Marathwada, Vidarbha) face heavy losses from erratic rainfall — drought during sowing or excess rain during harvest.
@@ -208,6 +210,8 @@ jq '.abi' out/ParametricCropInsurance.sol/ParametricCropInsurance.json > fronten
 ## Need Help?
 -  Open an issue (use labels: bug, enhancement, question, or help wanted)
 -  Contact: Mukesh Ranjan — paramora@disroot.org
+
+Follow us on X for updates: [@ParamoraInsure](https://x.com/ParamoraInsure)
 
 
 
